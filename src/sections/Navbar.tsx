@@ -9,8 +9,8 @@ export function Navbar() {
             <div className={`${styles.container}`}>
                 <h2 className={`${styles.title}`}>Todo App</h2>
                 <div className={`${styles.innerContainer}`}>
-                    <Link className={`${styles.link}`} href="/" >Todos</Link>
-                    <Link className={`${styles.link}`} href="/user" >User</Link>
+                    <Link className={`${styles.link}`} href="/todos" >Todos</Link>
+                    <Link className={`${styles.link}`} href="/users" >User</Link>
                 </div>
             </div>
         </nav>
