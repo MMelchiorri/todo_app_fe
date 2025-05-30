@@ -27,9 +27,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
     const locale = await getLocale();
-    console.log(locale)
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <NextIntlClientProvider>
             <Navbar />

@@ -9,11 +9,15 @@ import {
     TableCell,
     TableBody,
 } from "@mui/material";
+import {getTranslations} from "next-intl/server";
 
 export default async function TodoPage() {
 
     const todos: Todo[] = await fetchTodos();
-    const keys = Object.keys(todos[0]) as (keyof Todo)[];
+    const excludedKeys = ['_id', '__v', 'properties'];
+    const keys = Object.keys(todos[0]).filter(
+        (key) => !excludedKeys.includes(key)
+    ) as (keyof Todo)[];    const t= await getTranslations('Todos');
 
     return (
         <TableContainer component={Paper}>
@@ -21,7 +25,7 @@ export default async function TodoPage() {
                 <TableHead>
                     <TableRow>
                         {keys.map((key) => (
-                            <TableCell key={key}>{key.toUpperCase()}</TableCell>
+                            <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
