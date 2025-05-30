@@ -23,7 +23,17 @@
       "view": "View Todo",
       "markComplete": "Mark as Complete",
       "markIncomplete": "Mark as Incomplete"
+    },
+    "create": {
+      "title": "Create Todo",
+      "name": "Todo Name",
+      "description": "Description",
+      "tags": "Tags (comma separated)",
+      "category": "Category",
+      "assignedTo": "Assigned To",
+      "dueDate": "Due Date",
+      "reminder": "Reminder",
+      "priority": "Priority"
     }
-
   }
 }

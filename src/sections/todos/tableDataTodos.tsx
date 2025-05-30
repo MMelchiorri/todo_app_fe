@@ -2,6 +2,7 @@ import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, T
 import dayjs from "dayjs";
 import {Todo} from "@/type/Todo";
 import {getTranslations} from "next-intl/server";
+import Link from "next/link";
 
 interface propsTodo {
     todos: Todo[];
@@ -54,7 +55,9 @@ export default async function TodoTable(props: propsTodo) {
                     }}
                 >
                     <Button variant="contained">
-                        {t('actions.add')}
+                        <Link href="/todos/create" style={{color: 'inherit', textDecoration: 'none'}}>
+                            {t('actions.add')}
+                        </Link>
                     </Button>
                 </TableCell>
                 </TableRow>
