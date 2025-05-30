@@ -33,7 +33,19 @@
       "assignedTo": "Assigned To",
       "dueDate": "Due Date",
       "reminder": "Reminder",
-      "priority": "Priority"
+      "priority": "Priority",
+        "priorityOptions": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        },
+      "reminderDate": "Reminder Date",
+      "status": "Status",
+        "statusOptions": {
+            "pending": "Pending",
+            "completed": "Completed",
+            "inProgress": "In Progress"
+        }
     }
   }
 }
