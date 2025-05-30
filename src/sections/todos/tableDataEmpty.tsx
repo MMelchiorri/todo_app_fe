@@ -1,7 +1,9 @@
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {getTranslations} from "next-intl/server";
 
 
 export default async function TableEmpty() {
+    const t = await getTranslations('Todos');
 
     return (<TableContainer component={Paper}   sx={{
         maxWidth: 800,
@@ -15,14 +17,16 @@ export default async function TableEmpty() {
             <TableHead>
                 <TableRow>
                     <TableCell colSpan={6} style={{textAlign: 'center'}}>
-                        No Todos available
+                        {t('generic.empty')}
                     </TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
                 <TableRow>
                     <TableCell colSpan={6} style={{textAlign: 'center'}}>
-                        Please add some todos to get started.
+                        <Button variant={"contained"}>
+                            {t('actions.add')}
+                        </Button>
                     </TableCell>
                 </TableRow>
             </TableBody>

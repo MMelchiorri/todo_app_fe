@@ -1,9 +1,8 @@
 {
-  "HomePage": {
-    "title": "Welcome to the Home Page",
-    "description": "This is the home page of our application where you can find various resources and links."
-  },
   "Todos": {
+    "generic":{
+      "empty": "No todos found."
+    },
     "columns": {
       "id": "ID",
       "name": "Name",
@@ -16,6 +15,15 @@
       "reminder": "Reminder",
       "createdAt": "Created At",
       "priority": "Priority"
+    },
+    "actions": {
+      "add": "Add Todo",
+      "edit": "Edit Todo",
+      "delete": "Delete Todo",
+      "view": "View Todo",
+      "markComplete": "Mark as Complete",
+      "markIncomplete": "Mark as Incomplete"
     }
+
   }
 }

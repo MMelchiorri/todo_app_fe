@@ -1,4 +1,4 @@
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import dayjs from "dayjs";
 import {Todo} from "@/type/Todo";
 import {getTranslations} from "next-intl/server";
@@ -42,6 +42,22 @@ export default async function TodoTable(props: propsTodo) {
                         ))}
                     </TableRow>
                 ))}
+                <TableRow>
+                <TableCell
+                    colSpan={keys.length}
+                    sx={{
+                        textAlign: 'center',
+                        paddingTop: 24,
+                        paddingBottom: 24,
+                        py: 3,
+
+                    }}
+                >
+                    <Button variant="contained">
+                        {t('actions.add')}
+                    </Button>
+                </TableCell>
+                </TableRow>
             </TableBody>
         </Table>
     </TableContainer>)
