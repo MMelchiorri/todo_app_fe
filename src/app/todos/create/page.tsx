@@ -20,7 +20,15 @@ export default async function TodoCreatePage() {
                 height: '100vh',
             }}
         >
-            <Card sx={{ minWidth: 600, minHeight: 600, p: 2, boxShadow: 3 }}>
+            <Card
+                sx={{
+                    width: '100%',
+                    maxWidth: 700,
+                    minHeight: 600,
+                    p: 2,
+                    boxShadow: 3,
+                }}
+            >
                 <CardHeader
                     title={t('create.title')}
                     slotProps={{ title: { sx: { textAlign: 'center' } } }}
@@ -43,7 +51,6 @@ export default async function TodoCreatePage() {
                                 variant="outlined"
                                 required
                                 multiline
-                                rows={3}
                             />
                         </Grid>
 
@@ -71,6 +78,7 @@ export default async function TodoCreatePage() {
                                 label={t('create.dueDate')}
                                 type="date"
                                 variant="outlined"
+                                slotProps={{ inputLabel: { shrink: true } }}
                             />
                         </Grid>
 
@@ -87,6 +95,8 @@ export default async function TodoCreatePage() {
                                 label={t('create.reminderDate')}
                                 type="date"
                                 variant="outlined"
+                                slotProps={{inputLabel: { shrink: true }}}
+
                             />
                         </Grid>
 
