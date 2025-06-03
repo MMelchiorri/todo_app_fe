@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import {Button} from "@mui/material";
 
 export default async function TodoCreatePage() {
     const t = await getTranslations('Todos');
@@ -50,7 +51,6 @@ export default async function TodoCreatePage() {
                                 label={t('create.description')}
                                 variant="outlined"
                                 required
-                                multiline
                             />
                         </Grid>
 
@@ -135,6 +135,11 @@ export default async function TodoCreatePage() {
                             />
                         </Grid>
                     </Grid>
+                    <Box sx={{ mt: 10 }} textAlign={'center'}>
+                    <Button variant={'contained'} >
+                        {t('create.submit')}
+                    </Button>
+                    </Box>
                 </CardContent>
             </Card>
         </Box>
