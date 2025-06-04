@@ -16,6 +16,7 @@ import {
 import { useTranslations } from "next-intl";
 import { Formik } from "formik";
 import { postTodo } from "@/services/todoFetch";
+import { todoSchema } from "@/sections/todos/todoSchema";
 
 type ValuesFormType = {
   name: string;
@@ -87,7 +88,11 @@ const CreateTodoForm: React.FC = () => {
       >
         <CardHeader title={t("create.title")} sx={{ textAlign: "center" }} />
 
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={todoSchema}
+        >
           {({
             values,
             handleChange,
@@ -160,7 +165,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.dueDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      InputLabelProps={{ shrink: true }}
+                      slotProps={{ inputLabel: { shrink: true } }}
                     />
                   </Grid>
 
@@ -188,7 +193,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.reminderDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      InputLabelProps={{ shrink: true }}
+                      slotProps={{ inputLabel: { shrink: true } }}
                     />
                   </Grid>
 
