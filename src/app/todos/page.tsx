@@ -7,7 +7,6 @@ import TableEmpty from "@/sections/todos/tableDataEmpty";
 export default async function TodoPage() {
 
     const todos: Todo[] = await fetchTodos();
-    console.log(todos)
 
     if (!todos || todos.length === 0) {
         return <TableEmpty/>;
