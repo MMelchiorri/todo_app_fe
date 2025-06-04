@@ -15,38 +15,53 @@ import {
 } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { Formik } from 'formik';
+import { postTodo } from '@/services/todoFetch';
 
 type ValuesFormType = {
     name: string;
     description: string;
+    completed: boolean;
     category: string;
     assignedTo: string;
     dueDate: string;
     reminder: boolean;
     reminderDate: string;
+    createdAt: Date;
     priority: 'low' | 'medium' | 'high';
     status: 'todo' | 'in-progress' | 'done';
     tags: string;
 };
 
 const CreateTodoForm: React.FC = () => {
+    const t = useTranslations('Todos');
+
     const initialValues: ValuesFormType = {
         name: '',
         description: '',
+        completed: false,
         category: '',
         assignedTo: '',
         dueDate: '',
         reminder: false,
         reminderDate: '',
+        createdAt: new Date(),
         priority: 'low',
         status: 'todo',
         tags: '',
     };
-    const onSubmit = (values: ValuesFormType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
-        console.log('Form submitted with values:', values);
+
+    const onSubmit = async (values: ValuesFormType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
+        const formattedValues = {
+            ...values,
+            dueDate: values.dueDate ? new Date(values.dueDate) : undefined,
+            createdAt: values.createdAt,
+            reminderDate: values.reminderDate ? new Date(values.reminderDate) : undefined,
+            tags: values.tags.split(',').map(tag => tag.trim()),
+        };
+         await postTodo(formattedValues);
         setSubmitting(false);
     };
-    const t = useTranslations('Todos');
+
     return (
         <Box
             sx={{
@@ -65,19 +80,10 @@ const CreateTodoForm: React.FC = () => {
                     boxShadow: 3,
                 }}
             >
-                <CardHeader
-                    title={t('create.title')}
-                    sx={{ textAlign: 'center' }}
-                />
+                <CardHeader title={t('create.title')} sx={{ textAlign: 'center' }} />
 
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
-                    {({
-                          values,
-                          handleChange,
-                          handleBlur,
-                          handleSubmit,
-                          isSubmitting,
-                      }) => (
+                    {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                         <form onSubmit={handleSubmit}>
                             <CardContent>
                                 <Grid container spacing={2}>

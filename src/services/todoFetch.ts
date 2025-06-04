@@ -12,3 +12,20 @@ export async function fetchTodos(): Promise<Todo[]> {
         return [];
     }
 }
+
+export async function postTodo(todo: Omit<Todo, 'id'>): Promise<Todo | null> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/todos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(todo),
+            cache: 'no-store'
+        });
+        return await res.json();
+    } catch (error) {
+        console.error("Error posting todo:", error);
+        return null;
+    }
+}
