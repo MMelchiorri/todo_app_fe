@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/sections/Navbar";
 import "./globals.css";
 import React from "react";
-import {NextIntlClientProvider} from 'next-intl';
-import {getLocale} from 'next-intl/server';
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,13 +26,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const locale = await getLocale();
+  const locale = await getLocale();
   return (
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <NextIntlClientProvider>
-            <Navbar />
-            {children}
+          <Navbar />
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>
