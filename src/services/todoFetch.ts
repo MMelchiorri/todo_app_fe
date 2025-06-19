@@ -35,3 +35,14 @@ export async function postTodo(todo: Omit<Todo, "id">): Promise<Todo | null> {
     return null;
   }
 }
+
+export const deleteTodo = async (id: string): Promise<void> => {
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/todos/${id}`, {
+      method: "DELETE",
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+  }
+};

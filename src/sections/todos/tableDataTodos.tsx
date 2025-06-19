@@ -12,6 +12,9 @@ import dayjs from "dayjs";
 import { Todo } from "@/type/Todo";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteTodo } from "@/services/todoFetch";
+import DeleteButton from "@/sections/todos/DeleteButton";
 
 interface propsTodo {
   todos: Todo[];
@@ -39,7 +42,7 @@ export default async function TodoTable(props: propsTodo) {
     <TableContainer
       component={Paper}
       sx={{
-        maxWidth: 800,
+        maxWidth: 900,
         mx: "auto",
         my: 6,
         p: 2,
@@ -53,6 +56,7 @@ export default async function TodoTable(props: propsTodo) {
             {keys.map((key) => (
               <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
             ))}
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,11 +69,14 @@ export default async function TodoTable(props: propsTodo) {
                     : todo[key]?.toString() ?? "N/A"}
                 </TableCell>
               ))}
+              <TableCell sx={{ textAlign: "center" }}>
+                <DeleteButton id={todo.id} />
+              </TableCell>
             </TableRow>
           ))}
           <TableRow>
             <TableCell
-              colSpan={keys.length}
+              colSpan={keys.length + 1}
               sx={{
                 textAlign: "center",
                 paddingTop: 24,
