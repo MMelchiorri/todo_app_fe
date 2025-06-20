@@ -17,6 +17,7 @@ import { useTranslations } from "next-intl";
 import { Formik } from "formik";
 import { postTodo } from "@/services/todoFetch";
 import { todoSchema } from "@/sections/todos/todoSchema";
+import { useRouter } from "next/navigation";
 
 type ValuesFormType = {
   name: string;
@@ -35,6 +36,7 @@ type ValuesFormType = {
 
 const CreateTodoForm: React.FC = () => {
   const t = useTranslations("Todos");
+  const router = useRouter();
 
   const initialValues: ValuesFormType = {
     name: "",
@@ -65,6 +67,8 @@ const CreateTodoForm: React.FC = () => {
       tags: values.tags.split(",").map((tag) => tag.trim()),
     };
     await postTodo(formattedValues);
+    router.push("/todos");
+
     setSubmitting(false);
   };
 
