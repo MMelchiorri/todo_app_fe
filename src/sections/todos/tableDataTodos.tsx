@@ -12,8 +12,6 @@ import dayjs from "dayjs";
 import { Todo } from "@/type/Todo";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteTodo } from "@/services/todoFetch";
 import DeleteButton from "@/sections/todos/DeleteButton";
 
 interface propsTodo {
