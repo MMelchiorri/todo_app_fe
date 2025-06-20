@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 export default async function TableEmpty() {
   const t = await getTranslations("Todos");
@@ -36,7 +37,9 @@ export default async function TableEmpty() {
         <TableBody>
           <TableRow>
             <TableCell colSpan={6} style={{ textAlign: "center" }}>
-              <Button variant={"contained"}>{t("actions.add")}</Button>
+              <Link href={"/todos/create"}>
+                <Button variant={"contained"}>{t("actions.add")}</Button>
+              </Link>
             </TableCell>
           </TableRow>
         </TableBody>
