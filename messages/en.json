@@ -48,5 +48,30 @@
             "inProgress": "In Progress"
         }
     }
+  },
+  "Users": {
+    "generic": {
+      "empty": "No users found."
+    },
+    "columns": {
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "createdAt": "Created At"
+    },
+    "actions": {
+      "add": "Add User",
+      "edit": "Edit User",
+      "delete": "Delete User",
+      "view": "View User"
+    },
+    "create": {
+      "title": "Create User",
+      "name": "User Name",
+      "email": "Email Address",
+      "role": "Role",
+      "submit": "Create User"
+    }
   }
 }

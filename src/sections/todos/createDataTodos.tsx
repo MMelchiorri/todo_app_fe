@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useTranslations } from "next-intl";
 import { Formik } from "formik";
-import { postTodo } from "@/services/todoFetch";
+import { postTodo } from "@/services/todosFetch";
 import { todoSchema } from "@/sections/todos/todoSchema";
 import { useRouter } from "next/navigation";
 

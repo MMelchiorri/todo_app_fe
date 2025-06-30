@@ -1,7 +1,7 @@
 "use client";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteTodo } from "@/services/todoFetch";
+import { deleteTodo } from "@/services/todosFetch";
 
 export default function DeleteButton({ id }: { id: string }) {
   const handleDelete = async () => {

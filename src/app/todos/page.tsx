@@ -1,4 +1,4 @@
-import { fetchTodos } from "@/services/todoFetch";
+import { fetchTodos } from "@/services/todosFetch";
 import { Todo } from "@/type/Todo";
 import TodoTable from "@/sections/todos/tableDataTodos";
 import TableEmpty from "@/sections/todos/tableDataEmpty";
