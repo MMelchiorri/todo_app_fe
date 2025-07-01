@@ -14,24 +14,18 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useTranslations } from "next-intl";
-import { Formik } from "formik";
-import { fetchUsers } from "@/services/usersFetch";
-import { todoSchema } from "@/sections/users/userSchema";
+import { useFormik } from "formik";
+import { postUser } from "@/services/usersFetch";
+import { userSchema } from "@/sections/users/userSchema";
 import { useRouter } from "next/navigation";
 
 type ValuesFormType = {
   name: string;
-  description: string;
-  completed: boolean;
-  category: string;
-  assignedTo: string;
-  dueDate: string;
-  reminder: boolean;
-  reminderDate: string;
-  createdAt: Date;
-  priority: "low" | "medium" | "high";
-  status: "todo" | "in-progress" | "done";
-  tags: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+  role: string;
 };
 
 const CreateUsersForm: React.FC = () => {
@@ -40,20 +34,49 @@ const CreateUsersForm: React.FC = () => {
 
   const initialValues: ValuesFormType = {
     name: "",
-    description: "",
-    completed: false,
-    category: "",
-    assignedTo: "",
-    dueDate: "",
-    reminder: false,
-    reminderDate: "",
-    createdAt: new Date(),
-    priority: "low",
-    status: "todo",
-    tags: "",
+    email: "",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    isActive: true,
+    role: "user",
   };
+  const formik = useFormik({
+    initialValues,
+    validationSchema: userSchema,
+    onSubmit: async (values) => {
+      try {
+        await postUser(formik.values);
+        console.log("Form submitted successfully:", values);
+        router.push("/users"); // Redirect to users page after successful submission
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    },
+  });
 
-  return <></>;
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <CardHeader
+        title={t("create.title")}
+        sx={{
+          width: "100%",
+          maxWidth: 700,
+          minHeight: 600,
+          p: 2,
+          boxShadow: 3,
+          textAlign: "center",
+        }}
+      />
+      <CardContent></CardContent>
+    </Box>
+  );
 };
 
 export default CreateUsersForm;
