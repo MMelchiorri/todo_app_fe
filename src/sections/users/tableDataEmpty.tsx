@@ -37,7 +37,7 @@ export default async function TableEmpty() {
         <TableBody>
           <TableRow>
             <TableCell colSpan={6} style={{ textAlign: "center" }}>
-              <Link href={"/todos/create"}>
+              <Link href={"/users/create"}>
                 <Button variant={"contained"}>{t("actions.add")}</Button>
               </Link>
             </TableCell>
