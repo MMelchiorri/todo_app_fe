@@ -68,9 +68,18 @@
     },
     "create": {
       "title": "Create User",
+      "password": "Password",
       "name": "User Name",
       "email": "Email Address",
-      "role": "Role",
+      "role": {
+        "label": "Role",
+        "options": {
+          "admin": "Admin",
+          "user": "User",
+          "guest": "Guest"
+        }
+      },
+      "isActive": "Is Active",
       "submit": "Create User"
     }
   }
