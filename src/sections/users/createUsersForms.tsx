@@ -47,8 +47,7 @@ const CreateUsersForm: React.FC = () => {
     validationSchema: userSchema,
     onSubmit: async (values) => {
       try {
-        await postUser(formik.values);
-        console.log("Form submitted successfully:", values);
+        await postUser(values);
         router.push("/users"); // Redirect to users page after successful submission
       } catch (error) {
         console.error("Error submitting form:", error);
