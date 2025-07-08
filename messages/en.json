@@ -1,0 +1,87 @@
+{
+  "Todos": {
+    "generic":{
+      "empty": "No todos found."
+    },
+    "columns": {
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "completed": "Completed",
+      "tags": "Tags",
+      "category": "Category",
+      "assignedTo": "Assigned To",
+      "dueDate": "Due Date",
+      "reminder": "Reminder",
+      "createdAt": "Created At",
+      "priority": "Priority"
+    },
+    "actions": {
+      "add": "Add Todo",
+      "edit": "Edit Todo",
+      "delete": "Delete Todo",
+      "view": "View Todo",
+      "markComplete": "Mark as Complete",
+      "markIncomplete": "Mark as Incomplete"
+    },
+    "create": {
+      "title": "Create Todo",
+      "name": "Todo Name",
+      "description": "Description",
+      "tags": "Tags (comma separated)",
+      "category": "Category",
+      "assignedTo": "Assigned To",
+      "dueDate": "Due Date",
+      "reminder": "Reminder",
+      "priority": "Priority",
+      "submit": "Create Todo",
+        "priorityOptions": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        },
+      "reminderDate": "Reminder Date",
+      "status": "Status",
+        "statusOptions": {
+            "pending": "Pending",
+            "completed": "Completed",
+            "inProgress": "In Progress"
+        }
+    }
+  },
+  "Users": {
+    "generic": {
+      "empty": "No users found."
+    },
+    "columns": {
+      "id": "ID",
+      "username": "Name",
+      "password": "Password",
+      "email": "Email",
+      "role": "Role",
+      "createdAt": "Created At"
+    },
+    "actions": {
+      "add": "Add User",
+      "edit": "Edit User",
+      "delete": "Delete User",
+      "view": "View User"
+    },
+    "create": {
+      "title": "Create User",
+      "password": "Password",
+      "name": "User Name",
+      "email": "Email Address",
+      "role": {
+        "label": "Role",
+        "options": {
+          "admin": "Admin",
+          "user": "User",
+          "guest": "Guest"
+        }
+      },
+      "isActive": "Is Active",
+      "submit": "Create User"
+    }
+  }
+}
