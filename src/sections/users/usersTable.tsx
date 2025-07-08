@@ -2,9 +2,11 @@
 
 import { Users } from "@/type/Users";
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material";
@@ -27,8 +29,17 @@ const UsersTable = ({ users }: UsersTableProps) => {
   const keys = keysToDisplay(users[0]);
 
   return (
-    <div>
-      <h1>User List</h1>
+    <TableContainer
+      component={Paper}
+      sx={{
+        maxWidth: 900,
+        mx: "auto",
+        my: 6,
+        p: 2,
+        borderRadius: 2,
+        boxShadow: 3,
+      }}
+    >
       <Table>
         <TableHead>
           <TableRow>
@@ -47,7 +58,7 @@ const UsersTable = ({ users }: UsersTableProps) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </TableContainer>
   );
 };
 
