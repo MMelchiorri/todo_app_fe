@@ -11,14 +11,18 @@ import {
   TableRow,
 } from "@mui/material";
 
+import dayjs from "dayjs";
+
 type UsersTableProps = {
   users: Users[];
 };
 
-const excludedKeys = ["__v", "_id"];
+const excludedKeys: (keyof Users | string)[] = ["__v", "_id"];
 
-const keysToDisplay = (user: Users) => {
-  return Object.keys(user).filter((key) => !excludedKeys.includes(key));
+const keysToDisplay = (user: Users): (keyof Users)[] => {
+  return Object.keys(user).filter(
+    (key) => !excludedKeys.includes(key),
+  ) as (keyof Users)[];
 };
 
 const UsersTable = ({ users }: UsersTableProps) => {
@@ -52,7 +56,12 @@ const UsersTable = ({ users }: UsersTableProps) => {
           {users.map((user, index) => (
             <TableRow key={index}>
               {keys.map((key) => (
-                <TableCell key={key}>{user[key as keyof Users]}</TableCell>
+                <TableCell key={key}>
+                  {typeof user[key] === "string" &&
+                  dayjs(user[key] as string).isValid()
+                    ? dayjs(user[key] as string).format("YYYY-MM-DD")
+                    : user[key]?.toString()}
+                </TableCell>
               ))}
             </TableRow>
           ))}
