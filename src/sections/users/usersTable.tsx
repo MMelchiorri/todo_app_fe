@@ -1,7 +1,6 @@
-"use client";
-
 import { Users } from "@/type/Users";
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -10,8 +9,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { getTranslations } from "next-intl/server";
 
 import dayjs from "dayjs";
+import Link from "next/link";
 
 type UsersTableProps = {
   users: Users[];
@@ -25,11 +26,12 @@ const keysToDisplay = (user: Users): (keyof Users)[] => {
   ) as (keyof Users)[];
 };
 
-const UsersTable = ({ users }: UsersTableProps) => {
+export default async function UsersTable(props: UsersTableProps) {
+  const { users } = props;
   if (!users || users.length === 0) {
     return <div>No users to display</div>;
   }
-
+  const t = await getTranslations("Users");
   const keys = keysToDisplay(users[0]);
 
   return (
@@ -65,10 +67,28 @@ const UsersTable = ({ users }: UsersTableProps) => {
               ))}
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell
+              colSpan={keys.length + 1}
+              sx={{
+                textAlign: "center",
+                paddingTop: 24,
+                paddingBottom: 24,
+                py: 3,
+              }}
+            >
+              <Button variant="contained">
+                <Link
+                  href="/todos/create"
+                  style={{ color: "inherit", textDecoration: "none" }}
+                >
+                  {t("actions.add")}
+                </Link>
+              </Button>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
   );
-};
-
-export default UsersTable;
+}
