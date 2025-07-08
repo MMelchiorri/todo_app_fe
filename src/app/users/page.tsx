@@ -1,5 +1,6 @@
 import { fetchUsers } from "@/services/usersFetch";
 import TableEmpty from "@/sections/users/tableDataEmpty";
+import UsersTable from "@/sections/users/usersTable";
 export default async function UsersPage() {
   const users = await fetchUsers();
 
@@ -7,16 +8,5 @@ export default async function UsersPage() {
     return <TableEmpty />;
   }
 
-  return (
-    <div>
-      <h1>User List</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name} - {user.email}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <UsersTable users={users} />;
 }

@@ -3,7 +3,7 @@ import { Users } from "@/type/Users";
 export async function fetchUsers(): Promise<Users[]> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_USERS_API_BASE_URL}/users`,
+      `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users`,
       {
         cache: "no-store",
       },
@@ -19,7 +19,7 @@ export async function fetchUsers(): Promise<Users[]> {
 export async function postUser(user: Omit<Users, "id">): Promise<Users | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_USERS_API_BASE_URL}/users`,
+      `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users`,
       {
         method: "POST",
         headers: {
