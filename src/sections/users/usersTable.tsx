@@ -13,6 +13,7 @@ import { getTranslations } from "next-intl/server";
 
 import dayjs from "dayjs";
 import Link from "next/link";
+import DeleteButton from "@/sections/todos/DeleteButton";
 
 type UsersTableProps = {
   users: Users[];
@@ -50,7 +51,7 @@ export default async function UsersTable(props: UsersTableProps) {
         <TableHead>
           <TableRow>
             {keys.map((key) => (
-              <TableCell key={key}>{key}</TableCell>
+              <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -65,6 +66,9 @@ export default async function UsersTable(props: UsersTableProps) {
                     : user[key]?.toString()}
                 </TableCell>
               ))}
+              <TableCell sx={{ textAlign: "center" }}>
+                <DeleteButton id={user.id} />
+              </TableCell>
             </TableRow>
           ))}
           <TableRow>

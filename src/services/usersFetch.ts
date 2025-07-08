@@ -16,6 +16,17 @@ export async function fetchUsers(): Promise<Users[]> {
   }
 }
 
+export const deleteUser = async (id: string): Promise<void> => {
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users/${id}`, {
+      method: "DELETE",
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error deleting Users:", error);
+  }
+};
+
 export async function postUser(user: Omit<Users, "id">): Promise<Users | null> {
   try {
     const res = await fetch(
