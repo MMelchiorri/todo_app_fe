@@ -83,7 +83,7 @@ export default async function UsersTable(props: UsersTableProps) {
             >
               <Button variant="contained">
                 <Link
-                  href="/todos/create"
+                  href="/users/create"
                   style={{ color: "inherit", textDecoration: "none" }}
                 >
                   {t("actions.add")}

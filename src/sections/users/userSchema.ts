@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 export const userSchema = Yup.object().shape({
-  name: Yup.string()
+  username: Yup.string()
     .required("Name is required")
     .min(2, "Name must be at least 2 characters long")
     .max(50, "Name cannot exceed 50 characters"),
@@ -21,4 +21,6 @@ export const userSchema = Yup.object().shape({
   createdAt: Yup.date()
     .default(() => new Date())
     .required("Creation date is required"),
+  updatedAt: Yup.date().default(() => new Date()),
+  isActive: Yup.boolean().default(true),
 });
