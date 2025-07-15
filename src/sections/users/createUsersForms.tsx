@@ -53,6 +53,7 @@ export const CreateUsersForm: React.FC = () => {
     validationSchema: userSchema,
     onSubmit: async (values) => {
       try {
+        console.log(values);
         await postUser(values);
         router.push("/users"); // Redirect to users page after successful submission
       } catch (error) {
@@ -99,7 +100,7 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
-                  label={t("create.name")}
+                  label={t("create.username")}
                   name="username"
                   value={formik.values.username}
                   onChange={formik.handleChange}

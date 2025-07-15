@@ -14,13 +14,13 @@ export const userSchema = Yup.object().shape({
     .required("Password is required")
     .min(6, "Password must be at least 6 characters long"),
 
+  role: Yup.string()
+    .oneOf(["admin", "user"], "Role must be either 'admin' or 'user'")
+    .required("Role is required"),
+
   createdAt: Yup.date()
     .default(() => new Date())
     .required("Creation date is required"),
   updatedAt: Yup.date().default(() => new Date()),
   isActive: Yup.boolean().default(true),
-  role: Yup.string().oneOf(
-    ["admin", "user"],
-    "Role must be either 'admin' or 'user'",
-  ),
 });
