@@ -70,7 +70,7 @@
     "create": {
       "title": "Create User",
       "password": "Password",
-      "name": "User Name",
+      "username": "User Name",
       "email": "Email Address",
       "role": {
         "label": "Role",
