@@ -59,7 +59,8 @@
       "password": "Password",
       "email": "Email",
       "role": "Role",
-      "createdAt": "Created At"
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
     },
     "actions": {
       "add": "Add User",
