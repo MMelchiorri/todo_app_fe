@@ -19,8 +19,15 @@ type UsersTableProps = {
   users: Users[];
 };
 
-const excludedKeys: (keyof Users | string)[] = ["__v", "_id"];
-
+const excludedKeys: (keyof Users | string)[] = [
+  "__v",
+  "_id",
+  "createdAt",
+  "updatedAt",
+  "password",
+  "isActive",
+  "updatedAt",
+];
 const keysToDisplay = (user: Users): (keyof Users)[] => {
   return Object.keys(user).filter(
     (key) => !excludedKeys.includes(key),
@@ -53,6 +60,7 @@ export default async function UsersTable(props: UsersTableProps) {
             {keys.map((key) => (
               <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
             ))}
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
