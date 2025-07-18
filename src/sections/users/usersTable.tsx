@@ -60,9 +60,8 @@ export default async function UsersTable(props: UsersTableProps) {
             <TableRow key={index}>
               {keys.map((key) => (
                 <TableCell key={key}>
-                  {typeof user[key] === "string" &&
-                  dayjs(user[key] as string).isValid()
-                    ? dayjs(user[key] as string).format("YYYY-MM-DD")
+                  {typeof user[key] === "string" && dayjs(user[key]).isValid()
+                    ? dayjs(user[key]).format("DD/MM/YYYY")
                     : user[key]?.toString()}
                 </TableCell>
               ))}
@@ -83,7 +82,7 @@ export default async function UsersTable(props: UsersTableProps) {
             >
               <Button variant="contained">
                 <Link
-                  href="/todos/create"
+                  href="/users/create"
                   style={{ color: "inherit", textDecoration: "none" }}
                 >
                   {t("actions.add")}

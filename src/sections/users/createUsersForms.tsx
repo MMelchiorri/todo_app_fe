@@ -20,7 +20,7 @@ import { userSchema } from "@/sections/users/userSchema";
 import { useRouter } from "next/navigation";
 
 type ValuesFormType = {
-  name: string;
+  username: string;
   password: string;
   email: string;
   createdAt: string;
@@ -34,7 +34,7 @@ const CreateUsersForm: React.FC = () => {
   const router = useRouter();
 
   const initialValues: ValuesFormType = {
-    name: "",
+    username: "",
     password: "",
     email: "",
     createdAt: new Date().toISOString(),
@@ -80,11 +80,13 @@ const CreateUsersForm: React.FC = () => {
                 <TextField
                   fullWidth
                   label={t("create.name")}
-                  name="name"
-                  value={formik.values.name}
+                  name="username"
+                  value={formik.values.username}
                   onChange={formik.handleChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
+                  error={
+                    formik.touched.username && Boolean(formik.errors.username)
+                  }
+                  helperText={formik.touched.username && formik.errors.username}
                 />
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
