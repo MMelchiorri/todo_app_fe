@@ -9,6 +9,7 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Select,
   Box,
   Button,
   MenuItem,
@@ -18,6 +19,9 @@ import { Formik } from "formik";
 import { postTodo } from "@/services/todosFetch";
 import { todoSchema } from "@/sections/todos/todoSchema";
 import { useRouter } from "next/navigation";
+import { fetchUsers } from "@/services/usersFetch";
+import { useEffect, useState } from "react";
+import { Users } from "@/type/Users";
 
 type ValuesFormType = {
   name: string;
@@ -37,6 +41,14 @@ type ValuesFormType = {
 const CreateTodoForm: React.FC = () => {
   const t = useTranslations("Todos");
   const router = useRouter();
+  const [users, setUsers] = useState<Users[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const fetchedUsers = await fetchUsers();
+      setUsers(fetchedUsers);
+    })();
+  }, []);
 
   const initialValues: ValuesFormType = {
     name: "",
@@ -147,16 +159,21 @@ const CreateTodoForm: React.FC = () => {
                   </Grid>
 
                   <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t("create.assignedTo")}
-                      variant="outlined"
-                      name="assignedTo"
-                      value={values.assignedTo}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      required
-                    />
+                    <Select>
+                      {users.map((user) => (
+                        <MenuItem
+                          key={user.id}
+                          value={user.id}
+                          onClick={() =>
+                            handleChange({
+                              target: { name: "assignedTo", value: user.id },
+                            })
+                          }
+                        >
+                          {user.username}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </Grid>
 
                   <Grid size={{ xs: 12, sm: 6 }}>
