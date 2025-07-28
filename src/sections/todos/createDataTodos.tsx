@@ -117,6 +117,7 @@ const CreateTodoForm: React.FC = () => {
             handleSubmit,
             isSubmitting,
             setFieldValue,
+            touched,
             errors,
           }) => (
             <form onSubmit={handleSubmit}>
@@ -162,26 +163,43 @@ const CreateTodoForm: React.FC = () => {
                       required
                     />
                   </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <Autocomplete
+                      fullWidth
                       options={users.map((user) => ({
                         label: user.username,
                         value: user.id,
                       }))}
+                      value={
+                        users
+                          .map((user) => ({
+                            label: user.username,
+                            value: user.id,
+                          }))
+                          .find(
+                            (option) => option.value === values.assignedTo,
+                          ) || null
+                      }
                       onChange={(event, newValue) => {
-                        if (newValue) {
-                          setFieldValue("assignedTo", newValue.value);
-                        } else {
-                          setFieldValue("assignedTo", "");
-                        }
+                        setFieldValue(
+                          "assignedTo",
+                          newValue ? newValue.value : "",
+                        );
                       }}
+                      onBlur={handleBlur}
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          name="assignedTo"
                           label={t("create.assignedTo")}
-                          slotProps={{ input: { ...params.InputProps } }}
-                          helperText={errors.assignedTo}
+                          error={Boolean(
+                            errors.assignedTo && touched.assignedTo,
+                          )}
+                          helperText={
+                            touched.assignedTo && errors.assignedTo
+                              ? errors.assignedTo
+                              : ""
+                          }
                         />
                       )}
                     />
