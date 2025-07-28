@@ -73,6 +73,7 @@
       "password": "Password",
       "name": "User Name",
       "email": "Email Address",
+      "jobAssigned": "Job Assigned",
       "role": {
         "label": "Role",
         "options": {

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   MenuItem,
+  Autocomplete,
 } from "@mui/material";
 import { useTranslations } from "next-intl";
 import { useFormik } from "formik";
@@ -19,6 +20,7 @@ import { postUser } from "@/services/usersFetch";
 import { userSchema } from "@/sections/users/userSchema";
 import { useRouter } from "next/navigation";
 import { Todo } from "@/type/Todo";
+import { fetchTodos } from "@/services/todosFetch";
 
 type ValuesFormType = {
   username: string;
@@ -34,6 +36,7 @@ type ValuesFormType = {
 export const CreateUsersForm: React.FC = () => {
   const t = useTranslations("Users");
   const router = useRouter();
+  const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const initialValues: ValuesFormType = {
     username: "",
@@ -57,6 +60,20 @@ export const CreateUsersForm: React.FC = () => {
       }
     },
   });
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const todos = await fetchTodos();
+        setTodos(todos);
+        await formik.setFieldValue("jobAssigned", todos);
+      } catch (error) {
+        console.error("Failed to fetch todos:", error);
+      }
+    };
+
+    load();
+  }, []);
 
   return (
     <Box
@@ -148,16 +165,39 @@ export const CreateUsersForm: React.FC = () => {
                   label={t("create.isActive")}
                 />
               </Grid>
-              <Box sx={{ mt: 10 }} textAlign="center">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={formik.isSubmitting}
-                >
-                  {t("create.submit")}
-                </Button>
-              </Box>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <Autocomplete
+                  fullWidth
+                  getOptionLabel={(option) => option.name || ""}
+                  renderInput={(params) => {
+                    return (
+                      <TextField
+                        {...params}
+                        label={t("create.jobAssigned")}
+                        error={
+                          formik.touched.jobAssigned &&
+                          Boolean(formik.errors.jobAssigned)
+                        }
+                        helperText={
+                          formik.touched.jobAssigned &&
+                          formik.errors.jobAssigned
+                        }
+                      />
+                    );
+                  }}
+                  options={todos}
+                />
+              </Grid>
             </Grid>
+            <Box sx={{ mt: 10 }} textAlign="center">
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={formik.isSubmitting}
+              >
+                {t("create.submit")}
+              </Button>
+            </Box>
           </form>
         </CardContent>
       </Card>
