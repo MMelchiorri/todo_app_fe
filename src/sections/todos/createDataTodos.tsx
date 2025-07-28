@@ -9,7 +9,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Select,
   Box,
   Button,
   MenuItem,
@@ -43,7 +42,6 @@ const CreateTodoForm: React.FC = () => {
   const t = useTranslations("Todos");
   const router = useRouter();
   const [users, setUsers] = useState<Users[]>([]);
-  const [options, setOptions] = useState<readonly Users[]>([]);
 
   useEffect(() => {
     (async () => {
