@@ -13,7 +13,7 @@ export const todoSchema = Yup.object().shape({
 
   completed: Yup.boolean(),
 
-  tags: Yup.array().of(Yup.string()).max(10, "You can add up to 10 tags"),
+  tags: Yup.string().required("Tags are required"),
 
   category: Yup.string()
     .required("Category is required")

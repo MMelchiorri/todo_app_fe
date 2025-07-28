@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { fetchUsers } from "@/services/usersFetch";
 import { useEffect, useState } from "react";
 import { Users } from "@/type/Users";
+import error from "eslint-plugin-react/lib/util/error";
 
 type ValuesFormType = {
   name: string;
@@ -115,6 +116,8 @@ const CreateTodoForm: React.FC = () => {
             handleBlur,
             handleSubmit,
             isSubmitting,
+            setFieldValue,
+            errors,
           }) => (
             <form onSubmit={handleSubmit}>
               <CardContent>
@@ -129,6 +132,7 @@ const CreateTodoForm: React.FC = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       required
+                      helperText={errors.name}
                     />
                   </Grid>
 
@@ -154,6 +158,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.category}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      helperText={errors.category}
                       required
                     />
                   </Grid>
@@ -164,11 +169,19 @@ const CreateTodoForm: React.FC = () => {
                         label: user.username,
                         value: user.id,
                       }))}
+                      onChange={(event, newValue) => {
+                        if (newValue) {
+                          setFieldValue("assignedTo", newValue.value);
+                        } else {
+                          setFieldValue("assignedTo", "");
+                        }
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           label={t("create.assignedTo")}
                           slotProps={{ input: { ...params.InputProps } }}
+                          helperText={errors.assignedTo}
                         />
                       )}
                     />
@@ -184,6 +197,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.dueDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      helperText={errors.dueDate}
                       slotProps={{ inputLabel: { shrink: true } }}
                     />
                   </Grid>
@@ -212,6 +226,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.reminderDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      helperText={errors.reminderDate}
                       slotProps={{ inputLabel: { shrink: true } }}
                     />
                   </Grid>
@@ -226,6 +241,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.priority}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      helperText={errors.priority}
                     >
                       <MenuItem value="low">
                         {t("create.priorityOptions.low")}
@@ -249,6 +265,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.status}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      helperText={errors.status}
                     >
                       <MenuItem value="todo">
                         {t("create.statusOptions.pending")}
@@ -271,6 +288,7 @@ const CreateTodoForm: React.FC = () => {
                       value={values.tags}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      helperText={errors.tags}
                       placeholder="tag1, tag2, tag3"
                     />
                   </Grid>
