@@ -1,3 +1,5 @@
+import { Todo } from "./Todo";
+
 export type Users = {
   id: string;
   username: string;
@@ -7,4 +9,5 @@ export type Users = {
   updatedAt: string;
   isActive: boolean;
   role: string;
+  jobAssigned?: Todo[];
 };

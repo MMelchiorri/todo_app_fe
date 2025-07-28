@@ -18,6 +18,7 @@ import { useFormik } from "formik";
 import { postUser } from "@/services/usersFetch";
 import { userSchema } from "@/sections/users/userSchema";
 import { useRouter } from "next/navigation";
+import { Todo } from "@/type/Todo";
 
 type ValuesFormType = {
   username: string;
@@ -27,9 +28,10 @@ type ValuesFormType = {
   updatedAt: string;
   isActive: boolean;
   role: string;
+  jobAssigned?: Todo[];
 };
 
-const CreateUsersForm: React.FC = () => {
+export const CreateUsersForm: React.FC = () => {
   const t = useTranslations("Users");
   const router = useRouter();
 
@@ -41,6 +43,7 @@ const CreateUsersForm: React.FC = () => {
     updatedAt: new Date().toISOString(),
     isActive: true,
     role: "user",
+    jobAssigned: [],
   };
   const formik = useFormik({
     initialValues,
@@ -161,5 +164,3 @@ const CreateUsersForm: React.FC = () => {
     </Box>
   );
 };
-
-export default CreateUsersForm;
