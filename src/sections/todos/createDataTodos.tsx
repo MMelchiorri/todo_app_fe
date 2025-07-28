@@ -13,6 +13,7 @@ import {
   Box,
   Button,
   MenuItem,
+  Autocomplete,
 } from "@mui/material";
 import { useTranslations } from "next-intl";
 import { Formik } from "formik";
@@ -42,6 +43,7 @@ const CreateTodoForm: React.FC = () => {
   const t = useTranslations("Todos");
   const router = useRouter();
   const [users, setUsers] = useState<Users[]>([]);
+  const [options, setOptions] = useState<readonly Users[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -159,21 +161,19 @@ const CreateTodoForm: React.FC = () => {
                   </Grid>
 
                   <Grid size={{ xs: 12, sm: 6 }}>
-                    <Select>
-                      {users.map((user) => (
-                        <MenuItem
-                          key={user.id}
-                          value={user.id}
-                          onClick={() =>
-                            handleChange({
-                              target: { name: "assignedTo", value: user.id },
-                            })
-                          }
-                        >
-                          {user.username}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <Autocomplete
+                      options={users.map((user) => ({
+                        label: user.username,
+                        value: user.id,
+                      }))}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("create.assignedTo")}
+                          slotProps={{ input: { ...params.InputProps } }}
+                        />
+                      )}
+                    />
                   </Grid>
 
                   <Grid size={{ xs: 12, sm: 6 }}>
