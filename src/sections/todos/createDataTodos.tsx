@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 import { fetchUsers } from "@/services/usersFetch";
 import { useEffect, useState } from "react";
 import { Users } from "@/type/Users";
-import error from "eslint-plugin-react/lib/util/error";
 
 type ValuesFormType = {
   name: string;
@@ -43,6 +42,8 @@ const CreateTodoForm: React.FC = () => {
   const t = useTranslations("Todos");
   const router = useRouter();
   const [users, setUsers] = useState<Users[]>([]);
+  const [user, setUser] = useState<string>("");
+  const userOptions = users.map((user) => user.username);
 
   useEffect(() => {
     (async () => {
@@ -117,6 +118,7 @@ const CreateTodoForm: React.FC = () => {
             handleSubmit,
             isSubmitting,
             setFieldValue,
+            setFieldTouched,
             touched,
             errors,
           }) => (
@@ -165,28 +167,13 @@ const CreateTodoForm: React.FC = () => {
                   </Grid>
                   <Grid size={{ xs: 12, md: 6 }}>
                     <Autocomplete
+                      value={user}
                       fullWidth
-                      options={users.map((user) => ({
-                        label: user.username,
-                        value: user.id,
-                      }))}
-                      value={
-                        users
-                          .map((user) => ({
-                            label: user.username,
-                            value: user.id,
-                          }))
-                          .find(
-                            (option) => option.value === values.assignedTo,
-                          ) || null
-                      }
+                      options={userOptions}
                       onChange={(event, newValue) => {
-                        setFieldValue(
-                          "assignedTo",
-                          newValue ? newValue.value : "",
-                        );
+                        setUser(newValue || "");
+                        setFieldValue("assignedTo", newValue || "");
                       }}
-                      onBlur={handleBlur}
                       renderInput={(params) => (
                         <TextField
                           {...params}
