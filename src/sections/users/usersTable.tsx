@@ -10,10 +10,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { getTranslations } from "next-intl/server";
-
 import dayjs from "dayjs";
 import Link from "next/link";
 import DeleteButton from "@/sections/todos/DeleteButton";
+import { FileSearch } from "lucide-react";
 
 type UsersTableProps = {
   users: Users[];
@@ -27,6 +27,7 @@ const excludedKeys: (keyof Users | string)[] = [
   "password",
   "isActive",
   "updatedAt",
+  "jobAssigned",
 ];
 const keysToDisplay = (user: Users): (keyof Users)[] => {
   return Object.keys(user).filter(
@@ -60,7 +61,11 @@ export default async function UsersTable(props: UsersTableProps) {
             {keys.map((key) => (
               <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
             ))}
-            <TableCell />
+            {Array(2)
+              .fill(null)
+              .map((_, i) => (
+                <TableCell key={`extra-${i}`} />
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -76,11 +81,14 @@ export default async function UsersTable(props: UsersTableProps) {
               <TableCell sx={{ textAlign: "center" }}>
                 <DeleteButton id={user.id} />
               </TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
+                <FileSearch id={user.id} />
+              </TableCell>
             </TableRow>
           ))}
           <TableRow>
             <TableCell
-              colSpan={keys.length + 1}
+              colSpan={keys.length + 2}
               sx={{
                 textAlign: "center",
                 paddingTop: 24,
