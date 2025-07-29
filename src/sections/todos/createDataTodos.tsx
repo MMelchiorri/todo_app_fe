@@ -133,9 +133,14 @@ const CreateTodoForm: React.FC = () => {
                       name="name"
                       value={values.name}
                       onChange={handleChange}
-                      onBlur={handleBlur}
+                      onBlur={() => {
+                        setFieldTouched("name", true);
+                      }}
+                      error={Boolean(errors.name && touched.name)}
                       required
-                      helperText={errors.name}
+                      helperText={
+                        errors.name && touched.name ? errors.name : ""
+                      }
                     />
                   </Grid>
 
@@ -147,7 +152,15 @@ const CreateTodoForm: React.FC = () => {
                       name="description"
                       value={values.description}
                       onChange={handleChange}
-                      onBlur={handleBlur}
+                      onBlur={() => {
+                        setFieldTouched("description", true);
+                      }}
+                      error={Boolean(errors.description && touched.description)}
+                      helperText={
+                        errors.description && touched.description
+                          ? errors.description
+                          : ""
+                      }
                       required
                     />
                   </Grid>
@@ -160,8 +173,15 @@ const CreateTodoForm: React.FC = () => {
                       name="category"
                       value={values.category}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                      helperText={errors.category}
+                      onBlur={() => {
+                        setFieldTouched("category", true);
+                      }}
+                      error={Boolean(errors.category && touched.category)}
+                      helperText={
+                        errors.category && touched.category
+                          ? errors.category
+                          : ""
+                      }
                       required
                     />
                   </Grid>
@@ -169,6 +189,9 @@ const CreateTodoForm: React.FC = () => {
                     <Autocomplete
                       value={user}
                       fullWidth
+                      onBlur={() => {
+                        setFieldTouched("assignedTo", true);
+                      }}
                       options={userOptions}
                       onChange={(event, newValue) => {
                         setUser(newValue || "");
