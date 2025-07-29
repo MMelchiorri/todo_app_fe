@@ -47,6 +47,19 @@
             "completed": "Completed",
             "inProgress": "In Progress"
         }
+    },
+    "Details": {
+      "title": "Todo Details",
+      "name": "Todo Name",
+      "description": "Description",
+      "tags": "Tags",
+      "category": "Category",
+      "assignedTo": "Assigned To",
+      "dueDate": "Due Date",
+      "reminder": "Reminder",
+      "createdAt": "Created At",
+      "priority": "Priority",
+      "status": "Status"
     }
   },
   "Users": {
