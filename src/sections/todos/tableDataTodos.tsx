@@ -13,7 +13,7 @@ import { Todo } from "@/type/Todo";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import DeleteButton from "@/sections/todos/DeleteButton";
-import { FileSearch } from "lucide-react";
+import DetailButton from "@/sections/todos/DetailButton";
 
 interface propsTodo {
   todos: Todo[];
@@ -76,7 +76,7 @@ export default async function TodoTable(props: propsTodo) {
                 <DeleteButton id={todo.id} />
               </TableCell>
               <TableCell sx={{ textAlign: "center" }}>
-                <FileSearch id={todo.id} />
+                <DetailButton id={todo.id} />
               </TableCell>
             </TableRow>
           ))}

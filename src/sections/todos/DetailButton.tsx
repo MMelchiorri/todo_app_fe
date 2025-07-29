@@ -1,8 +1,21 @@
+"use client";
+
 import React from "react";
 import { FileSearch } from "lucide-react";
 
-const DetailButton: React.FC = () => {
-  return <FileSearch />;
+interface DetailButtonProps {
+  id?: string;
+}
+
+const DetailButton: React.FC<DetailButtonProps> = ({ id }) => {
+  const handleClick = () => {
+    if (id) {
+      window.location.href = `/todos/${id}`;
+    } else {
+      console.warn("No ID provided for DetailButton");
+    }
+  };
+  return <FileSearch style={{ cursor: "pointer" }} onClick={handleClick} />;
 };
 
 export default DetailButton;
