@@ -6,7 +6,7 @@ export type Todo = {
   tags: string[];
   category: string;
   assignedTo: string;
-  dueDate?: Date;
+  dueDate: Date;
   reminder: boolean;
   reminderDate?: Date;
   createdAt: Date;

@@ -46,3 +46,19 @@ export const deleteTodo = async (id: string): Promise<void> => {
     console.error("Error deleting todo:", error);
   }
 };
+
+export const getTodoById = async (id: string): Promise<Todo | null> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/todos/${id}`,
+      {
+        method: "GET",
+        cache: "no-store",
+      },
+    );
+    return await res.json();
+  } catch (error) {
+    console.error("Error fet todo:", error);
+    return null;
+  }
+};

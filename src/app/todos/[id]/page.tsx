@@ -1,30 +1,113 @@
-import Grid from "@mui/material/Grid";
-import { CardHeader, Card, CardContent } from "@mui/material";
+import { getTodoById } from "@/services/todosFetch";
+import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
-import { Paper } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Stack } from "@mui/system";
 
-export default async function Page() {
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const todo = await getTodoById(id);
+  console.log(todo);
   const t = await getTranslations("Todos");
+  if (!todo) {
+    return <Typography>Todo non trovato</Typography>; // o <Skeleton />
+  }
   return (
-    <Grid
-      container
-      spacing={2}
-      display={"flex"}
-      justifyContent={"center"}
-      sx={{ mt: 4 }}
+    <Box
+      sx={{
+        bgcolor: "linear-gradient(to bottom, #074987, #012749)",
+        background: "linear-gradient(180deg, #0f4b8a, #071c34)",
+        color: "white",
+        borderRadius: 4,
+        p: 3,
+        width: "auto",
+        height: "auto",
+        mx: "auto",
+        mt: 4,
+        boxShadow: 6,
+      }}
     >
-      <Card>
-        <Grid size={{ xs: 12 }}>
-          <CardHeader
-            title={t("Details.title")}
-            sx={{
-              p: 2,
-              textAlign: "center",
-            }}
-          />
-        </Grid>
-        <CardContent></CardContent>
-      </Card>
-    </Grid>
+      <Box display="flex" alignItems="center" mb={2}>
+        <ArrowBackIcon sx={{ mr: 1 }} />
+        <Typography variant="subtitle1">{t("Details.title")}</Typography>
+      </Box>
+
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h6" fontWeight="bold">
+          {todo?.name}
+        </Typography>
+        <IconButton size="small" sx={{ color: "white" }}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+      </Box>
+
+      <Box display="flex" alignItems="center" gap={1} mt={1}>
+        <CalendarTodayIcon fontSize="small" />
+        <Typography variant="body2">
+          {new Date(todo.dueDate).toLocaleDateString([], {})}
+        </Typography>
+        <AccessTimeIcon fontSize="small" sx={{ ml: 1 }} />
+        <Typography variant="body2">
+          {new Date(todo.dueDate).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Typography>
+      </Box>
+
+      <Divider sx={{ my: 2, borderColor: "rgba(255,255,255,0.2)" }} />
+
+      <Typography variant="body2" sx={{ opacity: 0.85 }}>
+        {todo?.description}
+      </Typography>
+
+      <Stack direction="row" spacing={2} mt={4} justifyContent="center">
+        <Button
+          variant="contained"
+          startIcon={<CheckCircleIcon />}
+          sx={{
+            backgroundColor: "#1e293b",
+            color: "white",
+            borderRadius: 3,
+            px: 3,
+            "&:hover": { backgroundColor: "#334155" },
+          }}
+        >
+          Done
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          sx={{
+            backgroundColor: "#1e293b",
+            color: "red",
+            borderRadius: 3,
+            px: 3,
+            "&:hover": { backgroundColor: "#334155" },
+          }}
+        >
+          Delete
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<PushPinIcon />}
+          sx={{
+            backgroundColor: "#1e293b",
+            color: "yellow",
+            borderRadius: 3,
+            px: 3,
+            "&:hover": { backgroundColor: "#334155" },
+          }}
+        >
+          Pin
+        </Button>
+      </Stack>
+    </Box>
   );
 }
