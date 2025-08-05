@@ -21,16 +21,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Box
       sx={{
-        bgcolor: "linear-gradient(to bottom, #074987, #012749)",
-        background: "linear-gradient(180deg, #0f4b8a, #071c34)",
         color: "white",
         borderRadius: 4,
         p: 3,
-        width: "auto",
-        height: "auto",
+        width: "60%",
         mx: "auto",
         mt: 4,
-        boxShadow: 6,
       }}
     >
       <Box display="flex" alignItems="center" mb={2}>
@@ -75,7 +71,6 @@ export default async function Page({ params }: { params: { id: string } }) {
             backgroundColor: "#1e293b",
             color: "white",
             borderRadius: 3,
-            px: 3,
             "&:hover": { backgroundColor: "#334155" },
           }}
         >
@@ -88,7 +83,6 @@ export default async function Page({ params }: { params: { id: string } }) {
             backgroundColor: "#1e293b",
             color: "red",
             borderRadius: 3,
-            px: 3,
             "&:hover": { backgroundColor: "#334155" },
           }}
         >
