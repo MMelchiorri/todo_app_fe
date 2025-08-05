@@ -52,6 +52,7 @@ export async function fetchUser(id: string): Promise<User | null> {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users/${id}`,
       {
+        method: "GET",
         cache: "no-store",
       },
     );

@@ -11,6 +11,7 @@ import BackButton from "@/sections/todos/BackButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
+  console.log("Fetching user with ID:", id);
   const user = await fetchUser(id);
   console.log("User details:", user);
   const t = await getTranslations("Users");

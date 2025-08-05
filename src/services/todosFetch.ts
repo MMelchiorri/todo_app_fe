@@ -71,7 +71,7 @@ export const getTodoById = async (id: string): Promise<Todo | null> => {
     );
     return await res.json();
   } catch (error) {
-    console.error("Error fet todo:", error);
+    console.error("Error fetching todo:", error);
     return null;
   }
 };
