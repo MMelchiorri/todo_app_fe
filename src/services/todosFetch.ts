@@ -16,7 +16,20 @@ export async function fetchTodos(): Promise<Todo[]> {
   }
 }
 
-export async function postTodo(todo: Omit<Todo, "id">): Promise<Todo | null> {
+export async function postTodo(todo: {
+  name: string;
+  description: string;
+  completed: boolean;
+  category: string;
+  assignedTo: string;
+  dueDate: Date | undefined;
+  reminder: boolean;
+  reminderDate: Date | undefined;
+  createdAt: Date;
+  priority: "low" | "medium" | "high";
+  status: "todo" | "in-progress" | "done";
+  tags: string[];
+}): Promise<Todo | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/todos`,
