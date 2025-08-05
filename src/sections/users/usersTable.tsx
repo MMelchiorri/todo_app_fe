@@ -13,7 +13,7 @@ import { getTranslations } from "next-intl/server";
 import dayjs from "dayjs";
 import Link from "next/link";
 import DeleteButton from "@/sections/todos/DeleteButton";
-import { FileSearch } from "lucide-react";
+import DetailButton from "@/sections/users/DetailButton";
 
 type UsersTableProps = {
   users: Users[];
@@ -82,7 +82,7 @@ export default async function UsersTable(props: UsersTableProps) {
                 <DeleteButton id={user.id} />
               </TableCell>
               <TableCell sx={{ textAlign: "center" }}>
-                <FileSearch id={user.id} />
+                <DetailButton id={user.id} />
               </TableCell>
             </TableRow>
           ))}
