@@ -1,6 +1,6 @@
-import { Users } from "@/type/Users";
+import { User } from "@/type/Users";
 
-export async function fetchUsers(): Promise<Users[]> {
+export async function fetchUsers(): Promise<User[]> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users`,
@@ -8,7 +8,7 @@ export async function fetchUsers(): Promise<Users[]> {
         cache: "no-store",
       },
     );
-    const data: Users[] = await res.json();
+    const data: User[] = await res.json();
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -27,7 +27,7 @@ export const deleteUser = async (id: string): Promise<void> => {
   }
 };
 
-export async function postUser(user: Omit<Users, "id">): Promise<Users | null> {
+export async function postUser(user: Omit<User, "id">): Promise<User | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users`,
@@ -44,5 +44,20 @@ export async function postUser(user: Omit<Users, "id">): Promise<Users | null> {
   } catch (error) {
     console.error("Error posting user:", error);
     return null;
+  }
+}
+
+export async function fetchUser(id: string): Promise<User | null> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users/${id}`,
+      {
+        cache: "no-store",
+      },
+    );
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return null; // Return null or an empty object as a fallback
   }
 }

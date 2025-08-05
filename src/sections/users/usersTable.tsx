@@ -1,4 +1,4 @@
-import { Users } from "@/type/Users";
+import { User } from "@/type/Users";
 import {
   Button,
   Paper,
@@ -16,10 +16,11 @@ import DeleteButton from "@/sections/todos/DeleteButton";
 import DetailButton from "@/sections/users/DetailButton";
 
 type UsersTableProps = {
-  users: Users[];
+  users: User[];
 };
 
-const excludedKeys: (keyof Users | string)[] = [
+const excludedKeys: (keyof User | string)[] = [
+  "id",
   "__v",
   "_id",
   "createdAt",
@@ -29,10 +30,10 @@ const excludedKeys: (keyof Users | string)[] = [
   "updatedAt",
   "jobAssigned",
 ];
-const keysToDisplay = (user: Users): (keyof Users)[] => {
+const keysToDisplay = (user: User): (keyof User)[] => {
   return Object.keys(user).filter(
     (key) => !excludedKeys.includes(key),
-  ) as (keyof Users)[];
+  ) as (keyof User)[];
 };
 
 export default async function UsersTable(props: UsersTableProps) {

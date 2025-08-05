@@ -1,4 +1,4 @@
-import { getTodoById } from "@/services/todosFetch";
+import { fetchUser } from "@/services/usersFetch";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,10 +11,11 @@ import BackButton from "@/sections/todos/BackButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-  const todo = await getTodoById(id);
-  const t = await getTranslations("Todos");
-  if (!todo) {
-    return <Typography>Todo non trovato</Typography>;
+  const user = await fetchUser(id);
+  console.log("User details:", user);
+  const t = await getTranslations("Users");
+  if (!user) {
+    return <Typography>User non trovato</Typography>;
   }
   return <></>;
 }

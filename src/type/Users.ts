@@ -1,6 +1,6 @@
 import { Todo } from "./Todo";
 
-export type Users = {
+export type User = {
   id: string;
   username: string;
   password: string;
