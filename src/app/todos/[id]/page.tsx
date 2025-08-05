@@ -20,7 +20,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Box
       sx={{
-        color: "white",
+        color: "black",
+        backgroundColor: "white",
         borderRadius: 4,
         p: 3,
         width: "60%",
