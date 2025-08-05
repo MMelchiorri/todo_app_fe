@@ -6,7 +6,6 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PushPinIcon from "@mui/icons-material/PushPin";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Stack } from "@mui/system";
 
@@ -16,7 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   console.log(todo);
   const t = await getTranslations("Todos");
   if (!todo) {
-    return <Typography>Todo non trovato</Typography>; // o <Skeleton />
+    return <Typography>Todo non trovato</Typography>;
   }
   return (
     <Box
@@ -63,7 +62,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         {todo?.description}
       </Typography>
 
-      <Stack direction="row" spacing={2} mt={4} justifyContent="center">
+      <Stack direction="row" spacing={2} mt={4}>
         <Button
           variant="contained"
           startIcon={<CheckCircleIcon />}
@@ -72,6 +71,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             color: "white",
             borderRadius: 3,
             "&:hover": { backgroundColor: "#334155" },
+
+            "@media (max-width:769px)": {
+              width: "100%",
+              "&:hover": {
+                backgroundColor: "#1e293b",
+              },
+            },
           }}
         >
           Done
@@ -84,22 +90,16 @@ export default async function Page({ params }: { params: { id: string } }) {
             color: "red",
             borderRadius: 3,
             "&:hover": { backgroundColor: "#334155" },
+
+            "@media (max-width:769px)": {
+              width: "100%",
+              "&:hover": {
+                backgroundColor: "#1e293b",
+              },
+            },
           }}
         >
           Delete
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<PushPinIcon />}
-          sx={{
-            backgroundColor: "#1e293b",
-            color: "yellow",
-            borderRadius: 3,
-            px: 3,
-            "&:hover": { backgroundColor: "#334155" },
-          }}
-        >
-          Pin
         </Button>
       </Stack>
     </Box>
