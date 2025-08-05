@@ -8,6 +8,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Stack } from "@mui/system";
+import BackButton from "@/sections/todos/BackButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -30,7 +31,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       }}
     >
       <Box display="flex" alignItems="center" mb={2}>
-        <ArrowBackIcon sx={{ mr: 1 }} />
+        <BackButton />
         <Typography variant="subtitle1">{t("Details.title")}</Typography>
       </Box>
 
@@ -94,6 +95,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
             "@media (max-width:769px)": {
               width: "100%",
+              flexDirection: "column",
+              alignItems: "stretch",
               "&:hover": {
                 backgroundColor: "#1e293b",
               },
