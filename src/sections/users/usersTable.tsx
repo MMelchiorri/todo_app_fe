@@ -42,7 +42,7 @@ export default async function UsersTable(props: UsersTableProps) {
   }
   const t = await getTranslations("Users");
   const keys = keysToDisplay(users[0]);
-
+  console.log(users);
   return (
     <TableContainer
       component={Paper}
@@ -69,8 +69,8 @@ export default async function UsersTable(props: UsersTableProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user, index) => (
-            <TableRow key={index}>
+          {users.map((user) => (
+            <TableRow key={user.id}>
               {keys.map((key) => (
                 <TableCell key={key}>
                   {typeof user[key] === "string" && dayjs(user[key]).isValid()

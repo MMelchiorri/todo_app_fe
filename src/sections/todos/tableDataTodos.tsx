@@ -59,7 +59,7 @@ export default async function TodoTable(props: propsTodo) {
               .fill(null)
               .map((_, i) => (
                 <TableCell key={`extra-${i}`} />
-              ))}{" "}
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>

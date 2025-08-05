@@ -53,7 +53,6 @@ export const CreateUsersForm: React.FC = () => {
     validationSchema: userSchema,
     onSubmit: async (values) => {
       try {
-        console.log(values);
         await postUser(values);
         router.push("/users"); // Redirect to users page after successful submission
       } catch (error) {
