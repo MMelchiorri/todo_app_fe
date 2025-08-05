@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         {todo?.description}
       </Typography>
 
-      <Stack direction="row" spacing={2} mt={4}>
+      <Stack direction="row" spacing={2} mt={4} justifyContent={"flex-end"}>
         <Button
           variant="contained"
           startIcon={<CheckCircleIcon />}
