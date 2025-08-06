@@ -23,14 +23,14 @@ export default async function Page({ params }: { params: { _id: string } }) {
         backgroundColor: "white",
         borderRadius: 4,
         p: 3,
-        width: "60%",
+        width: "50%",
         mx: "auto",
         mt: 4,
       }}
     >
       <Box display="flex" alignItems="center" mb={2}>
         <BackButton />
-        <Typography variant="subtitle1">{t("Details.title")}</Typography>
+        <Typography variant="subtitle1">{t("details.title")}</Typography>
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="space-between">
