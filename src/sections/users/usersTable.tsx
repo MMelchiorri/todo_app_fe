@@ -43,7 +43,6 @@ export default async function UsersTable(props: UsersTableProps) {
   }
   const t = await getTranslations("Users");
   const keys = keysToDisplay(users[0]);
-  console.log(users);
   return (
     <TableContainer
       component={Paper}

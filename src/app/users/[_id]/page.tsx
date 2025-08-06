@@ -8,7 +8,6 @@ export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params;
   const user = await getUserById(_id);
   const t = await getTranslations("Users");
-  console.log(user);
   if (!user) {
     return <Typography>User non trovato</Typography>;
   }
