@@ -7,7 +7,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Stack } from "@mui/system";
-import BackButton from "@/sections/todos/BackButton";
+import BackButton from "@/sections/BackButton";
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params;

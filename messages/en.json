@@ -48,7 +48,7 @@
             "inProgress": "In Progress"
         }
     },
-    "Details": {
+    "details": {
       "title": "Todo Details",
       "name": "Todo Name",
       "description": "Description",
@@ -97,6 +97,20 @@
       },
       "isActive": "Is Active",
       "submit": "Create User"
+    },
+    "details": {
+      "title": "User Details",
+      "username": "User Name",
+      "email": "Email Address",
+      "jobAssigned": "Job Assigned",
+      "role": {
+        "label": "Role",
+        "options": {
+          "admin": "Admin",
+          "user": "User",
+          "guest": "Guest"
+        }
+      }
     }
   }
 }
