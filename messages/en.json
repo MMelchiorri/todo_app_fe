@@ -59,7 +59,8 @@
       "reminder": "Reminder",
       "createdAt": "Created At",
       "priority": "Priority",
-      "status": "Status"
+      "status": "Status",
+      "notFound": "User not found"
     }
   },
   "Users": {

@@ -3,13 +3,19 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
 import EditIcon from "@mui/icons-material/Edit";
 import BackButton from "@/sections/BackButton";
+import { getTodoById } from "@/services/todosFetch";
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params;
   const user = await getUserById(_id);
+  const jobAssigned = await Promise.all(
+    user?.jobAssigned?.map(async (job) => {
+      return await getTodoById(job);
+    }) || [],
+  );
   const t = await getTranslations("Users");
   if (!user) {
-    return <Typography>User non trovato</Typography>;
+    return <Typography>{t("details.notFound")}</Typography>;
   }
   return (
     <Box
@@ -48,9 +54,9 @@ export default async function Page({ params }: { params: { _id: string } }) {
       </Box>
       {user.jobAssigned && (
         <Box>
-          {user.jobAssigned.map((job) => (
-            <Typography variant="body2" key={job._id}>
-              {job.name} - {job.description}
+          {jobAssigned.map((job) => (
+            <Typography variant="body2" key={job?._id}>
+              {job?.name} - {job?.description}
             </Typography>
           ))}
         </Box>
