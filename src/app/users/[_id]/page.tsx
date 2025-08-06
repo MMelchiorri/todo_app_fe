@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
         backgroundColor: "white",
         borderRadius: 4,
         p: 3,
-        width: "50%",
+        width: "60%",
         mx: "auto",
         mt: 4,
       }}
@@ -63,13 +63,31 @@ export default async function Page({ params }: { params: { _id: string } }) {
                 {t("details.status")}
               </Typography>
 
-              <Box display="flex" mt={1} justifyContent={"space-between"}>
-                <Box>
+              <Box
+                display="flex"
+                mt={1}
+                justifyContent={"space-between"}
+                sx={{
+                  "@media (max-width:769px)": {
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  },
+                }}
+              >
+                <Box sx={{}}>
                   {job?.tags?.map((tag) => (
                     <Chip label={tag} key={tag} sx={{ mr: 2 }} />
                   ))}
                 </Box>
-                <Typography variant="h6">
+                <Typography
+                  variant="h6"
+                  sx={{
+                    "@media (max-width:769px)": {
+                      width: "100%",
+                      marginTop: 2,
+                    },
+                  }}
+                >
                   {t("details.completed")}: {job?.completed ? "✅" : "❌"}
                 </Typography>
               </Box>
