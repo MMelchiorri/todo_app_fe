@@ -9,10 +9,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Stack } from "@mui/system";
 import BackButton from "@/sections/todos/BackButton";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
-  console.log("Fetching user with ID:", id);
-  const user = await getUserById(id);
+export default async function Page({ params }: { params: { _id: string } }) {
+  const { _id } = params;
+  console.log("Fetching user with ID:", _id);
+  const user = await getUserById(_id);
   console.log("User details:", user);
   const t = await getTranslations("Users");
   if (!user) {

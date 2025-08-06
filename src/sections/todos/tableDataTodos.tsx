@@ -21,6 +21,7 @@ interface propsTodo {
 
 export default async function TodoTable(props: propsTodo) {
   const { todos } = props;
+  console.log(todos);
   const excludedKeys = [
     "_id",
     "__v",
@@ -73,10 +74,10 @@ export default async function TodoTable(props: propsTodo) {
                 </TableCell>
               ))}
               <TableCell sx={{ textAlign: "center" }}>
-                <DeleteButton id={todo.id} />
+                <DeleteButton id={todo._id} />
               </TableCell>
               <TableCell sx={{ textAlign: "center" }}>
-                <DetailButton id={todo.id} />
+                <DetailButton id={todo._id} />
               </TableCell>
             </TableRow>
           ))}

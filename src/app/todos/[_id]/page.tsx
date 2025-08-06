@@ -9,9 +9,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Stack } from "@mui/system";
 import BackButton from "@/sections/todos/BackButton";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const todo = await getTodoById(id);
+export default async function Page({ params }: { params: { _id: string } }) {
+  const { _id } = params;
+  const todo = await getTodoById(_id);
   const t = await getTranslations("Todos");
   if (!todo) {
     return <Typography>Todo non trovato</Typography>;
