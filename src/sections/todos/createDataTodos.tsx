@@ -21,7 +21,7 @@ import { todoSchema } from "@/sections/todos/todoSchema";
 import { useRouter } from "next/navigation";
 import { fetchUsers } from "@/services/usersFetch";
 import { useEffect, useState } from "react";
-import { Users } from "@/type/Users";
+import { User } from "@/type/Users";
 
 type ValuesFormType = {
   name: string;
@@ -41,7 +41,7 @@ type ValuesFormType = {
 const CreateTodoForm: React.FC = () => {
   const t = useTranslations("Todos");
   const router = useRouter();
-  const [users, setUsers] = useState<Users[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [user, setUser] = useState<string>("");
   const userOptions = users.map((user) => user.username);
 

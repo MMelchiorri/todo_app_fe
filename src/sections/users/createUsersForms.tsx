@@ -32,7 +32,7 @@ type ValuesFormType = {
   updatedAt: string;
   isActive: boolean;
   role: string;
-  jobAssigned?: Todo[];
+  jobAssigned?: string[];
 };
 
 export const CreateUsersForm: React.FC = () => {
