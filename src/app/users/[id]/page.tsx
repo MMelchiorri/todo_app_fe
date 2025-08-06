@@ -1,4 +1,4 @@
-import { fetchUser } from "@/services/usersFetch";
+import { getUserById } from "@/services/usersFetch";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,7 +12,7 @@ import BackButton from "@/sections/todos/BackButton";
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   console.log("Fetching user with ID:", id);
-  const user = await fetchUser(id);
+  const user = await getUserById(id);
   console.log("User details:", user);
   const t = await getTranslations("Users");
   if (!user) {

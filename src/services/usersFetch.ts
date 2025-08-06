@@ -47,7 +47,7 @@ export async function postUser(user: Omit<User, "id">): Promise<User | null> {
   }
 }
 
-export async function fetchUser(id: string): Promise<User | null> {
+export async function getUserById(id: string): Promise<User | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users/${id}`,
