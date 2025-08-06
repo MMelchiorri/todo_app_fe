@@ -1,18 +1,14 @@
 import { getUserById } from "@/services/usersFetch";
-import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
 import EditIcon from "@mui/icons-material/Edit";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Stack } from "@mui/system";
 import BackButton from "@/sections/BackButton";
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params;
   const user = await getUserById(_id);
   const t = await getTranslations("Users");
+  console.log(user);
   if (!user) {
     return <Typography>User non trovato</Typography>;
   }
@@ -47,7 +43,19 @@ export default async function Page({ params }: { params: { _id: string } }) {
         <Typography variant="h6" fontWeight="bold">
           {user?.username}
         </Typography>
+        <Typography variant="h6" fontWeight="bold">
+          {user?.role}
+        </Typography>
       </Box>
+      {user.jobAssigned && (
+        <Box>
+          {user.jobAssigned.map((job) => (
+            <Typography variant="body2" key={job._id}>
+              {job.name} - {job.description}
+            </Typography>
+          ))}
+        </Box>
+      )}
     </Box>
   );
 }
