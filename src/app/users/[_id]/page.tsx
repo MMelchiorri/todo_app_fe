@@ -63,14 +63,11 @@ export default async function Page({ params }: { params: { _id: string } }) {
                 {t("details.status")}
               </Typography>
 
-              <Box
-                display="flex"
-                gap={1}
-                mt={1}
-                justifyContent={"space-between"}
-              >
+              <Box display="flex" mt={1} justifyContent={"space-between"}>
                 <Box>
-                  {job?.tags?.map((tag) => <Chip label={tag} key={tag} />)}
+                  {job?.tags?.map((tag) => (
+                    <Chip label={tag} key={tag} sx={{ mr: 2 }} />
+                  ))}
                 </Box>
                 <Typography variant="h6">
                   {t("details.completed")}: {job?.completed ? "✅" : "❌"}
