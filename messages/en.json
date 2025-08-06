@@ -111,7 +111,10 @@
           "user": "User",
           "guest": "Guest"
         }
-      }
+      },
+      "generalInfo": "General Info",
+      "status": "Status",
+      "completed": "Completed"
     }
   }
 }
