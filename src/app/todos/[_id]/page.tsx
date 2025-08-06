@@ -16,5 +16,43 @@ export default async function Page({ params }: { params: { _id: string } }) {
   if (!todo) {
     return <Typography>Todo non trovato</Typography>;
   }
-  return <></>;
+  return (
+    <Box
+      sx={{
+        color: "black",
+        backgroundColor: "white",
+        borderRadius: 4,
+        p: 3,
+        width: "60%",
+        mx: "auto",
+        mt: 4,
+      }}
+    >
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        mb={2}
+        justifyContent={"space-between"}
+      >
+        <BackButton />
+        <IconButton size="small" sx={{ color: "black" }}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+      </Box>
+      <Box display={"flex"} justifyContent={"space-between"} ml={10} mr={10}>
+        <Box>
+          <Typography variant="h6" fontWeight="bold">
+            {t("details.name")}
+          </Typography>
+          <Typography variant="body1">{todo.name}</Typography>
+        </Box>
+        <Box>
+          <Typography variant="h6" fontWeight="bold">
+            {t("details.name")}
+          </Typography>
+          <Typography variant="body1">{todo.name}</Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
 }

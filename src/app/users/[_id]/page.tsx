@@ -28,9 +28,16 @@ export default async function Page({ params }: { params: { _id: string } }) {
         mt: 4,
       }}
     >
-      <Box display="flex" alignItems="center" mb={2}>
+      <Box
+        display="flex"
+        alignItems="center"
+        mb={2}
+        justifyContent={"space-between"}
+      >
         <BackButton />
-        <Typography variant="subtitle1">{t("details.title")}</Typography>
+        <IconButton size="small" sx={{ color: "black" }}>
+          <EditIcon fontSize="small" />
+        </IconButton>
       </Box>
       <Box
         display={"flex"}
@@ -40,9 +47,6 @@ export default async function Page({ params }: { params: { _id: string } }) {
         <Typography variant="h6" fontWeight="bold">
           {user?.username}
         </Typography>
-        <IconButton size="small" sx={{ color: "white" }}>
-          <EditIcon fontSize="small" />
-        </IconButton>
       </Box>
     </Box>
   );
