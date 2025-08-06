@@ -24,9 +24,12 @@ export default async function Page({ params }: { params: { _id: string } }) {
         backgroundColor: "white",
         borderRadius: 4,
         p: 3,
-        width: "60%",
+        width: "50%",
         mx: "auto",
         mt: 4,
+        "@media (max-width:769px)": {
+          width: "60%",
+        },
       }}
     >
       <Box

@@ -30,6 +30,8 @@ const excludedKeys: (keyof User | string)[] = [
   "updatedAt",
   "jobAssigned",
 ];
+const hiddenOnMobile: (keyof User | string)[] = ["email", "phone"]; // Nascondi queste colonne su XS
+
 const keysToDisplay = (user: User): (keyof User)[] => {
   return Object.keys(user).filter(
     (key) => !excludedKeys.includes(key),
@@ -43,44 +45,79 @@ export default async function UsersTable(props: UsersTableProps) {
   }
   const t = await getTranslations("Users");
   const keys = keysToDisplay(users[0]);
+
   return (
     <TableContainer
       component={Paper}
       sx={{
         mx: "auto",
         my: 6,
-        p: 2,
+        px: 1,
+        width: "100%",
+        overflowX: "hidden",
         borderRadius: 2,
         boxShadow: 3,
+        "@media (max-width:769px)": {
+          width: "90%",
+        },
       }}
     >
-      <Table>
+      <Table size="small">
         <TableHead>
           <TableRow>
             {keys.map((key) => (
-              <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
+              <TableCell
+                key={key}
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: {
+                    xs: "0.75rem",
+                    sm: "0.875rem",
+                    md: "1rem",
+                  },
+                  display: {
+                    xs: hiddenOnMobile.includes(key) ? "none" : "table-cell",
+                  },
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t(`columns.${key}`)}
+              </TableCell>
             ))}
-            {Array(2)
-              .fill(null)
-              .map((_, i) => (
-                <TableCell key={`extra-${i}`} />
-              ))}
+            <TableCell />
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
               {keys.map((key) => (
-                <TableCell key={key}>
+                <TableCell
+                  key={key}
+                  sx={{
+                    fontSize: {
+                      xs: "0.75rem",
+                      sm: "0.875rem",
+                      md: "1rem",
+                    },
+                    display: {
+                      xs: hiddenOnMobile.includes(key) ? "none" : "table-cell",
+                    },
+                    whiteSpace: "nowrap",
+                    maxWidth: 140,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
                   {typeof user[key] === "string" && dayjs(user[key]).isValid()
                     ? dayjs(user[key]).format("DD/MM/YYYY")
                     : user[key]?.toString()}
                 </TableCell>
               ))}
-              <TableCell sx={{ textAlign: "center" }}>
+              <TableCell sx={{ textAlign: "center", whiteSpace: "nowrap" }}>
                 <DeleteButton id={user._id} />
               </TableCell>
-              <TableCell sx={{ textAlign: "center" }}>
+              <TableCell sx={{ textAlign: "center", whiteSpace: "nowrap" }}>
                 <DetailButton id={user._id} />
               </TableCell>
             </TableRow>
@@ -90,8 +127,6 @@ export default async function UsersTable(props: UsersTableProps) {
               colSpan={keys.length + 2}
               sx={{
                 textAlign: "center",
-                paddingTop: 24,
-                paddingBottom: 24,
                 py: 3,
               }}
             >
