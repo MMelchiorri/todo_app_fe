@@ -21,7 +21,6 @@ interface propsTodo {
 
 export default async function TodoTable(props: propsTodo) {
   const { todos } = props;
-  console.log(todos);
   const excludedKeys = [
     "_id",
     "__v",

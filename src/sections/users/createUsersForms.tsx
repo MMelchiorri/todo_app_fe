@@ -23,6 +23,8 @@ import { Todo } from "@/type/Todo";
 import { fetchTodos } from "@/services/todosFetch";
 
 type ValuesFormType = {
+  _id: string;
+  id: string;
   username: string;
   password: string;
   email: string;
@@ -39,6 +41,8 @@ export const CreateUsersForm: React.FC = () => {
   const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const initialValues: ValuesFormType = {
+    id: "",
+    _id: "",
     username: "",
     password: "",
     email: "",
@@ -54,7 +58,7 @@ export const CreateUsersForm: React.FC = () => {
     onSubmit: async (values) => {
       try {
         await postUser(values);
-        router.push("/users"); // Redirect to users page after successful submission
+        router.push("/users");
       } catch (error) {
         console.error("Error submitting form:", error);
       }
