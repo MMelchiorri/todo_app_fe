@@ -28,31 +28,82 @@ export default async function Page({ params }: { params: { _id: string } }) {
         mt: 4,
       }}
     >
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        mb={2}
-        justifyContent={"space-between"}
-      >
+      <Box display="flex" alignItems="center" mb={2}>
         <BackButton />
-        <IconButton size="small" sx={{ color: "black" }}>
+        <Typography variant="subtitle1">{t("Details.title")}</Typography>
+      </Box>
+
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h6" fontWeight="bold">
+          {todo?.name}
+        </Typography>
+        <IconButton size="small" sx={{ color: "white" }}>
           <EditIcon fontSize="small" />
         </IconButton>
       </Box>
-      <Box display={"flex"} justifyContent={"space-between"} ml={10} mr={10}>
-        <Box>
-          <Typography variant="h6" fontWeight="bold">
-            {t("details.name")}
-          </Typography>
-          <Typography variant="body1">{todo.name}</Typography>
-        </Box>
-        <Box>
-          <Typography variant="h6" fontWeight="bold">
-            {t("details.name")}
-          </Typography>
-          <Typography variant="body1">{todo.name}</Typography>
-        </Box>
+
+      <Box display="flex" alignItems="center" gap={1} mt={1}>
+        <CalendarTodayIcon fontSize="small" />
+        <Typography variant="body2">
+          {new Date(todo.dueDate).toLocaleDateString([], {})}
+        </Typography>
+        <AccessTimeIcon fontSize="small" sx={{ ml: 1 }} />
+        <Typography variant="body2">
+          {new Date(todo.dueDate).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Typography>
       </Box>
+
+      <Divider sx={{ my: 2, borderColor: "rgba(255,255,255,0.2)" }} />
+
+      <Typography variant="body2" sx={{ opacity: 0.85 }}>
+        {todo?.description}
+      </Typography>
+
+      <Stack direction="row" spacing={2} mt={4} justifyContent={"flex-end"}>
+        <Button
+          variant="contained"
+          startIcon={<CheckCircleIcon />}
+          sx={{
+            backgroundColor: "#1e293b",
+            color: "white",
+            borderRadius: 3,
+            "&:hover": { backgroundColor: "#334155" },
+
+            "@media (max-width:769px)": {
+              width: "100%",
+              "&:hover": {
+                backgroundColor: "#1e293b",
+              },
+            },
+          }}
+        >
+          Done
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          sx={{
+            backgroundColor: "#1e293b",
+            color: "red",
+            borderRadius: 3,
+            "&:hover": { backgroundColor: "#334155" },
+
+            "@media (max-width:769px)": {
+              width: "100%",
+              flexDirection: "column",
+              alignItems: "stretch",
+              "&:hover": {
+                backgroundColor: "#1e293b",
+              },
+            },
+          }}
+        >
+          Delete
+        </Button>
+      </Stack>
     </Box>
   );
 }
