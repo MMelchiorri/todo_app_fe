@@ -18,6 +18,7 @@ export default async function TableEmpty() {
     <TableContainer
       component={Paper}
       sx={{
+        maxWidth: 800,
         mx: "auto",
         my: 6,
         p: 2,

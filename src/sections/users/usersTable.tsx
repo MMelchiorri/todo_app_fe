@@ -38,9 +38,6 @@ const keysToDisplay = (user: User): (keyof User)[] => {
 
 export default async function UsersTable(props: UsersTableProps) {
   const { users } = props;
-  if (!users || users.length === 0) {
-    return <div>No users to display</div>;
-  }
   const t = await getTranslations("Users");
   const keys = keysToDisplay(users[0]);
   return (
