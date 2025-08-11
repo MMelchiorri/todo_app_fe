@@ -41,7 +41,6 @@ export default async function TodoTable(props: propsTodo) {
     <TableContainer
       component={Paper}
       sx={{
-        maxWidth: 900,
         mx: "auto",
         my: 6,
         p: 2,

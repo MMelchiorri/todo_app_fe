@@ -48,7 +48,6 @@ export default async function UsersTable(props: UsersTableProps) {
       component={Paper}
       sx={{
         mx: "auto",
-        width: "50%",
         my: 6,
         p: 2,
         borderRadius: 2,
