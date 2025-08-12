@@ -19,7 +19,7 @@ export const todoSchema = Yup.object().shape({
     .required("Category is required")
     .max(50, "Category must not exceed 50 characters"),
 
-  assignedTo: Yup.string().required("Assigned to is required"),
+  assignedTo: Yup.string(),
 
   dueDate: Yup.date()
     .nullable()
