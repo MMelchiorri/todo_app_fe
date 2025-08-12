@@ -13,7 +13,7 @@ export const todoSchema = Yup.object().shape({
 
   completed: Yup.boolean(),
 
-  tags: Yup.string().required("Tags are required"),
+  tags: Yup.string(),
 
   category: Yup.string()
     .required("Category is required")
