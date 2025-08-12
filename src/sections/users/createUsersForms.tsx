@@ -23,14 +23,9 @@ import { Todo } from "@/type/Todo";
 import { fetchTodos } from "@/services/todosFetch";
 
 type ValuesFormType = {
-  _id: string;
-  id: string;
   username: string;
   password: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
-  isActive: boolean;
   role: string;
   jobAssigned?: string[];
 };
@@ -41,14 +36,9 @@ export const CreateUsersForm: React.FC = () => {
   const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const initialValues: ValuesFormType = {
-    id: "",
-    _id: "",
     username: "",
     password: "",
     email: "",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    isActive: true,
     role: "user",
     jobAssigned: [],
   };
@@ -156,19 +146,7 @@ export const CreateUsersForm: React.FC = () => {
                   </MenuItem>
                 </TextField>
               </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={formik.values.isActive}
-                      onChange={(e) =>
-                        formik.setFieldValue("isActive", e.target.checked)
-                      }
-                    />
-                  }
-                  label={t("create.isActive")}
-                />
-              </Grid>
+
               <Grid size={{ xs: 12, md: 6 }}>
                 <Autocomplete
                   fullWidth

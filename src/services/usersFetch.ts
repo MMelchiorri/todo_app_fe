@@ -1,5 +1,7 @@
 import { User } from "@/type/Users";
 
+type CreateUserPayload = Omit<User, "id" | "_id" | "createdAt" | "updatedAt">;
+
 export async function fetchUsers(): Promise<User[]> {
   try {
     const res = await fetch(
@@ -27,7 +29,7 @@ export const deleteUser = async (id: string): Promise<void> => {
   }
 };
 
-export async function postUser(user: Omit<User, "id">): Promise<User | null> {
+export async function postUser(user: CreateUserPayload): Promise<User | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users`,
