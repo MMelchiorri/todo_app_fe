@@ -75,7 +75,7 @@ export default async function UsersTable(props: UsersTableProps) {
                 </TableCell>
               ))}
               <TableCell sx={{ textAlign: "center" }}>
-                <DeleteButton id={user._id} />
+                <DeleteButton id={user.id} />
               </TableCell>
               <TableCell sx={{ textAlign: "center" }}>
                 <DetailButton id={user._id} />
