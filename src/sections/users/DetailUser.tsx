@@ -22,7 +22,7 @@ export const DetailUser = ({ user, todo }: Props) => {
   return (
     <Grid container>
       <Grid
-        size={{ xs: 4 }}
+        size={{ xs: 12, md: 6 }}
         sx={{
           color: "black",
           backgroundColor: "white",
@@ -31,7 +31,7 @@ export const DetailUser = ({ user, todo }: Props) => {
           mx: "auto",
           mt: 4,
           "@media (max-width:769px)": {
-            width: "60%",
+            width: "80%",
           },
         }}
       >
@@ -61,7 +61,7 @@ export const DetailUser = ({ user, todo }: Props) => {
         )}
       </Grid>
       {selectedTodo && (
-        <Grid size={{ xs: 4 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <DetailTodo todo={selectedTodo} />
         </Grid>
       )}

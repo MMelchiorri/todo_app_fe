@@ -3,7 +3,6 @@ import { Grid, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
 import { getTodoById } from "@/services/todosFetch";
 import { Todo } from "@/type/Todo";
-import { DetailTodo } from "@/sections/todos/DetailTodo";
 import { DetailUser } from "@/sections/users/DetailUser";
 
 export default async function Page({ params }: { params: { _id: string } }) {
