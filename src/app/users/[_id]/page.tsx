@@ -1,16 +1,18 @@
 import { getUserById } from "@/services/usersFetch";
-import { Box, Chip, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { getTranslations } from "next-intl/server";
 import EditIcon from "@mui/icons-material/Edit";
 import BackButton from "@/sections/BackButton";
 import { getTodoById } from "@/services/todosFetch";
+import UserJobs from "@/sections/users/SelectJob";
+import { Todo } from "@/type/Todo";
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params;
   const user = await getUserById(_id);
-  const jobAssigned = await Promise.all(
-    user?.jobAssigned?.map(async (jobId) => await getTodoById(jobId)) || [],
-  );
+  const jobAssigned = (
+    await Promise.all(user?.jobAssigned?.map(getTodoById) || [])
+  ).filter((job): job is Todo => job !== null);
   const t = await getTranslations("Users");
 
   if (!user) {
@@ -24,7 +26,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
         backgroundColor: "white",
         borderRadius: 4,
         p: 3,
-        width: "50%",
+        width: "30%",
         mx: "auto",
         mt: 4,
         "@media (max-width:769px)": {
@@ -52,52 +54,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
           {user.role}
         </Typography>
       </Box>
-
-      {jobAssigned.length > 0 && (
-        <Box mt={5}>
-          {jobAssigned.map((job) => (
-            <Box key={job?._id} mt={4}>
-              <Typography variant="h5">{t("details.generalInfo")}</Typography>
-              <Typography variant="h6">
-                {job?.name} – {job?.description}
-              </Typography>
-
-              <Typography variant="h5" mt={3}>
-                {t("details.status")}
-              </Typography>
-
-              <Box
-                display="flex"
-                mt={1}
-                justifyContent={"space-between"}
-                sx={{
-                  "@media (max-width:769px)": {
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  },
-                }}
-              >
-                <Box sx={{}}>
-                  {job?.tags?.map((tag) => (
-                    <Chip label={tag} key={tag} sx={{ mr: 2 }} />
-                  ))}
-                </Box>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    "@media (max-width:769px)": {
-                      width: "100%",
-                      marginTop: 2,
-                    },
-                  }}
-                >
-                  {t("details.completed")}: {job?.completed ? "✅" : "❌"}
-                </Typography>
-              </Box>
-            </Box>
-          ))}
-        </Box>
-      )}
+      {jobAssigned.length > 0 ? <UserJobs jobs={jobAssigned} /> : null}
     </Box>
   );
 }
