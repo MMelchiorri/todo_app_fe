@@ -9,16 +9,14 @@ export default function UserJobs({ jobs }: { jobs: Todo[] | null }) {
     return <Typography>No jobs assigned</Typography>;
   }
   return (
-    <Grid container spacing={2} sx={{ mt: 2 }}>
-      <Grid size={{ xs: 12 }}>
-        <Autocomplete
-          renderInput={(params) => (
-            <TextField {...params} label={"Job Assigned"} />
-          )}
-          options={jobs}
-          getOptionLabel={(option) => option.name}
-        />
-      </Grid>
+    <Grid size={{ xs: 8 }} sx={{ mt: 2 }}>
+      <Autocomplete
+        renderInput={(params) => (
+          <TextField {...params} label={"Job Assigned"} />
+        )}
+        options={jobs}
+        getOptionLabel={(option) => option.name}
+      />
     </Grid>
   );
 }
