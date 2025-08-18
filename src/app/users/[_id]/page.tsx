@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { _id: string } }) {
   return (
     <Grid container>
       <Grid size={{ xs: 6 }}>
-        <DetailUser user={user} />
+        <DetailUser user={user} todo={jobAssigned} />
       </Grid>
       <Grid size={{ xs: 6 }}>
         <DetailTodo todo={jobAssigned[0]} />

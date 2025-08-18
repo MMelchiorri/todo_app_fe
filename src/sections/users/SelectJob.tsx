@@ -4,7 +4,7 @@ import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
 
 import { Todo } from "@/type/Todo";
 
-export default function UserJobs({ jobs }: { jobs: Todo[] | null }) {
+export default function UserJobs({ jobs }: { jobs: Todo[] | [] }) {
   if (!jobs || jobs.length === 0) {
     return <Typography>No jobs assigned</Typography>;
   }

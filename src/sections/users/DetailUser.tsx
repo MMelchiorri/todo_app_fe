@@ -3,13 +3,15 @@ import BackButton from "@/sections/BackButton";
 import EditIcon from "@mui/icons-material/Edit";
 import UserJobs from "@/sections/users/SelectJob";
 import { User } from "@/type/Users";
+import { Todo } from "@/type/Todo";
 
 type Props = {
   user: User;
+  todo: Todo[];
 };
-export const DetailUser = ({ user }: Props) => (
+export const DetailUser = ({ user, todo }: Props) => (
   <Grid
-    size={{ xs: 6 }}
+    size={{ xs: 12, md: 6 }}
     sx={{
       color: "black",
       backgroundColor: "white",
@@ -42,8 +44,6 @@ export const DetailUser = ({ user }: Props) => (
         {user.role}
       </Typography>
     </Box>
-    {user.jobAssigned?.length <= 0 ? null : (
-      <UserJobs jobs={user.jobAssigned} />
-    )}
+    {user.jobAssigned?.length <= 0 ? null : <UserJobs jobs={todo} />}
   </Grid>
 );

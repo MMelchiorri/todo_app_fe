@@ -5,5 +5,5 @@ export type User = {
   password: string;
   email: string;
   role: string;
-  jobAssigned?: string[];
+  jobAssigned: string[] | [];
 };
