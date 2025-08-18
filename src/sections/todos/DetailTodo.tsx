@@ -1,5 +1,5 @@
 import { Todo } from "@/type/Todo";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 type DetailTodoProps = {
   todo: Todo;
@@ -22,6 +22,12 @@ export const DetailTodo = ({ todo }: DetailTodoProps) => {
           width: "60%",
         },
       }}
-    ></Grid>
+    >
+      <Grid container>
+        <Typography variant="h6" fontWeight="bold">
+          {todo.name}
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
