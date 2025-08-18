@@ -10,7 +10,7 @@ export default function UserJobs({ jobs }: { jobs: Todo[] | null }) {
   }
   return (
     <Grid container spacing={2} sx={{ mt: 2 }}>
-      <Grid size={{ xs: 12, md: 6 }}>
+      <Grid size={{ xs: 12 }}>
         <Autocomplete
           renderInput={(params) => (
             <TextField {...params} label={"Job Assigned"} />
