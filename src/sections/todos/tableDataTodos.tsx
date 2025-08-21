@@ -100,6 +100,7 @@ export default function TodoTable(props: PropsTodo) {
           borderRadius: 2,
           boxShadow: 3,
           display: { xs: 'none', sm: 'block' },
+          maxWidth: '80%',
         }}
       >
         <Table>
