@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   Paper,
@@ -13,21 +15,30 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Autocomplete,
+  TextField,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import dayjs from 'dayjs'
 import { Todo } from '@/type/Todo'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import DeleteButton from '@/sections/todos/DeleteButton'
 import DetailButton from '@/sections/todos/DetailButton'
+import { useState } from 'react'
 
 interface PropsTodo {
   todos: Todo[]
 }
 
-export default async function TodoTable(props: PropsTodo) {
+export default function TodoTable(props: PropsTodo) {
   const { todos } = props
+  const [filterStatus, setFilterStatus] = useState<string[]>(
+    Array.from(
+      new Set(todos.map((todo) => (todo.completed ? 'completed' : 'pending')))
+    )
+  )
+
   const excludedKeys = [
     '_id',
     '__v',
@@ -42,11 +53,18 @@ export default async function TodoTable(props: PropsTodo) {
   const keys = Object.keys(todos[0]).filter(
     (key) => !excludedKeys.includes(key)
   ) as (keyof Todo)[]
-  const t = await getTranslations('Todos')
+  const t = useTranslations('Todos')
 
   return (
     <>
-      {/* Desktop Table */}
+      <Autocomplete
+        options={filterStatus}
+        onChange={(_, newValue) => setFilterStatus(newValue)}
+        renderInput={(params) => (
+          <TextField {...params} label="Status" placeholder="Select status" />
+        )}
+        sx={{ mb: 2, width: 250 }}
+      />
       <TableContainer
         component={Paper}
         sx={{
@@ -89,7 +107,6 @@ export default async function TodoTable(props: PropsTodo) {
           </TableBody>
         </Table>
       </TableContainer>
-
       {/* Mobile Accordion */}
       <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
         {todos.map((todo) => (
