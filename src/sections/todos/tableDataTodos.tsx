@@ -26,7 +26,6 @@ import Link from 'next/link'
 import DeleteButton from '@/sections/todos/DeleteButton'
 import DetailButton from '@/sections/todos/DetailButton'
 import { useState } from 'react'
-import { flex } from '@mui/system'
 
 interface PropsTodo {
   todos: Todo[]
@@ -59,6 +58,16 @@ export default function TodoTable(props: PropsTodo) {
   ) as (keyof Todo)[]
   const t = useTranslations('Todos')
 
+  // Filtraggio dinamico
+  const filteredTodos = todos.filter((todo) => {
+    const statusMatch =
+      filterStatus.length === 0 ||
+      filterStatus.includes(todo.completed ? 'completed' : 'pending')
+    const assignedMatch =
+      filterAssigned.length === 0 || filterAssigned.includes(todo.assignedTo)
+    return statusMatch && assignedMatch
+  })
+
   return (
     <>
       <Box
@@ -74,6 +83,7 @@ export default function TodoTable(props: PropsTodo) {
             value={filterAssigned[0]}
             onChange={(_, newValue) => {
               if (newValue) setFilterAssigned([newValue])
+              else setFilterAssigned([])
             }}
             renderInput={(params) => (
               <TextField
@@ -100,6 +110,7 @@ export default function TodoTable(props: PropsTodo) {
             value={filterStatus[0]}
             onChange={(_, newValue) => {
               if (newValue) setFilterStatus([newValue])
+              else setFilterStatus([])
             }}
             renderInput={(params) => (
               <TextField
@@ -147,7 +158,7 @@ export default function TodoTable(props: PropsTodo) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {todos.map((todo) => (
+            {filteredTodos.map((todo) => (
               <TableRow key={todo._id}>
                 {keys.map((key) => (
                   <TableCell key={key}>
@@ -170,7 +181,7 @@ export default function TodoTable(props: PropsTodo) {
 
       {/* Mobile Accordion */}
       <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <Accordion key={todo._id} sx={{ boxShadow: 3, borderRadius: 2 }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">{todo.name || 'Todo'}</Typography>
@@ -196,6 +207,7 @@ export default function TodoTable(props: PropsTodo) {
           </Accordion>
         ))}
       </Stack>
+
       {/* Add Button */}
       <Box display={'flex'} justifyContent={'center'}>
         <Button variant="contained" sx={{ mt: 2 }}>

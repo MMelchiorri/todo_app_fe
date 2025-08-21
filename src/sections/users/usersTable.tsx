@@ -126,6 +126,16 @@ export default async function UsersTable(props: UsersTableProps) {
           </Link>
         </Button>
       </Stack>
+      <Box display={'flex'} justifyContent={'center'}>
+        <Button variant="contained" sx={{ mt: 2 }}>
+          <Link
+            href="/users/create"
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            {t('actions.add')}
+          </Link>
+        </Button>
+      </Box>
     </>
   )
 }
