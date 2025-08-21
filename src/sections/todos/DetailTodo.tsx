@@ -16,7 +16,6 @@ export const DetailTodo = ({ todo }: DetailTodoProps) => {
         backgroundColor: "white",
         borderRadius: 4,
         p: 3,
-        mx: "auto",
         mt: 4,
         "@media (max-width:769px)": {
           width: "80%",

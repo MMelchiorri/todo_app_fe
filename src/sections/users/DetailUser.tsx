@@ -20,15 +20,14 @@ export const DetailUser = ({ user, todo }: Props) => {
   );
 
   return (
-    <Grid container>
+    <Grid container display={"flex"} justifyContent="space-around" alignItems={"flex-start"}       sx={{ mt: 4 }}>
       <Grid
-        size={{ xs: 12, md: 6 }}
+        size={{ xs: 12, md: 4 }}
         sx={{
           color: "black",
           backgroundColor: "white",
           borderRadius: 4,
           p: 3,
-          mx: "auto",
           mt: 4,
           "@media (max-width:769px)": {
             width: "80%",
@@ -47,7 +46,7 @@ export const DetailUser = ({ user, todo }: Props) => {
           </IconButton>
         </Box>
 
-        <Box display="flex" justifyContent="space-between">
+        <Box display="flex" justifyContent="space-between" mb={2}>
           <Typography variant="h6" fontWeight="bold">
             {user.username}
           </Typography>
