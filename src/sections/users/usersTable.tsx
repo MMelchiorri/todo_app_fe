@@ -1,4 +1,4 @@
-import { User } from "@/type/Users";
+import { User } from '@/type/Users'
 import {
   Button,
   Paper,
@@ -8,43 +8,43 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@mui/material";
-import { getTranslations } from "next-intl/server";
-import dayjs from "dayjs";
-import Link from "next/link";
-import DeleteButton from "@/sections/todos/DeleteButton";
-import DetailButton from "@/sections/users/DetailButton";
+} from '@mui/material'
+import { getTranslations } from 'next-intl/server'
+import dayjs from 'dayjs'
+import Link from 'next/link'
+import DeleteButton from '@/sections/todos/DeleteButton'
+import DetailButton from '@/sections/users/DetailButton'
 
 type UsersTableProps = {
-  users: User[];
-};
+  users: User[]
+}
 
 const excludedKeys: (keyof User | string)[] = [
-  "id",
-  "__v",
-  "_id",
-  "createdAt",
-  "updatedAt",
-  "password",
-  "isActive",
-  "updatedAt",
-  "jobAssigned",
-];
+  'id',
+  '__v',
+  '_id',
+  'createdAt',
+  'updatedAt',
+  'password',
+  'isActive',
+  'updatedAt',
+  'jobAssigned',
+]
 const keysToDisplay = (user: User): (keyof User)[] => {
   return Object.keys(user).filter(
-    (key) => !excludedKeys.includes(key),
-  ) as (keyof User)[];
-};
+    (key) => !excludedKeys.includes(key)
+  ) as (keyof User)[]
+}
 
 export default async function UsersTable(props: UsersTableProps) {
-  const { users } = props;
-  const t = await getTranslations("Users");
-  const keys = keysToDisplay(users[0]);
+  const { users } = props
+  const t = await getTranslations('Users')
+  const keys = keysToDisplay(users[0])
   return (
     <TableContainer
       component={Paper}
       sx={{
-        mx: "auto",
+        mx: 'auto',
         my: 6,
         p: 2,
         borderRadius: 2,
@@ -69,15 +69,15 @@ export default async function UsersTable(props: UsersTableProps) {
             <TableRow key={user.id}>
               {keys.map((key) => (
                 <TableCell key={key}>
-                  {typeof user[key] === "string" && dayjs(user[key]).isValid()
-                    ? dayjs(user[key]).format("DD/MM/YYYY")
+                  {typeof user[key] === 'string' && dayjs(user[key]).isValid()
+                    ? dayjs(user[key]).format('DD/MM/YYYY')
                     : user[key]?.toString()}
                 </TableCell>
               ))}
-              <TableCell sx={{ textAlign: "center" }}>
+              <TableCell sx={{ textAlign: 'center' }}>
                 <DeleteButton id={user.id} />
               </TableCell>
-              <TableCell sx={{ textAlign: "center" }}>
+              <TableCell sx={{ textAlign: 'center' }}>
                 <DetailButton id={user._id} />
               </TableCell>
             </TableRow>
@@ -86,7 +86,7 @@ export default async function UsersTable(props: UsersTableProps) {
             <TableCell
               colSpan={keys.length + 2}
               sx={{
-                textAlign: "center",
+                textAlign: 'center',
                 paddingTop: 24,
                 paddingBottom: 24,
                 py: 3,
@@ -95,9 +95,9 @@ export default async function UsersTable(props: UsersTableProps) {
               <Button variant="contained">
                 <Link
                   href="/users/create"
-                  style={{ color: "inherit", textDecoration: "none" }}
+                  style={{ color: 'inherit', textDecoration: 'none' }}
                 >
-                  {t("actions.add")}
+                  {t('actions.add')}
                 </Link>
               </Button>
             </TableCell>
@@ -105,5 +105,5 @@ export default async function UsersTable(props: UsersTableProps) {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import React from "react";
+import React from 'react'
 import {
   Card,
   CardHeader,
@@ -13,63 +13,63 @@ import {
   Button,
   MenuItem,
   Autocomplete,
-} from "@mui/material";
-import { useTranslations } from "next-intl";
-import { Formik } from "formik";
-import { postTodo } from "@/services/todosFetch";
-import { todoSchema } from "@/sections/todos/todoSchema";
-import { useRouter } from "next/navigation";
-import { fetchUsers } from "@/services/usersFetch";
-import { useEffect, useState } from "react";
-import { User } from "@/type/Users";
+} from '@mui/material'
+import { useTranslations } from 'next-intl'
+import { Formik } from 'formik'
+import { postTodo } from '@/services/todosFetch'
+import { todoSchema } from '@/sections/todos/todoSchema'
+import { useRouter } from 'next/navigation'
+import { fetchUsers } from '@/services/usersFetch'
+import { useEffect, useState } from 'react'
+import { User } from '@/type/Users'
 
 type ValuesFormType = {
-  name: string;
-  description: string;
-  completed: boolean;
-  category: string;
-  assignedTo: string;
-  dueDate: string;
-  reminder: boolean;
-  reminderDate: string;
-  createdAt: Date;
-  priority: "low" | "medium" | "high";
-  status: "todo" | "in-progress" | "done";
-  tags: string;
-};
+  name: string
+  description: string
+  completed: boolean
+  category: string
+  assignedTo: string
+  dueDate: string
+  reminder: boolean
+  reminderDate: string
+  createdAt: Date
+  priority: 'low' | 'medium' | 'high'
+  status: 'todo' | 'in-progress' | 'done'
+  tags: string
+}
 
 const CreateTodoForm: React.FC = () => {
-  const t = useTranslations("Todos");
-  const router = useRouter();
-  const [users, setUsers] = useState<User[]>([]);
-  const [user, setUser] = useState<string>("");
-  const userOptions = users.map((user) => user.username);
+  const t = useTranslations('Todos')
+  const router = useRouter()
+  const [users, setUsers] = useState<User[]>([])
+  const [user, setUser] = useState<string>('')
+  const userOptions = users.map((user) => user.username)
 
   useEffect(() => {
-    (async () => {
-      const fetchedUsers = await fetchUsers();
-      setUsers(fetchedUsers);
-    })();
-  }, []);
+    ;(async () => {
+      const fetchedUsers = await fetchUsers()
+      setUsers(fetchedUsers)
+    })()
+  }, [])
 
   const initialValues: ValuesFormType = {
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     completed: false,
-    category: "",
-    assignedTo: "",
-    dueDate: "",
+    category: '',
+    assignedTo: '',
+    dueDate: '',
     reminder: false,
-    reminderDate: "",
+    reminderDate: '',
     createdAt: new Date(),
-    priority: "low",
-    status: "todo",
-    tags: "",
-  };
+    priority: 'low',
+    status: 'todo',
+    tags: '',
+  }
 
   const onSubmit = async (
     values: ValuesFormType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     const formattedValues = {
       ...values,
@@ -78,33 +78,33 @@ const CreateTodoForm: React.FC = () => {
       reminderDate: values.reminderDate
         ? new Date(values.reminderDate)
         : undefined,
-      tags: values.tags.split(",").map((tag) => tag.trim()),
-    };
-    await postTodo(formattedValues);
-    router.push("/todos");
+      tags: values.tags.split(',').map((tag) => tag.trim()),
+    }
+    await postTodo(formattedValues)
+    router.push('/todos')
 
-    setSubmitting(false);
-  };
+    setSubmitting(false)
+  }
 
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
       }}
     >
       <Card
         sx={{
-          width: "100%",
+          width: '100%',
           maxWidth: 700,
           minHeight: 600,
           p: 2,
           boxShadow: 3,
         }}
       >
-        <CardHeader title={t("create.title")} sx={{ textAlign: "center" }} />
+        <CardHeader title={t('create.title')} sx={{ textAlign: 'center' }} />
 
         <Formik
           initialValues={initialValues}
@@ -128,18 +128,18 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.name")}
+                      label={t('create.name')}
                       variant="outlined"
                       name="name"
                       value={values.name}
                       onChange={handleChange}
                       onBlur={() => {
-                        setFieldTouched("name", true);
+                        setFieldTouched('name', true)
                       }}
                       error={Boolean(errors.name && touched.name)}
                       required
                       helperText={
-                        errors.name && touched.name ? errors.name : ""
+                        errors.name && touched.name ? errors.name : ''
                       }
                     />
                   </Grid>
@@ -147,19 +147,19 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.description")}
+                      label={t('create.description')}
                       variant="outlined"
                       name="description"
                       value={values.description}
                       onChange={handleChange}
                       onBlur={() => {
-                        setFieldTouched("description", true);
+                        setFieldTouched('description', true)
                       }}
                       error={Boolean(errors.description && touched.description)}
                       helperText={
                         errors.description && touched.description
                           ? errors.description
-                          : ""
+                          : ''
                       }
                       required
                     />
@@ -168,19 +168,19 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.category")}
+                      label={t('create.category')}
                       variant="outlined"
                       name="category"
                       value={values.category}
                       onChange={handleChange}
                       onBlur={() => {
-                        setFieldTouched("category", true);
+                        setFieldTouched('category', true)
                       }}
                       error={Boolean(errors.category && touched.category)}
                       helperText={
                         errors.category && touched.category
                           ? errors.category
-                          : ""
+                          : ''
                       }
                       required
                     />
@@ -190,25 +190,25 @@ const CreateTodoForm: React.FC = () => {
                       value={user}
                       fullWidth
                       onBlur={() => {
-                        setFieldTouched("assignedTo", true);
+                        setFieldTouched('assignedTo', true)
                       }}
                       options={userOptions}
                       onChange={(event, newValue) => {
-                        setUser(newValue || "");
-                        setFieldValue("assignedTo", newValue || "");
+                        setUser(newValue || '')
+                        setFieldValue('assignedTo', newValue || '')
                       }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           name="assignedTo"
-                          label={t("create.assignedTo")}
+                          label={t('create.assignedTo')}
                           error={Boolean(
-                            errors.assignedTo && touched.assignedTo,
+                            errors.assignedTo && touched.assignedTo
                           )}
                           helperText={
                             touched.assignedTo && errors.assignedTo
                               ? errors.assignedTo
-                              : ""
+                              : ''
                           }
                         />
                       )}
@@ -218,7 +218,7 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.dueDate")}
+                      label={t('create.dueDate')}
                       type="date"
                       variant="outlined"
                       name="dueDate"
@@ -240,14 +240,14 @@ const CreateTodoForm: React.FC = () => {
                           onBlur={handleBlur}
                         />
                       }
-                      label={t("create.reminder")}
+                      label={t('create.reminder')}
                     />
                   </Grid>
 
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.reminderDate")}
+                      label={t('create.reminderDate')}
                       type="date"
                       variant="outlined"
                       name="reminderDate"
@@ -262,7 +262,7 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.priority")}
+                      label={t('create.priority')}
                       select
                       variant="outlined"
                       name="priority"
@@ -272,13 +272,13 @@ const CreateTodoForm: React.FC = () => {
                       helperText={errors.priority}
                     >
                       <MenuItem value="low">
-                        {t("create.priorityOptions.low")}
+                        {t('create.priorityOptions.low')}
                       </MenuItem>
                       <MenuItem value="medium">
-                        {t("create.priorityOptions.medium")}
+                        {t('create.priorityOptions.medium')}
                       </MenuItem>
                       <MenuItem value="high">
-                        {t("create.priorityOptions.high")}
+                        {t('create.priorityOptions.high')}
                       </MenuItem>
                     </TextField>
                   </Grid>
@@ -286,7 +286,7 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.status")}
+                      label={t('create.status')}
                       select
                       variant="outlined"
                       name="status"
@@ -296,13 +296,13 @@ const CreateTodoForm: React.FC = () => {
                       helperText={errors.status}
                     >
                       <MenuItem value="todo">
-                        {t("create.statusOptions.pending")}
+                        {t('create.statusOptions.pending')}
                       </MenuItem>
                       <MenuItem value="in-progress">
-                        {t("create.statusOptions.inProgress")}
+                        {t('create.statusOptions.inProgress')}
                       </MenuItem>
                       <MenuItem value="done">
-                        {t("create.statusOptions.completed")}
+                        {t('create.statusOptions.completed')}
                       </MenuItem>
                     </TextField>
                   </Grid>
@@ -310,7 +310,7 @@ const CreateTodoForm: React.FC = () => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t("create.tags")}
+                      label={t('create.tags')}
                       variant="outlined"
                       name="tags"
                       value={values.tags}
@@ -328,7 +328,7 @@ const CreateTodoForm: React.FC = () => {
                     variant="contained"
                     disabled={isSubmitting}
                   >
-                    {t("create.submit")}
+                    {t('create.submit')}
                   </Button>
                 </Box>
               </CardContent>
@@ -337,7 +337,7 @@ const CreateTodoForm: React.FC = () => {
         </Formik>
       </Card>
     </Box>
-  );
-};
+  )
+}
 
-export default CreateTodoForm;
+export default CreateTodoForm

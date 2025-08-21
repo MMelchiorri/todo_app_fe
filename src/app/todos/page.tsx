@@ -1,14 +1,14 @@
-import { fetchTodos } from "@/services/todosFetch";
-import { Todo } from "@/type/Todo";
-import TodoTable from "@/sections/todos/tableDataTodos";
-import TableEmpty from "@/sections/todos/tableDataEmpty";
+import { fetchTodos } from '@/services/todosFetch'
+import { Todo } from '@/type/Todo'
+import TodoTable from '@/sections/todos/tableDataTodos'
+import TableEmpty from '@/sections/todos/tableDataEmpty'
 
 export default async function TodoPage() {
-  const todos: Todo[] = await fetchTodos();
+  const todos: Todo[] = await fetchTodos()
 
   if (!todos || todos.length === 0) {
-    return <TableEmpty />;
+    return <TableEmpty />
   }
 
-  return <TodoTable todos={todos} />;
+  return <TodoTable todos={todos} />
 }

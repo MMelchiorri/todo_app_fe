@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import styles from "@/styles/navbar.module.css";
+import Link from 'next/link'
+import styles from '@/styles/navbar.module.css'
 
 export function Navbar() {
   return (
@@ -18,5 +18,5 @@ export function Navbar() {
         </div>
       </div>
     </nav>
-  );
+  )
 }

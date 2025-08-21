@@ -7,41 +7,41 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@mui/material";
-import dayjs from "dayjs";
-import { Todo } from "@/type/Todo";
-import { getTranslations } from "next-intl/server";
-import Link from "next/link";
-import DeleteButton from "@/sections/todos/DeleteButton";
-import DetailButton from "@/sections/todos/DetailButton";
+} from '@mui/material'
+import dayjs from 'dayjs'
+import { Todo } from '@/type/Todo'
+import { getTranslations } from 'next-intl/server'
+import Link from 'next/link'
+import DeleteButton from '@/sections/todos/DeleteButton'
+import DetailButton from '@/sections/todos/DetailButton'
 
 interface propsTodo {
-  todos: Todo[];
+  todos: Todo[]
 }
 
 export default async function TodoTable(props: propsTodo) {
-  const { todos } = props;
+  const { todos } = props
   const excludedKeys = [
-    "_id",
-    "__v",
-    "properties",
-    "reminder",
-    "completed",
-    "tags",
-    "updatedAt",
-    "id",
-    "reminderDate",
-  ];
+    '_id',
+    '__v',
+    'properties',
+    'reminder',
+    'completed',
+    'tags',
+    'updatedAt',
+    'id',
+    'reminderDate',
+  ]
   const keys = Object.keys(todos[0]).filter(
-    (key) => !excludedKeys.includes(key),
-  ) as (keyof Todo)[];
-  const t = await getTranslations("Todos");
+    (key) => !excludedKeys.includes(key)
+  ) as (keyof Todo)[]
+  const t = await getTranslations('Todos')
 
   return (
     <TableContainer
       component={Paper}
       sx={{
-        mx: "auto",
+        mx: 'auto',
         my: 6,
         p: 2,
         borderRadius: 2,
@@ -66,15 +66,15 @@ export default async function TodoTable(props: propsTodo) {
             <TableRow key={todo.id}>
               {keys.map((key) => (
                 <TableCell key={key}>
-                  {typeof todo[key] === "string" && dayjs(todo[key]).isValid()
-                    ? dayjs(todo[key]).format("DD/MM/YYYY")
-                    : todo[key]?.toString() ?? "N/A"}
+                  {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
+                    ? dayjs(todo[key]).format('DD/MM/YYYY')
+                    : todo[key]?.toString() ?? 'N/A'}
                 </TableCell>
               ))}
-              <TableCell sx={{ textAlign: "center" }}>
+              <TableCell sx={{ textAlign: 'center' }}>
                 <DeleteButton id={todo._id} />
               </TableCell>
-              <TableCell sx={{ textAlign: "center" }}>
+              <TableCell sx={{ textAlign: 'center' }}>
                 <DetailButton id={todo._id} />
               </TableCell>
             </TableRow>
@@ -83,7 +83,7 @@ export default async function TodoTable(props: propsTodo) {
             <TableCell
               colSpan={keys.length + 2}
               sx={{
-                textAlign: "center",
+                textAlign: 'center',
                 paddingTop: 24,
                 paddingBottom: 24,
                 py: 3,
@@ -92,9 +92,9 @@ export default async function TodoTable(props: propsTodo) {
               <Button variant="contained">
                 <Link
                   href="/todos/create"
-                  style={{ color: "inherit", textDecoration: "none" }}
+                  style={{ color: 'inherit', textDecoration: 'none' }}
                 >
-                  {t("actions.add")}
+                  {t('actions.add')}
                 </Link>
               </Button>
             </TableCell>
@@ -102,5 +102,5 @@ export default async function TodoTable(props: propsTodo) {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  )
 }

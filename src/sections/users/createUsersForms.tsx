@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 import {
   Card,
   CardHeader,
@@ -11,77 +11,77 @@ import {
   Button,
   MenuItem,
   Autocomplete,
-} from "@mui/material";
-import { useTranslations } from "next-intl";
-import { useFormik } from "formik";
-import { postUser } from "@/services/usersFetch";
-import { userSchema } from "@/sections/users/userSchema";
-import { useRouter } from "next/navigation";
-import { Todo } from "@/type/Todo";
-import { fetchTodos } from "@/services/todosFetch";
+} from '@mui/material'
+import { useTranslations } from 'next-intl'
+import { useFormik } from 'formik'
+import { postUser } from '@/services/usersFetch'
+import { userSchema } from '@/sections/users/userSchema'
+import { useRouter } from 'next/navigation'
+import { Todo } from '@/type/Todo'
+import { fetchTodos } from '@/services/todosFetch'
 
 type ValuesFormType = {
-  username: string;
-  password: string;
-  email: string;
-  role: string;
-  jobAssigned?: string[];
-};
+  username: string
+  password: string
+  email: string
+  role: string
+  jobAssigned?: string[]
+}
 
 export const CreateUsersForm: React.FC = () => {
-  const t = useTranslations("Users");
-  const router = useRouter();
-  const [todos, setTodos] = React.useState<Todo[]>([]);
+  const t = useTranslations('Users')
+  const router = useRouter()
+  const [todos, setTodos] = React.useState<Todo[]>([])
 
   const initialValues: ValuesFormType = {
-    username: "",
-    password: "",
-    email: "",
-    role: "user",
+    username: '',
+    password: '',
+    email: '',
+    role: 'user',
     jobAssigned: [],
-  };
+  }
   const formik = useFormik({
     initialValues,
     validationSchema: userSchema,
     onSubmit: async (values) => {
       try {
-        await postUser(values);
-        router.push("/users");
+        await postUser(values)
+        router.push('/users')
       } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error('Error submitting form:', error)
       }
     },
-  });
+  })
 
   useEffect(() => {
     const load = async () => {
       try {
-        const todos = await fetchTodos();
-        setTodos(todos);
-        await formik.setFieldValue("jobAssigned", todos);
+        const todos = await fetchTodos()
+        setTodos(todos)
+        await formik.setFieldValue('jobAssigned', todos)
       } catch (error) {
-        console.error("Failed to fetch todos:", error);
+        console.error('Failed to fetch todos:', error)
       }
-    };
+    }
 
-    load();
-  }, []);
+    load()
+  }, [])
 
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
       }}
     >
       <Card>
         <CardHeader
-          title={t("create.title")}
+          title={t('create.title')}
           sx={{
             p: 2,
-            textAlign: "center",
+            textAlign: 'center',
           }}
         />
 
@@ -91,7 +91,7 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
-                  label={t("create.username")}
+                  label={t('create.username')}
                   name="username"
                   value={formik.values.username}
                   onChange={formik.handleChange}
@@ -104,7 +104,7 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
-                  label={t("create.password")}
+                  label={t('create.password')}
                   name="password"
                   type="password"
                   value={formik.values.password}
@@ -118,7 +118,7 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
-                  label={t("create.email")}
+                  label={t('create.email')}
                   name="email"
                   type="email"
                   value={formik.values.email}
@@ -130,17 +130,17 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
-                  label={t("create.role.label")}
+                  label={t('create.role.label')}
                   name="role"
                   select
                   value={formik.values.role}
                   onChange={formik.handleChange}
                 >
                   <MenuItem value="user">
-                    {t("create.role.options.user")}
+                    {t('create.role.options.user')}
                   </MenuItem>
                   <MenuItem value="admin">
-                    {t("create.role.options.admin")}
+                    {t('create.role.options.admin')}
                   </MenuItem>
                 </TextField>
               </Grid>
@@ -148,12 +148,12 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, md: 6 }}>
                 <Autocomplete
                   fullWidth
-                  getOptionLabel={(option) => option.name || ""}
+                  getOptionLabel={(option) => option.name || ''}
                   renderInput={(params) => {
                     return (
                       <TextField
                         {...params}
-                        label={t("create.jobAssigned")}
+                        label={t('create.jobAssigned')}
                         error={
                           formik.touched.jobAssigned &&
                           Boolean(formik.errors.jobAssigned)
@@ -163,7 +163,7 @@ export const CreateUsersForm: React.FC = () => {
                           formik.errors.jobAssigned
                         }
                       />
-                    );
+                    )
                   }}
                   options={todos}
                 />
@@ -175,12 +175,12 @@ export const CreateUsersForm: React.FC = () => {
                 variant="contained"
                 disabled={formik.isSubmitting}
               >
-                {t("create.submit")}
+                {t('create.submit')}
               </Button>
             </Box>
           </form>
         </CardContent>
       </Card>
     </Box>
-  );
-};
+  )
+}
