@@ -8,6 +8,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  Box,
+  Stack,
 } from '@mui/material'
 import { getTranslations } from 'next-intl/server'
 import dayjs from 'dayjs'
@@ -30,6 +33,7 @@ const excludedKeys: (keyof User | string)[] = [
   'updatedAt',
   'jobAssigned',
 ]
+
 const keysToDisplay = (user: User): (keyof User)[] => {
   return Object.keys(user).filter(
     (key) => !excludedKeys.includes(key)
@@ -40,70 +44,88 @@ export default async function UsersTable(props: UsersTableProps) {
   const { users } = props
   const t = await getTranslations('Users')
   const keys = keysToDisplay(users[0])
+
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        mx: 'auto',
-        my: 6,
-        p: 2,
-        borderRadius: 2,
-        boxShadow: 3,
-      }}
-    >
-      <Table>
-        <TableHead>
-          <TableRow>
-            {keys.map((key) => (
-              <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
-            ))}
-            {Array(2)
-              .fill(null)
-              .map((_, i) => (
-                <TableCell key={`extra-${i}`} />
-              ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
+    <>
+      {/* Table for Desktop */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          mx: 'auto',
+          my: 6,
+          p: 2,
+          width: '60%',
+          borderRadius: 2,
+          boxShadow: 3,
+          display: { xs: 'none', sm: 'block' }, // hide on mobile
+          overflowX: 'auto',
+        }}
+      >
+        <Table sx={{ minWidth: 650 }}>
+          <TableHead>
+            <TableRow>
               {keys.map((key) => (
-                <TableCell key={key}>
+                <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
+              ))}
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.id}>
+                {keys.map((key) => (
+                  <TableCell key={key}>
+                    {typeof user[key] === 'string' && dayjs(user[key]).isValid()
+                      ? dayjs(user[key]).format('DD/MM/YYYY')
+                      : user[key]?.toString()}
+                  </TableCell>
+                ))}
+                <TableCell sx={{ textAlign: 'center' }}>
+                  <DeleteButton id={user.id} />
+                </TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
+                  <DetailButton id={user._id} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Card List for Mobile */}
+      <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
+        {users.map((user) => (
+          <Paper key={user.id} sx={{ p: 2, borderRadius: 2, boxShadow: 3 }}>
+            {keys.map((key) => (
+              <Box key={key} sx={{ mb: 0.5 }}>
+                <Typography variant="caption" color="text.secondary">
+                  {t(`columns.${key}`)}
+                </Typography>
+                <Typography variant="body1">
                   {typeof user[key] === 'string' && dayjs(user[key]).isValid()
                     ? dayjs(user[key]).format('DD/MM/YYYY')
                     : user[key]?.toString()}
-                </TableCell>
-              ))}
-              <TableCell sx={{ textAlign: 'center' }}>
-                <DeleteButton id={user.id} />
-              </TableCell>
-              <TableCell sx={{ textAlign: 'center' }}>
-                <DetailButton id={user._id} />
-              </TableCell>
-            </TableRow>
-          ))}
-          <TableRow>
-            <TableCell
-              colSpan={keys.length + 2}
-              sx={{
-                textAlign: 'center',
-                paddingTop: 24,
-                paddingBottom: 24,
-                py: 3,
-              }}
-            >
-              <Button variant="contained">
-                <Link
-                  href="/users/create"
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  {t('actions.add')}
-                </Link>
-              </Button>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+                </Typography>
+              </Box>
+            ))}
+
+            <Box display="flex" gap={1} mt={1}>
+              <DeleteButton id={user.id} />
+              <DetailButton id={user._id} />
+            </Box>
+          </Paper>
+        ))}
+
+        <Button variant="contained" sx={{ mt: 2, width: '100%' }}>
+          <Link
+            href="/users/create"
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            {t('actions.add')}
+          </Link>
+        </Button>
+      </Stack>
+    </>
   )
 }

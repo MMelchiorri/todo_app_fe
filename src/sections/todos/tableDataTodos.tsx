@@ -7,6 +7,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  Stack,
+  Box,
 } from '@mui/material'
 import dayjs from 'dayjs'
 import { Todo } from '@/type/Todo'
@@ -15,11 +18,11 @@ import Link from 'next/link'
 import DeleteButton from '@/sections/todos/DeleteButton'
 import DetailButton from '@/sections/todos/DetailButton'
 
-interface propsTodo {
+interface PropsTodo {
   todos: Todo[]
 }
 
-export default async function TodoTable(props: propsTodo) {
+export default async function TodoTable(props: PropsTodo) {
   const { todos } = props
   const excludedKeys = [
     '_id',
@@ -38,69 +41,83 @@ export default async function TodoTable(props: propsTodo) {
   const t = await getTranslations('Todos')
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        mx: 'auto',
-        my: 6,
-        p: 2,
-        borderRadius: 2,
-        boxShadow: 3,
-      }}
-    >
-      <Table>
-        <TableHead>
-          <TableRow>
-            {keys.map((key) => (
-              <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
-            ))}
-            {Array(2)
-              .fill(null)
-              .map((_, i) => (
-                <TableCell key={`extra-${i}`} />
-              ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {todos.map((todo) => (
-            <TableRow key={todo.id}>
+    <>
+      {/* Desktop Table */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          mx: 'auto',
+          my: 6,
+          p: 2,
+          borderRadius: 2,
+          boxShadow: 3,
+          display: { xs: 'none', sm: 'block' },
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow>
               {keys.map((key) => (
-                <TableCell key={key}>
+                <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
+              ))}
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {todos.map((todo) => (
+              <TableRow key={todo._id}>
+                {keys.map((key) => (
+                  <TableCell key={key}>
+                    {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
+                      ? dayjs(todo[key]).format('DD/MM/YYYY')
+                      : todo[key]?.toString() ?? 'N/A'}
+                  </TableCell>
+                ))}
+                <TableCell sx={{ textAlign: 'center' }}>
+                  <DeleteButton id={todo._id} />
+                </TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
+                  <DetailButton id={todo._id} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Mobile Cards */}
+      <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
+        {todos.map((todo) => (
+          <Paper key={todo._id} sx={{ p: 2, borderRadius: 2, boxShadow: 3 }}>
+            {keys.map((key) => (
+              <Box key={key} sx={{ mb: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  {t(`columns.${key}`)}
+                </Typography>
+                <Typography variant="body1">
                   {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
                     ? dayjs(todo[key]).format('DD/MM/YYYY')
                     : todo[key]?.toString() ?? 'N/A'}
-                </TableCell>
-              ))}
-              <TableCell sx={{ textAlign: 'center' }}>
-                <DeleteButton id={todo._id} />
-              </TableCell>
-              <TableCell sx={{ textAlign: 'center' }}>
-                <DetailButton id={todo._id} />
-              </TableCell>
-            </TableRow>
-          ))}
-          <TableRow>
-            <TableCell
-              colSpan={keys.length + 2}
-              sx={{
-                textAlign: 'center',
-                paddingTop: 24,
-                paddingBottom: 24,
-                py: 3,
-              }}
-            >
-              <Button variant="contained">
-                <Link
-                  href="/todos/create"
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  {t('actions.add')}
-                </Link>
-              </Button>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+                </Typography>
+              </Box>
+            ))}
+            <Box display="flex" gap={1} mt={1}>
+              <DeleteButton id={todo._id} />
+              <DetailButton id={todo._id} />
+            </Box>
+          </Paper>
+        ))}
+
+        <Button variant="contained" sx={{ mt: 2, width: '100%' }}>
+          <Link
+            href="/todos/create"
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            {t('actions.add')}
+          </Link>
+        </Button>
+      </Stack>
+    </>
   )
 }
