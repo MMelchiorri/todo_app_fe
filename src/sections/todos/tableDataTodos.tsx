@@ -10,7 +10,11 @@ import {
   Typography,
   Stack,
   Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import dayjs from 'dayjs'
 import { Todo } from '@/type/Todo'
 import { getTranslations } from 'next-intl/server'
@@ -86,27 +90,32 @@ export default async function TodoTable(props: PropsTodo) {
         </Table>
       </TableContainer>
 
-      {/* Mobile Cards */}
+      {/* Mobile Accordion */}
       <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
         {todos.map((todo) => (
-          <Paper key={todo._id} sx={{ p: 2, borderRadius: 2, boxShadow: 3 }}>
-            {keys.map((key) => (
-              <Box key={key} sx={{ mb: 1 }}>
-                <Typography variant="caption" color="text.secondary">
-                  {t(`columns.${key}`)}
-                </Typography>
-                <Typography variant="body1">
-                  {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
-                    ? dayjs(todo[key]).format('DD/MM/YYYY')
-                    : todo[key]?.toString() ?? 'N/A'}
-                </Typography>
+          <Accordion key={todo._id} sx={{ boxShadow: 3, borderRadius: 2 }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">{todo.name || 'Todo'}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {keys.map((key) => (
+                <Box key={key} sx={{ mb: 1 }}>
+                  <Typography variant="caption" color="text.secondary">
+                    {t(`columns.${key}`)}
+                  </Typography>
+                  <Typography variant="body1">
+                    {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
+                      ? dayjs(todo[key]).format('DD/MM/YYYY')
+                      : todo[key]?.toString() ?? 'N/A'}
+                  </Typography>
+                </Box>
+              ))}
+              <Box display="flex" gap={1} mt={1}>
+                <DeleteButton id={todo._id} />
+                <DetailButton id={todo._id} />
               </Box>
-            ))}
-            <Box display="flex" gap={1} mt={1}>
-              <DeleteButton id={todo._id} />
-              <DetailButton id={todo._id} />
-            </Box>
-          </Paper>
+            </AccordionDetails>
+          </Accordion>
         ))}
 
         <Button variant="contained" sx={{ mt: 2, width: '100%' }}>
