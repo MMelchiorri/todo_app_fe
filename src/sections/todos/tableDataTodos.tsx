@@ -133,6 +133,16 @@ export default function TodoTable(props: PropsTodo) {
           </TableBody>
         </Table>
       </TableContainer>
+      <Box display={'flex'} justifyContent={'center'}>
+        <Button variant="contained" sx={{ mt: 2 }}>
+          <Link
+            href="/todos/create"
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            {t('actions.add')}
+          </Link>
+        </Button>
+      </Box>
       {/* Mobile Accordion */}
       <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
         {todos.map((todo) => (
