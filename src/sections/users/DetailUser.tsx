@@ -66,7 +66,11 @@ export const DetailUser = ({ user, todo }: Props) => {
         )}
       </Grid>
       {selectedTodo && (
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid
+          size={{ xs: 12, md: 6 }}
+          display={'flex'}
+          justifyContent={'center'}
+        >
           <DetailTodo todo={selectedTodo} />
         </Grid>
       )}

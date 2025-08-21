@@ -10,7 +10,7 @@ export const DetailTodo = ({ todo }: DetailTodoProps) => {
 
   return (
     <Grid
-      size={{ xs: 6 }}
+      size={{ xs: 12, md: 4 }}
       sx={{
         color: 'black',
         backgroundColor: 'white',
