@@ -57,14 +57,40 @@ export default function TodoTable(props: PropsTodo) {
 
   return (
     <>
-      <Autocomplete
-        options={filterStatus}
-        onChange={(_, newValue) => setFilterStatus(newValue)}
-        renderInput={(params) => (
-          <TextField {...params} label="Status" placeholder="Select status" />
-        )}
-        sx={{ mb: 2, width: 250 }}
-      />
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
+        <Autocomplete
+          options={filterStatus}
+          value={filterStatus[0]} // seleziona solo uno
+          onChange={(_, newValue) => {
+            if (newValue) setFilterStatus([newValue])
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Select status"
+              variant="outlined"
+              size="small"
+              sx={{
+                bgcolor: 'background.paper',
+                boxShadow: 1,
+                borderRadius: 2,
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'grey.400',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'primary.main',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main',
+                  },
+                },
+              }}
+            />
+          )}
+          sx={{ width: 250 }}
+        />
+      </Box>
       <TableContainer
         component={Paper}
         sx={{
