@@ -25,7 +25,7 @@ type ValuesFormType = {
   password: string
   email: string
   role: string
-  jobAssigned?: string[]
+  jobAssigned: string[]
 }
 
 export const CreateUsersForm: React.FC = () => {
