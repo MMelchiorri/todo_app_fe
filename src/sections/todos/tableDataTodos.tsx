@@ -26,6 +26,7 @@ import Link from 'next/link'
 import DeleteButton from '@/sections/todos/DeleteButton'
 import DetailButton from '@/sections/todos/DetailButton'
 import { useState } from 'react'
+import { flex } from '@mui/system'
 
 interface PropsTodo {
   todos: Todo[]
@@ -37,6 +38,9 @@ export default function TodoTable(props: PropsTodo) {
     Array.from(
       new Set(todos.map((todo) => (todo.completed ? 'completed' : 'pending')))
     )
+  )
+  const [filterAssigned, setFilterAssigned] = useState<string[]>(
+    Array.from(new Set(todos.map((todo) => todo.assignedTo)))
   )
 
   const excludedKeys = [
@@ -57,40 +61,69 @@ export default function TodoTable(props: PropsTodo) {
 
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
-        <Autocomplete
-          options={filterStatus}
-          value={filterStatus[0]} // seleziona solo uno
-          onChange={(_, newValue) => {
-            if (newValue) setFilterStatus([newValue])
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              placeholder="Select status"
-              variant="outlined"
-              size="small"
-              sx={{
-                bgcolor: 'background.paper',
-                boxShadow: 1,
-                borderRadius: 2,
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'grey.400',
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: { xs: 'center', sm: 'flex-end' },
+          m: 2,
+        }}
+      >
+        <Box display={{ xs: 'block', sm: 'flex' }} gap={2}>
+          <Autocomplete
+            options={filterAssigned}
+            value={filterAssigned[0]}
+            onChange={(_, newValue) => {
+              if (newValue) setFilterAssigned([newValue])
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Select assigned"
+                variant="outlined"
+                size="small"
+                sx={{
+                  bgcolor: 'background.paper',
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': { borderColor: 'grey.400' },
+                    '&:hover fieldset': { borderColor: 'primary.main' },
+                    '&.Mui-focused fieldset': { borderColor: 'primary.main' },
                   },
-                  '&:hover fieldset': {
-                    borderColor: 'primary.main',
+                }}
+              />
+            )}
+            sx={{ width: 250 }}
+          />
+          <Autocomplete
+            options={filterStatus}
+            value={filterStatus[0]}
+            onChange={(_, newValue) => {
+              if (newValue) setFilterStatus([newValue])
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Select status"
+                variant="outlined"
+                size="small"
+                sx={{
+                  bgcolor: 'background.paper',
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': { borderColor: 'grey.400' },
+                    '&:hover fieldset': { borderColor: 'primary.main' },
+                    '&.Mui-focused fieldset': { borderColor: 'primary.main' },
                   },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'primary.main',
-                  },
-                },
-              }}
-            />
-          )}
-          sx={{ width: 250 }}
-        />
+                }}
+              />
+            )}
+            sx={{ width: 250 }}
+          />
+        </Box>
       </Box>
+
       <TableContainer
         component={Paper}
         sx={{
@@ -134,16 +167,7 @@ export default function TodoTable(props: PropsTodo) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box display={'flex'} justifyContent={'center'}>
-        <Button variant="contained" sx={{ mt: 2 }}>
-          <Link
-            href="/todos/create"
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            {t('actions.add')}
-          </Link>
-        </Button>
-      </Box>
+
       {/* Mobile Accordion */}
       <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
         {todos.map((todo) => (
@@ -171,8 +195,10 @@ export default function TodoTable(props: PropsTodo) {
             </AccordionDetails>
           </Accordion>
         ))}
-
-        <Button variant="contained" sx={{ mt: 2, width: '100%' }}>
+      </Stack>
+      {/* Add Button */}
+      <Box display={'flex'} justifyContent={'center'}>
+        <Button variant="contained" sx={{ mt: 2 }}>
           <Link
             href="/todos/create"
             style={{ color: 'inherit', textDecoration: 'none' }}
@@ -180,7 +206,7 @@ export default function TodoTable(props: PropsTodo) {
             {t('actions.add')}
           </Link>
         </Button>
-      </Stack>
+      </Box>
     </>
   )
 }
