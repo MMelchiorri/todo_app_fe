@@ -23,8 +23,7 @@ export const DetailUser = ({ user, todo }: Props) => {
     <Grid
       container
       display={'flex'}
-      justifyContent="space-around"
-      alignItems={'flex-start'}
+      justifyContent="space-evenly"
       sx={{ mt: 4 }}
     >
       <Grid

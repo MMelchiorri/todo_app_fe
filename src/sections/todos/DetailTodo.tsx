@@ -1,32 +1,70 @@
 import { Todo } from '@/type/Todo'
-import { Grid, Typography } from '@mui/material'
+import { Card, CardContent, Typography, Chip, Stack } from '@mui/material'
+import { CheckCircle, HourglassEmpty } from '@mui/icons-material'
 
 type DetailTodoProps = {
   todo: Todo
 }
 
 export const DetailTodo = ({ todo }: DetailTodoProps) => {
-  console.log(todo)
+  const statusColor = todo.completed ? 'success' : 'warning'
+  const StatusIcon = todo.completed ? CheckCircle : HourglassEmpty
 
   return (
-    <Grid
-      size={{ xs: 12, md: 4 }}
+    <Card
       sx={{
-        color: 'black',
-        backgroundColor: 'white',
-        borderRadius: 4,
-        p: 3,
+        borderRadius: 3,
+        boxShadow: 3,
         mt: 4,
-        '@media (max-width:769px)': {
-          width: '80%',
+        transition: '0.3s',
+        '&:hover': {
+          boxShadow: 6,
+          transform: 'translateY(-3px)',
         },
       }}
     >
-      <Grid container>
-        <Typography variant="h6" fontWeight="bold">
-          {todo.name}
-        </Typography>
-      </Grid>
-    </Grid>
+      <CardContent>
+        <Stack spacing={1.5}>
+          {/* Titolo */}
+          <Typography variant="h6" fontWeight="bold" color="primary">
+            {todo.name}
+          </Typography>
+
+          {/* Descrizione */}
+          <Typography variant="body1" color="text.secondary">
+            {todo.description}
+          </Typography>
+
+          {/* Stato */}
+          <Chip
+            label={todo.completed ? 'Completed' : 'In Progress'}
+            color={statusColor}
+            icon={<StatusIcon />}
+            sx={{ alignSelf: 'flex-start', mt: 1 }}
+          />
+
+          {/* Data */}
+          <Typography variant="body2" color="text.disabled">
+            Created at: {new Date(todo.createdAt).toLocaleDateString()}
+          </Typography>
+
+          {/* Priorità */}
+          <Typography
+            variant="body2"
+            fontWeight="medium"
+            sx={{
+              color:
+                todo.priority === 'High'
+                  ? 'error.main'
+                  : todo.priority === 'Medium'
+                  ? 'warning.main'
+                  : 'success.main',
+            }}
+          >
+            Priority: {todo.priority}
+          </Typography>
+        </Stack>
+      </CardContent>
+    </Card>
   )
 }
