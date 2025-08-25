@@ -111,7 +111,7 @@ export default async function UsersTable(props: UsersTableProps) {
             ))}
 
             <Box display="flex" gap={1} mt={1}>
-              <DeleteButton id={user.id} />
+              <DeleteButton id={user._id} />
               <DetailButton id={user._id} />
             </Box>
           </Paper>
