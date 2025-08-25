@@ -58,7 +58,6 @@ export default function TodoTable(props: PropsTodo) {
   ) as (keyof Todo)[]
   const t = useTranslations('Todos')
 
-  // Funzione di supporto per verificare se una stringa è una data valida ISO
   const isDate = (value: string) =>
     /^\d{4}-\d{2}-\d{2}T/.test(value) || /^\d{4}-\d{2}-\d{2}$/.test(value)
 
@@ -69,7 +68,6 @@ export default function TodoTable(props: PropsTodo) {
     return value?.toString() ?? 'N/A'
   }
 
-  // Filtraggio dinamico
   const filteredTodos = todos.filter((todo) => {
     const statusMatch =
       filterStatus.length === 0 ||
@@ -81,7 +79,6 @@ export default function TodoTable(props: PropsTodo) {
 
   return (
     <>
-      {/* Filtri */}
       <Box
         sx={{
           display: 'flex',
