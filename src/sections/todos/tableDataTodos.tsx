@@ -58,6 +58,17 @@ export default function TodoTable(props: PropsTodo) {
   ) as (keyof Todo)[]
   const t = useTranslations('Todos')
 
+  // Funzione di supporto per verificare se una stringa è una data valida ISO
+  const isDate = (value: string) =>
+    /^\d{4}-\d{2}-\d{2}T/.test(value) || /^\d{4}-\d{2}-\d{2}$/.test(value)
+
+  const formatValue = (value: unknown) => {
+    if (typeof value === 'string' && isDate(value)) {
+      return dayjs(value).format('DD/MM/YYYY')
+    }
+    return value?.toString() ?? 'N/A'
+  }
+
   // Filtraggio dinamico
   const filteredTodos = todos.filter((todo) => {
     const statusMatch =
@@ -70,6 +81,7 @@ export default function TodoTable(props: PropsTodo) {
 
   return (
     <>
+      {/* Filtri */}
       <Box
         sx={{
           display: 'flex',
@@ -135,6 +147,7 @@ export default function TodoTable(props: PropsTodo) {
         </Box>
       </Box>
 
+      {/* Tabella Desktop */}
       <TableContainer
         component={Paper}
         sx={{
@@ -161,11 +174,7 @@ export default function TodoTable(props: PropsTodo) {
             {filteredTodos.map((todo) => (
               <TableRow key={todo._id}>
                 {keys.map((key) => (
-                  <TableCell key={key}>
-                    {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
-                      ? dayjs(todo[key]).format('DD/MM/YYYY')
-                      : todo[key]?.toString() ?? 'N/A'}
-                  </TableCell>
+                  <TableCell key={key}>{formatValue(todo[key])}</TableCell>
                 ))}
                 <TableCell sx={{ textAlign: 'center' }}>
                   <DeleteButton id={todo._id} />
@@ -193,9 +202,7 @@ export default function TodoTable(props: PropsTodo) {
                     {t(`columns.${key}`)}
                   </Typography>
                   <Typography variant="body1">
-                    {typeof todo[key] === 'string' && dayjs(todo[key]).isValid()
-                      ? dayjs(todo[key]).format('DD/MM/YYYY')
-                      : todo[key]?.toString() ?? 'N/A'}
+                    {formatValue(todo[key])}
                   </Typography>
                 </Box>
               ))}
