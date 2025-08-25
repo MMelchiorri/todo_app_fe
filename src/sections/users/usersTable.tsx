@@ -15,7 +15,7 @@ import {
 import { getTranslations } from 'next-intl/server'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import DeleteButton from '@/sections/todos/DeleteButton'
+import DeleteButton from '@/sections/users/DeleteButton'
 import DetailButton from '@/sections/users/DetailButton'
 
 type UsersTableProps = {
