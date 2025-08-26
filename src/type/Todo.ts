@@ -9,7 +9,7 @@ export type Todo = {
   assignedTo: string
   dueDate: Date
   reminder: boolean
-  reminderDate?: Date
+  reminderDate: Date
   createdAt: Date
   priority: string
 }
