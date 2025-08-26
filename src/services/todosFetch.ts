@@ -60,7 +60,7 @@ export const deleteTodo = async (id: string): Promise<void> => {
   }
 }
 
-export const getTodoById = async (id: string): Promise<Todo | null> => {
+export const getTodoById = async (id: string): Promise<Todo> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/todos/${id}`,
@@ -72,6 +72,6 @@ export const getTodoById = async (id: string): Promise<Todo | null> => {
     return await res.json()
   } catch (error) {
     console.error('Error fetching todo:', error)
-    return null
+    return {} as Todo
   }
 }

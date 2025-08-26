@@ -1,5 +1,6 @@
 import { getTodoById } from '@/services/todosFetch'
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material'
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import EditIcon from '@mui/icons-material/Edit'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
@@ -34,7 +35,9 @@ export default async function Page({ params }: { params: { _id: string } }) {
           <Typography variant="subtitle1">{t('details.title')}</Typography>
         </Box>
         <IconButton size="small" sx={{ color: 'black' }}>
-          <EditIcon fontSize="small" />
+          <Link href={`/todos/${todo._id}/edit`}>
+            <EditIcon fontSize="small" />
+          </Link>
         </IconButton>
       </Box>
 

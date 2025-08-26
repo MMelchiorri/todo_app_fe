@@ -1,26 +1,29 @@
-import { getUserById } from '@/services/usersFetch'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Paper, Typography, TextField, Box } from '@mui/material'
 import { getTranslations } from 'next-intl/server'
 import { getTodoById } from '@/services/todosFetch'
-import { Todo } from '@/type/Todo'
-import { DetailUser } from '@/sections/users/DetailUser'
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params
-  const user = await getUserById(_id)
-  const jobAssigned = (
-    await Promise.all(user?.jobAssigned?.map(getTodoById) || [])
-  ).filter((job): job is Todo => job !== null)
-  const t = await getTranslations('Users')
+  const todo = await getTodoById(_id)
 
-  if (!user) {
-    return <Typography>{t('details.notFound')}</Typography>
-  }
+  const t = await getTranslations('Todos')
 
   return (
-    <Grid container>
-      <Grid size={{ xs: 12 }}>
-        <DetailUser user={user} todo={jobAssigned} />
+    <Grid container display={'flex'} justifyContent={'center'}>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <Paper elevation={6}>
+          <Typography variant={'h3'}>{t('edit.title')}</Typography>
+          {Object.keys(todo).map((key) => (
+            <Box key={key} margin={2}>
+              <TextField
+                fullWidth
+                label={key}
+                defaultValue={(todo as never)[key]}
+                variant="outlined"
+              />
+            </Box>
+          ))}
+        </Paper>
       </Grid>
     </Grid>
   )

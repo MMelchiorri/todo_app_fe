@@ -48,6 +48,30 @@
             "inProgress": "In Progress"
         }
     },
+    "edit": {
+      "title": "Edit Todo",
+      "name": "Todo Name",
+      "description": "Description",
+      "tags": "Tags (comma separated)",
+      "category": "Category",
+      "assignedTo": "Assigned To",
+      "dueDate": "Due Date",
+      "reminder": "Reminder",
+      "priority": "Priority",
+      "submit": "Update Todo",
+        "priorityOptions": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        },
+      "reminderDate": "Reminder Date",
+      "status": "Status",
+        "statusOptions": {
+            "pending": "Pending",
+            "completed": "Completed",
+            "inProgress": "In Progress"
+        }
+    },
     "details": {
       "title": "Todo Details",
       "name": "Todo Name",
