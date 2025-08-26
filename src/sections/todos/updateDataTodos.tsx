@@ -20,6 +20,7 @@ import { postTodo } from '@/services/todosFetch'
 import { useRouter } from 'next/navigation'
 
 import { Todo } from '@/type/Todo'
+import { todoSchema } from '@/sections/todos/todoSchema'
 
 type ValuesFormType = {
   name: string
@@ -82,22 +83,36 @@ const UpdateTodoForm: React.FC<UpdateTodoFormProps> = ({
 
   return (
     <>
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={todoSchema}
+      >
         {(props) => (
           <form onSubmit={props.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid size={{ xs: 12 }}>
+            <Grid
+              container
+              spacing={3}
+              display={'flex'}
+              justifyContent={'center'}
+            >
+              <Grid size={{ xs: 12, md: 6 }}>
                 <Card>
                   <CardHeader title={t('edit.title')} />
                   <CardContent>
                     <Grid container spacing={3}>
-                      <Grid size={{ xs: 12, md: 6 }}>
+                      <Grid size={{ xs: 12, md: 4 }} justifyContent={'center'}>
                         <TextField
                           fullWidth
                           label={t('edit.name')}
                           name="name"
                           value={props.values.name}
                           onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          error={
+                            props.touched.name && Boolean(props.errors.name)
+                          }
+                          helperText={props.touched.name && props.errors.name}
                         />
                       </Grid>
                     </Grid>
