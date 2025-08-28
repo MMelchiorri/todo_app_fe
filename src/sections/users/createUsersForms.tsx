@@ -148,24 +148,25 @@ export const CreateUsersForm: React.FC = () => {
               <Grid size={{ xs: 12, md: 6 }}>
                 <Autocomplete
                   fullWidth
-                  getOptionLabel={(option) => option.name || ''}
-                  renderInput={(params) => {
-                    return (
-                      <TextField
-                        {...params}
-                        label={t('create.jobAssigned')}
-                        error={
-                          formik.touched.jobAssigned &&
-                          Boolean(formik.errors.jobAssigned)
-                        }
-                        helperText={
-                          formik.touched.jobAssigned &&
-                          formik.errors.jobAssigned
-                        }
-                      />
-                    )
-                  }}
                   options={todos}
+                  getOptionLabel={(option) => option.name || ''}
+                  value={formik.values.jobAssigned}
+                  onChange={(_, value) => {
+                    formik.setFieldValue('jobAssigned', value)
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={t('create.jobAssigned')}
+                      error={
+                        formik.touched.jobAssigned &&
+                        Boolean(formik.errors.jobAssigned)
+                      }
+                      helperText={
+                        formik.touched.jobAssigned && formik.errors.jobAssigned
+                      }
+                    />
+                  )}
                 />
               </Grid>
             </Grid>
