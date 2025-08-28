@@ -146,12 +146,18 @@ export const CreateUsersForm: React.FC = () => {
 
               <Grid size={{ xs: 12, md: 6 }}>
                 <Autocomplete
+                  multiple
                   fullWidth
                   options={todos}
                   getOptionLabel={(option) => option.name || ''}
-                  value={formik.values.jobAssigned}
+                  value={todos.filter((todo) =>
+                    formik.values.jobAssigned.includes(todo.id)
+                  )}
                   onChange={(_, value) => {
-                    formik.setFieldValue('jobAssigned', value)
+                    formik.setFieldValue(
+                      'jobAssigned',
+                      value.map((v) => v.id)
+                    )
                   }}
                   renderInput={(params) => (
                     <TextField
