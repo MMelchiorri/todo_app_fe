@@ -58,7 +58,6 @@ export const CreateUsersForm: React.FC = () => {
       try {
         const todos = await fetchTodos()
         setTodos(todos)
-        await formik.setFieldValue('jobAssigned', todos)
       } catch (error) {
         console.error('Failed to fetch todos:', error)
       }
