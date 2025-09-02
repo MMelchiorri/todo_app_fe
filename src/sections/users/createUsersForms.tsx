@@ -151,12 +151,12 @@ export const CreateUsersForm: React.FC = () => {
                   options={todos}
                   getOptionLabel={(option) => option.name || ''}
                   value={todos.filter((todo) =>
-                    formik.values.jobAssigned.includes(todo.id)
+                    formik.values.jobAssigned.includes(todo._id)
                   )}
                   onChange={(_, value) => {
                     formik.setFieldValue(
                       'jobAssigned',
-                      value.map((v) => v.id)
+                      value.map((v) => v._id)
                     )
                   }}
                   renderInput={(params) => (
