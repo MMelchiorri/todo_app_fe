@@ -8,6 +8,7 @@ import { User } from '@/type/Users'
 import { Todo } from '@/type/Todo'
 import { DetailTodo } from '@/sections/todos/DetailTodo'
 import { useState } from 'react'
+import Link from 'next/link'
 
 type Props = {
   user: User
@@ -47,7 +48,9 @@ export const DetailUser = ({ user, todo }: Props) => {
         >
           <BackButton />
           <IconButton size="small" sx={{ color: 'black' }}>
-            <EditIcon fontSize="small" />
+            <Link href={`/users/${user._id}/edit`}>
+              <EditIcon fontSize="small" />
+            </Link>
           </IconButton>
         </Box>
 
