@@ -1,19 +1,7 @@
 'use client'
 
-import React from 'react'
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Grid,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Box,
-  Button,
-  MenuItem,
-  Autocomplete,
-} from '@mui/material'
+import React, { useContext } from 'react'
+import { Card, CardHeader, CardContent, Grid, TextField } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { Formik } from 'formik'
 import { postTodo } from '@/services/todosFetch'
@@ -21,6 +9,7 @@ import { useRouter } from 'next/navigation'
 
 import { Todo } from '@/type/Todo'
 import { todoSchema } from '@/sections/todos/todoSchema'
+import { UserContext } from '@/context'
 
 type ValuesFormType = {
   name: string
@@ -46,6 +35,8 @@ const UpdateTodoForm: React.FC<UpdateTodoFormProps> = ({
 }: UpdateTodoFormProps) => {
   const t = useTranslations('Todos')
   const router = useRouter()
+  const user = useContext(UserContext)
+  console.log(user)
 
   const initialValues: ValuesFormType = {
     name: todo.name,

@@ -49,18 +49,13 @@ export async function postUser(user: CreateUserPayload): Promise<User | null> {
   }
 }
 
-export async function getUserById(id: string): Promise<User | null> {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users/${id}`,
-      {
-        method: 'GET',
-        cache: 'no-store',
-      }
-    )
-    return await res.json()
-  } catch (error) {
-    console.error('Error fetching user:', error)
-    return null // Return null or an empty object as a fallback
-  }
+export async function getUserById(id: string): Promise<User> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users/${id}`,
+    {
+      method: 'GET',
+      cache: 'no-store',
+    }
+  )
+  return await res.json()
 }
