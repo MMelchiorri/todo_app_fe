@@ -43,8 +43,10 @@ const CreateTodoForm: React.FC = () => {
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
   const [user, setUser] = useState<string>('')
-  const userOptions = users.map((user) => user.username)
-
+  const userOptions = users.map((user) => ({
+    id: user._id,
+    username: user.username,
+  }))
   useEffect(() => {
     ;(async () => {
       const fetchedUsers = await fetchUsers()
@@ -187,16 +189,21 @@ const CreateTodoForm: React.FC = () => {
                   </Grid>
                   <Grid size={{ xs: 12, md: 6 }}>
                     <Autocomplete
-                      value={user}
+                      value={
+                        userOptions.find((u) => u.username === user) || null
+                      }
                       fullWidth
                       onBlur={() => {
                         setFieldTouched('assignedTo', true)
                       }}
                       options={userOptions}
                       onChange={(event, newValue) => {
-                        setUser(newValue || '')
-                        setFieldValue('assignedTo', newValue || '')
+                        setUser(newValue?.username || '')
+                        setFieldValue('assignedTo', newValue?.id || '')
                       }}
+                      getOptionLabel={(option) =>
+                        typeof option === 'string' ? option : option.username
+                      }
                       renderInput={(params) => (
                         <TextField
                           {...params}
