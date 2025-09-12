@@ -15,7 +15,6 @@ export const UserProvider: FC<PropsWithChildren<UserProviderProps>> = (
   const { id, children } = props
   const [user, setUser] = useState<User>()
   const fetchUser = async (): Promise<User> => {
-    console.log('Fetching user with id:', id)
     const fetchedUser = await getUserById(id)
     setUser(fetchedUser)
     return fetchedUser
