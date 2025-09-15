@@ -1,6 +1,14 @@
 import { Todo } from '@/type/Todo'
-import { Card, CardContent, Typography, Chip, Stack } from '@mui/material'
-import { CheckCircle, HourglassEmpty } from '@mui/icons-material'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Chip,
+  Stack,
+  Divider,
+  Box,
+} from '@mui/material'
+import { CheckCircle, HourglassEmpty, Flag } from '@mui/icons-material'
 
 type DetailTodoProps = {
   todo: Todo
@@ -13,56 +21,66 @@ export const DetailTodo = ({ todo }: DetailTodoProps) => {
   return (
     <Card
       sx={{
-        borderRadius: 3,
-        boxShadow: 3,
+        borderRadius: 4,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
         mt: 4,
         transition: '0.3s',
         '&:hover': {
-          boxShadow: 6,
+          boxShadow: '0 6px 16px rgba(0,0,0,0.15)',
           transform: 'translateY(-3px)',
         },
       }}
     >
       <CardContent>
-        <Stack spacing={1.5}>
-          {/* Titolo */}
-          <Typography variant="h6" fontWeight="bold" color="primary">
+        <Stack spacing={2}>
+          <Typography variant="h5" fontWeight="bold" color="primary">
             {todo.name}
           </Typography>
 
-          {/* Descrizione */}
-          <Typography variant="body1" color="text.secondary">
-            {todo.description}
-          </Typography>
+          {todo.description && (
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ lineHeight: 1.6 }}
+            >
+              {todo.description}
+            </Typography>
+          )}
 
-          {/* Stato */}
-          <Chip
-            label={todo.completed ? 'Completed' : 'In Progress'}
-            color={statusColor}
-            icon={<StatusIcon />}
-            sx={{ alignSelf: 'flex-start', mt: 1 }}
-          />
+          <Divider />
 
-          {/* Data */}
-          <Typography variant="body2" color="text.disabled">
-            Created at: {new Date(todo.createdAt).toLocaleDateString()}
-          </Typography>
-
-          {/* Priorità */}
-          <Typography
-            variant="body2"
-            fontWeight="medium"
-            sx={{
-              color:
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Chip
+              label={todo.completed ? 'Completed' : 'In Progress'}
+              color={statusColor}
+              icon={<StatusIcon />}
+              sx={{ fontWeight: 'medium' }}
+            />
+            <Chip
+              label={`Priority: ${todo.priority}`}
+              color={
                 todo.priority === 'High'
-                  ? 'error.main'
+                  ? 'error'
                   : todo.priority === 'Medium'
-                  ? 'warning.main'
-                  : 'success.main',
-            }}
-          >
-            Priority: {todo.priority}
-          </Typography>
+                  ? 'warning'
+                  : 'success'
+              }
+              icon={<Flag />}
+              variant="outlined"
+            />
+          </Stack>
+
+          <Divider />
+
+          <Box>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              fontStyle="italic"
+            >
+              Created at: {new Date(todo.createdAt).toLocaleDateString()}
+            </Typography>
+          </Box>
         </Stack>
       </CardContent>
     </Card>
