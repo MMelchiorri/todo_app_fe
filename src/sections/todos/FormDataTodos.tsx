@@ -48,9 +48,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
   const router = useRouter()
   const { todo } = props
   const [users, setUsers] = useState<User[]>([])
-  const [user, setUser] = useState<string>('')
   const userOptions = users.map((user) => ({
-    id: user._id,
     username: user.username,
   }))
   useEffect(() => {
@@ -196,7 +194,9 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                   <Grid size={{ xs: 12, md: 6 }}>
                     <Autocomplete
                       value={
-                        userOptions.find((u) => u.username === user) || null
+                        values.assignedTo
+                          ? { username: values.assignedTo }
+                          : null
                       }
                       fullWidth
                       onBlur={() => {
@@ -204,8 +204,10 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       }}
                       options={userOptions}
                       onChange={(event, newValue) => {
-                        setUser(newValue?.username || '')
-                        setFieldValue('assignedTo', newValue?.id || '')
+                        setFieldValue(
+                          'assignedTo',
+                          newValue ? newValue.username : ''
+                        )
                       }}
                       getOptionLabel={(option) =>
                         typeof option === 'string' ? option : option.username
