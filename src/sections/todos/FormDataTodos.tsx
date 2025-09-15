@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -16,11 +16,10 @@ import {
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { Formik } from 'formik'
-import { postTodo } from '@/services/todosFetch'
+import { postTodo, updateTodoById } from '@/services/todosFetch'
 import { todoSchema } from '@/sections/todos/todoSchema'
 import { useRouter } from 'next/navigation'
 import { fetchUsers } from '@/services/usersFetch'
-import { useEffect, useState } from 'react'
 import { User } from '@/type/Users'
 import { Todo } from '@/type/Todo'
 
@@ -43,14 +42,12 @@ interface TodoFormProps {
   todo?: Todo
 }
 
-const TodoForm: React.FC<TodoFormProps> = (props) => {
+const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
   const t = useTranslations('Todos')
   const router = useRouter()
-  const { todo } = props
   const [users, setUsers] = useState<User[]>([])
-  const userOptions = users.map((user) => ({
-    username: user.username,
-  }))
+  const userOptions = users.map((user) => ({ username: user.username }))
+
   useEffect(() => {
     ;(async () => {
       const fetchedUsers = await fetchUsers()
@@ -92,6 +89,8 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
     tags: '',
   }
 
+  const formatDateForInput = (date: Date) => date.toISOString().split('T')[0]
+
   const onSubmit = async (
     values: ValuesFormType,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -105,9 +104,13 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
         : undefined,
       tags: values.tags.split(',').map((tag) => tag.trim()),
     }
-    await postTodo(formattedValues)
-    router.push('/todos')
 
+    if (todo) {
+      await updateTodoById(todo._id, formattedValues)
+    } else {
+      await postTodo(formattedValues)
+    }
+    router.push('/todos')
     setSubmitting(false)
   }
 
@@ -129,7 +132,10 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
           boxShadow: 3,
         }}
       >
-        <CardHeader title={t('create.title')} sx={{ textAlign: 'center' }} />
+        <CardHeader
+          title={todo ? t('edit.title') : t('create.title')}
+          sx={{ textAlign: 'center' }}
+        />
 
         <Formik
           initialValues={todo ? mapTodoToValues(todo) : initialValues}
@@ -153,19 +159,17 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={todo ? t('create.name') : t('update.name')}
+                      label={todo ? t('edit.name') : t('create.name')}
                       variant="outlined"
                       name="name"
                       value={values.name}
                       onChange={handleChange}
-                      onBlur={() => {
-                        setFieldTouched('name', true)
-                      }}
+                      onBlur={() => setFieldTouched('name', true)}
                       error={Boolean(errors.name && touched.name)}
-                      required
                       helperText={
                         errors.name && touched.name ? errors.name : ''
                       }
+                      required
                     />
                   </Grid>
 
@@ -177,9 +181,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       name="description"
                       value={values.description}
                       onChange={handleChange}
-                      onBlur={() => {
-                        setFieldTouched('description', true)
-                      }}
+                      onBlur={() => setFieldTouched('description', true)}
                       error={Boolean(errors.description && touched.description)}
                       helperText={
                         errors.description && touched.description
@@ -198,9 +200,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       name="category"
                       value={values.category}
                       onChange={handleChange}
-                      onBlur={() => {
-                        setFieldTouched('category', true)
-                      }}
+                      onBlur={() => setFieldTouched('category', true)}
                       error={Boolean(errors.category && touched.category)}
                       helperText={
                         errors.category && touched.category
@@ -210,6 +210,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       required
                     />
                   </Grid>
+
                   <Grid size={{ xs: 12, md: 6 }}>
                     <Autocomplete
                       value={
@@ -217,25 +218,22 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                           ? { username: values.assignedTo }
                           : null
                       }
-                      fullWidth
-                      onBlur={() => {
-                        setFieldTouched('assignedTo', true)
-                      }}
                       options={userOptions}
-                      onChange={(event, newValue) => {
+                      getOptionLabel={(option) =>
+                        typeof option === 'string' ? option : option.username
+                      }
+                      onChange={(event, newValue) =>
                         setFieldValue(
                           'assignedTo',
                           newValue ? newValue.username : ''
                         )
-                      }}
-                      getOptionLabel={(option) =>
-                        typeof option === 'string' ? option : option.username
                       }
+                      onBlur={() => setFieldTouched('assignedTo', true)}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          name="assignedTo"
                           label={t('create.assignedTo')}
+                          name="assignedTo"
                           error={Boolean(
                             errors.assignedTo && touched.assignedTo
                           )}
@@ -256,15 +254,17 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       type="date"
                       variant="outlined"
                       name="dueDate"
-                      value={values.dueDate}
-                      onChange={handleChange}
+                      value={formatDateForInput(values.dueDate)}
+                      onChange={(e) =>
+                        setFieldValue('dueDate', new Date(e.target.value))
+                      }
                       onBlur={handleBlur}
                       helperText={
                         touched.dueDate && typeof errors.dueDate === 'string'
                           ? errors.dueDate
                           : ''
                       }
-                      slotProps={{ inputLabel: { shrink: true } }}
+                      InputLabelProps={{ shrink: true }}
                     />
                   </Grid>
 
@@ -289,15 +289,18 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       type="date"
                       variant="outlined"
                       name="reminderDate"
-                      value={values.reminderDate}
-                      onChange={handleChange}
+                      value={formatDateForInput(values.reminderDate)}
+                      onChange={(e) =>
+                        setFieldValue('reminderDate', new Date(e.target.value))
+                      }
                       onBlur={handleBlur}
                       helperText={
-                        touched.dueDate && typeof errors.dueDate === 'string'
-                          ? errors.dueDate
+                        touched.reminderDate &&
+                        typeof errors.reminderDate === 'string'
+                          ? errors.reminderDate
                           : ''
                       }
-                      slotProps={{ inputLabel: { shrink: true } }}
+                      InputLabelProps={{ shrink: true }}
                     />
                   </Grid>
 
@@ -364,13 +367,13 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                   </Grid>
                 </Grid>
 
-                <Box sx={{ mt: 10 }} textAlign="center">
+                <Box sx={{ mt: 4, textAlign: 'center' }}>
                   <Button
                     type="submit"
                     variant="contained"
                     disabled={isSubmitting}
                   >
-                    {todo ? t('create.submit') : t('update.submit')}
+                    {todo ? t('edit.submit') : t('create.submit')}
                   </Button>
                 </Box>
               </CardContent>
