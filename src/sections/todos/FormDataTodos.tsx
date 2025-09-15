@@ -153,7 +153,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
-                      label={t('create.name')}
+                      label={todo ? t('create.name') : t('update.name')}
                       variant="outlined"
                       name="name"
                       value={values.name}
@@ -370,7 +370,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                     variant="contained"
                     disabled={isSubmitting}
                   >
-                    {t('create.submit')}
+                    {todo ? t('create.submit') : t('update.submit')}
                   </Button>
                 </Box>
               </CardContent>
