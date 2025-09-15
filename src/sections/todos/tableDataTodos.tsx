@@ -33,7 +33,6 @@ interface PropsTodo {
 
 export default function TodoTable(props: PropsTodo) {
   const { todos } = props
-  console.log(todos)
   const [filterStatus, setFilterStatus] = useState<string[]>(
     Array.from(
       new Set(todos.map((todo) => (todo.completed ? 'completed' : 'pending')))
@@ -42,7 +41,6 @@ export default function TodoTable(props: PropsTodo) {
   const [filterAssigned, setFilterAssigned] = useState<string[]>(
     Array.from(new Set(todos.map((todo) => todo.assignedTo)))
   )
-  console.log(filterAssigned)
 
   const excludedKeys = [
     '_id',

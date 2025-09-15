@@ -15,7 +15,7 @@ import {
   Autocomplete,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { Formik, useFormik } from 'formik'
+import { Formik } from 'formik'
 import { postTodo } from '@/services/todosFetch'
 import { todoSchema } from '@/sections/todos/todoSchema'
 import { useRouter } from 'next/navigation'
@@ -30,9 +30,9 @@ type ValuesFormType = {
   completed: boolean
   category: string
   assignedTo: string
-  dueDate: string
+  dueDate: Date
   reminder: boolean
-  reminderDate: string
+  reminderDate: Date
   createdAt: Date
   priority: 'low' | 'medium' | 'high'
   status: 'todo' | 'in-progress' | 'done'
@@ -58,15 +58,34 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
     })()
   }, [])
 
+  const mapTodoToValues = (todo: Todo): ValuesFormType => ({
+    name: todo.name || '',
+    description: todo.description || '',
+    completed: todo.completed ?? false,
+    category: todo.category || '',
+    assignedTo: todo.assignedTo || '',
+    dueDate: todo.dueDate ? new Date(todo.dueDate) : new Date(),
+    reminder: todo.reminder ?? false,
+    reminderDate: todo.reminderDate ? new Date(todo.reminderDate) : new Date(),
+    createdAt: todo.createdAt ? new Date(todo.createdAt) : new Date(),
+    priority: ['low', 'medium', 'high'].includes(todo.priority)
+      ? (todo.priority as 'low' | 'medium' | 'high')
+      : 'low',
+    status: ['todo', 'in-progress', 'done'].includes(todo.status)
+      ? (todo.status as 'todo' | 'in-progress' | 'done')
+      : 'todo',
+    tags: Array.isArray(todo.tags) ? todo.tags.join(', ') : todo.tags || '',
+  })
+
   const initialValues: ValuesFormType = {
     name: '',
     description: '',
     completed: false,
     category: '',
     assignedTo: '',
-    dueDate: '',
+    dueDate: new Date(),
     reminder: false,
-    reminderDate: '',
+    reminderDate: new Date(),
     createdAt: new Date(),
     priority: 'low',
     status: 'todo',
@@ -113,7 +132,7 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
         <CardHeader title={t('create.title')} sx={{ textAlign: 'center' }} />
 
         <Formik
-          initialValues={initialValues || todo}
+          initialValues={todo ? mapTodoToValues(todo) : initialValues}
           onSubmit={onSubmit}
           validationSchema={todoSchema}
         >
@@ -240,7 +259,11 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       value={values.dueDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      helperText={errors.dueDate}
+                      helperText={
+                        touched.dueDate && typeof errors.dueDate === 'string'
+                          ? errors.dueDate
+                          : ''
+                      }
                       slotProps={{ inputLabel: { shrink: true } }}
                     />
                   </Grid>
@@ -269,7 +292,11 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
                       value={values.reminderDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      helperText={errors.reminderDate}
+                      helperText={
+                        touched.dueDate && typeof errors.dueDate === 'string'
+                          ? errors.dueDate
+                          : ''
+                      }
                       slotProps={{ inputLabel: { shrink: true } }}
                     />
                   </Grid>

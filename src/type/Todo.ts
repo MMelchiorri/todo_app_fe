@@ -4,7 +4,6 @@ export type Todo = {
   name: string
   description: string
   completed: boolean
-  tags: string[]
   category: string
   assignedTo: string
   dueDate: Date
@@ -12,4 +11,6 @@ export type Todo = {
   reminderDate: Date
   createdAt: Date
   priority: string
+  status: string
+  tags: string[]
 }
