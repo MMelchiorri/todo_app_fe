@@ -15,13 +15,14 @@ import {
   Autocomplete,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { Formik } from 'formik'
+import { Formik, useFormik } from 'formik'
 import { postTodo } from '@/services/todosFetch'
 import { todoSchema } from '@/sections/todos/todoSchema'
 import { useRouter } from 'next/navigation'
 import { fetchUsers } from '@/services/usersFetch'
 import { useEffect, useState } from 'react'
 import { User } from '@/type/Users'
+import { Todo } from '@/type/Todo'
 
 type ValuesFormType = {
   name: string
@@ -38,9 +39,14 @@ type ValuesFormType = {
   tags: string
 }
 
-const CreateTodoForm: React.FC = () => {
+interface TodoFormProps {
+  todo?: Todo
+}
+
+const TodoForm: React.FC<TodoFormProps> = (props) => {
   const t = useTranslations('Todos')
   const router = useRouter()
+  const { todo } = props
   const [users, setUsers] = useState<User[]>([])
   const [user, setUser] = useState<string>('')
   const userOptions = users.map((user) => ({
@@ -109,7 +115,7 @@ const CreateTodoForm: React.FC = () => {
         <CardHeader title={t('create.title')} sx={{ textAlign: 'center' }} />
 
         <Formik
-          initialValues={initialValues}
+          initialValues={initialValues || todo}
           onSubmit={onSubmit}
           validationSchema={todoSchema}
         >
@@ -347,4 +353,4 @@ const CreateTodoForm: React.FC = () => {
   )
 }
 
-export default CreateTodoForm
+export default TodoForm

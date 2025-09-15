@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 
 import { Todo } from '@/type/Todo'
 import { todoSchema } from '@/sections/todos/todoSchema'
-import { TodoContext } from '@/context'
+import { UsersContext } from '@/context'
 
 type ValuesFormType = {
   name: string
@@ -35,6 +35,8 @@ const UpdateTodoForm: React.FC<UpdateTodoFormProps> = ({
 }: UpdateTodoFormProps) => {
   const t = useTranslations('Todos')
   const router = useRouter()
+  const users = useContext(UsersContext)
+  console.log(users)
 
   const initialValues: ValuesFormType = {
     name: todo.name,
