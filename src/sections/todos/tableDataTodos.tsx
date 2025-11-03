@@ -42,6 +42,9 @@ export default function TodoTable(props: PropsTodo) {
     Array.from(new Set(todos.map((todo) => todo.assignedTo)))
   )
 
+  const [lockedTodos, setLockedTodos] = useState<Set<string>>(new Set())
+  console.log(lockedTodos)
+
   const excludedKeys = [
     '_id',
     '__v',
@@ -174,10 +177,27 @@ export default function TodoTable(props: PropsTodo) {
                   <TableCell key={key}>{formatValue(todo[key])}</TableCell>
                 ))}
                 <TableCell sx={{ textAlign: 'center' }}>
-                  <DeleteButton id={todo._id} />
+                  {lockedTodos.has(todo._id) ? (
+                    <span style={{ color: 'orange' }}>🔒</span>
+                  ) : (
+                    <DeleteButton id={todo._id} lockedId={lockedTodos} />
+                  )}
                 </TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>
-                  <DetailButton id={todo._id} />
+                  <DetailButton
+                    id={todo._id}
+                    onEdit={() => {
+                      setLockedTodos((prev) => {
+                        const newSet = new Set(prev)
+                        if (newSet.has(todo._id)) {
+                          newSet.delete(todo._id)
+                        } else {
+                          newSet.add(todo._id)
+                        }
+                        return newSet
+                      })
+                    }}
+                  />
                 </TableCell>
               </TableRow>
             ))}

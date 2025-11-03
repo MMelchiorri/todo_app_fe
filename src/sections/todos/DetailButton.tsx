@@ -5,6 +5,7 @@ import { FileSearch } from 'lucide-react'
 
 interface DetailButtonProps {
   id?: string
+  onEdit?: () => void
 }
 
 const DetailButton: React.FC<DetailButtonProps> = ({ id }) => {
