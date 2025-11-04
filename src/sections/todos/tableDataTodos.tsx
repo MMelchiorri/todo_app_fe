@@ -26,6 +26,7 @@ import Link from 'next/link'
 import DeleteButton from '@/sections/todos/DeleteButton'
 import DetailButton from '@/sections/todos/DetailButton'
 import { useState } from 'react'
+import { EditButton } from '@/sections/todos/EditButton'
 
 interface PropsTodo {
   todos: Todo[]
@@ -145,7 +146,6 @@ export default function TodoTable(props: PropsTodo) {
           />
         </Box>
       </Box>
-
       {/* Tabella Desktop */}
       <TableContainer
         component={Paper}
@@ -162,11 +162,9 @@ export default function TodoTable(props: PropsTodo) {
         <Table>
           <TableHead>
             <TableRow>
-              {keys.map((key) => (
-                <TableCell key={key}>{t(`columns.${key}`)}</TableCell>
+              {Array.from({ length: keys.length + 3 }).map((_, index) => (
+                <TableCell key={index} />
               ))}
-              <TableCell />
-              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -183,7 +181,10 @@ export default function TodoTable(props: PropsTodo) {
                   )}
                 </TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>
-                  <DetailButton
+                  <DetailButton id={todo._id} />
+                </TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
+                  <EditButton
                     id={todo._id}
                     onEdit={() => {
                       setLockedTodos((prev) => {
@@ -196,7 +197,6 @@ export default function TodoTable(props: PropsTodo) {
                         return newSet
                       })
                     }}
-                    lockedTodos={lockedTodos}
                   />
                 </TableCell>
               </TableRow>
@@ -204,7 +204,6 @@ export default function TodoTable(props: PropsTodo) {
           </TableBody>
         </Table>
       </TableContainer>
-
       {/* Mobile Accordion */}
       <Stack spacing={2} sx={{ display: { xs: 'block', sm: 'none' }, my: 4 }}>
         {filteredTodos.map((todo) => (
@@ -225,13 +224,12 @@ export default function TodoTable(props: PropsTodo) {
               ))}
               <Box display="flex" gap={1} mt={1}>
                 <DeleteButton id={todo._id} />
-                <DetailButton id={todo._id} lockedTodos={lockedTodos} />
+                <DetailButton id={todo._id} />
               </Box>
             </AccordionDetails>
           </Accordion>
         ))}
       </Stack>
-
       {/* Add Button */}
       <Box display={'flex'} justifyContent={'center'}>
         <Button variant="contained" sx={{ mt: 2 }}>

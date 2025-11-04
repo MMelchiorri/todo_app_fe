@@ -4,14 +4,11 @@ import {
   Button,
   Card,
   Divider,
-  IconButton,
   Typography,
   Stack,
   Paper,
 } from '@mui/material'
-import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import EditIcon from '@mui/icons-material/Edit'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -46,11 +43,6 @@ export default async function Page({ params }: { params: { _id: string } }) {
         <Typography variant="subtitle1" ml={1} flexGrow={1}>
           {t('details.title')}
         </Typography>
-        <IconButton size="small" color="primary">
-          <Link href={`/todos/${todo._id}/edit`}>
-            <EditIcon fontSize="small" />
-          </Link>
-        </IconButton>
       </Box>
 
       {/* Title */}
