@@ -43,7 +43,6 @@ export default function TodoTable(props: PropsTodo) {
   )
 
   const [lockedTodos, setLockedTodos] = useState<Set<string>>(new Set())
-  console.log(lockedTodos)
 
   const excludedKeys = [
     '_id',
@@ -197,6 +196,7 @@ export default function TodoTable(props: PropsTodo) {
                         return newSet
                       })
                     }}
+                    lockedTodos={lockedTodos}
                   />
                 </TableCell>
               </TableRow>
@@ -225,7 +225,7 @@ export default function TodoTable(props: PropsTodo) {
               ))}
               <Box display="flex" gap={1} mt={1}>
                 <DeleteButton id={todo._id} />
-                <DetailButton id={todo._id} />
+                <DetailButton id={todo._id} lockedTodos={lockedTodos} />
               </Box>
             </AccordionDetails>
           </Accordion>

@@ -6,9 +6,11 @@ import { FileSearch } from 'lucide-react'
 interface DetailButtonProps {
   id?: string
   onEdit?: () => void
+  lockedTodos: Set<string>
 }
 
-const DetailButton: React.FC<DetailButtonProps> = ({ id }) => {
+const DetailButton: React.FC<DetailButtonProps> = ({ id, lockedTodos }) => {
+  console.log(lockedTodos)
   const handleClick = () => {
     if (id) {
       window.location.href = `/todos/${id}`
