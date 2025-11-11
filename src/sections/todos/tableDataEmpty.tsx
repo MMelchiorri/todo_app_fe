@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
+import { AddTask } from '@mui/icons-material'
 
 export default async function TableEmpty() {
   const t = await getTranslations('Todos')
@@ -29,16 +30,22 @@ export default async function TableEmpty() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell colSpan={6} style={{ textAlign: 'center' }}>
+            <TableCell style={{ textAlign: 'center' }}>
               {t('generic.empty')}
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell colSpan={6} style={{ textAlign: 'center' }}>
+            <TableCell style={{ textAlign: 'center' }}>
               <Link href={'/todos/create'}>
-                <Button variant={'contained'}>{t('actions.add')}</Button>
+                <Button
+                  variant={'contained'}
+                  startIcon={<AddTask />}
+                  sx={{ backgroundColor: '#65558E' }}
+                >
+                  {t('actions.add')}
+                </Button>
               </Link>
             </TableCell>
           </TableRow>

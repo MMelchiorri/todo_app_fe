@@ -1,10 +1,15 @@
+
+
 .container{
     display: flex;
     flex-direction: column;
     padding: 20px;
     width: 200px;
     height: 100vh;
-    background-color: #2F2E31;
+    background-color: #F3EDF7;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: fixed;
 }
 
 .innerContainer{
@@ -16,14 +21,21 @@
 
 .title{
     font-size: 0.85rem;
-    color: white;
-    margin: 0;
+    color: #1D1B20;
 }
 
 .link{
     text-decoration: none;
     font-weight: 500;
     font-size: 1.2rem;
-    color: white;
+    color: #21182B;
     cursor: pointer;
+}
+
+.link:hover {
+    background-color: aquamarine;
+    color: #2F2E31;                  /* cambia colore testo al hover */
+    transform: scale(1.05); /* leggero ingrandimento */
+    border-radius: 20px; /* angoli arrotondati */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* ombra sottile */
 }

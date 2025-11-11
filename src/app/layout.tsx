@@ -29,10 +29,31 @@ export default async function RootLayout({
   const locale = await getLocale()
   return (
     <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable}`}
+        style={{
+          display: 'flex',
+          height: '100vh',
+          width: '100vw',
+        }}
+      >
+        {' '}
         <NextIntlClientProvider>
-          <Navbar />
-          {children}
+          <aside>
+            <Navbar />
+          </aside>
+          <main
+            style={{
+              flexGrow: 1,
+              padding: '20px',
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              gap: '20px',
+            }}
+          >
+            {children}
+          </main>{' '}
         </NextIntlClientProvider>
       </body>
     </html>
