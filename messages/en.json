@@ -3,6 +3,11 @@
     "generic":{
       "empty": "No todos found."
     },
+    "navbar": {
+      "home": "Home",
+      "userProfile": "User",
+      "todo": "Todo"
+    },
     "columns": {
       "id": "ID",
       "name": "Name",
