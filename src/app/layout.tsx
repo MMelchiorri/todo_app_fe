@@ -37,23 +37,14 @@ export default async function RootLayout({
           width: '100vw',
         }}
       >
-        {' '}
         <NextIntlClientProvider>
-          <aside>
-            <Navbar />
-          </aside>
-          <main
-            style={{
-              flexGrow: 1,
-              padding: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              gap: '20px',
-            }}
-          >
-            {children}
-          </main>{' '}
+          <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+            <aside style={{ width: '250px' }}>
+              <Navbar />
+            </aside>
+
+            <main style={{ flex: 1 }}>{children}</main>
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -10,6 +10,7 @@
     },
     "columns": {
       "id": "ID",
+      "title": "Create a new Task",
       "name": "Name",
       "description": "Description",
       "completed": "Completed",
@@ -31,12 +32,13 @@
     },
     "create": {
       "title": "Create Todo",
-      "name": "Todo Name",
+      "name": "Write a task Name",
+      "assignee": "Assignee",
+      "dueDate": "Due Date",
       "description": "Description",
       "tags": "Tags (comma separated)",
       "category": "Category",
       "assignedTo": "Assigned To",
-      "dueDate": "Due Date",
       "reminder": "Reminder",
       "priority": "Priority",
       "submit": "Create Todo",

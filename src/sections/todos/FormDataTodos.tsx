@@ -1,385 +1,129 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  Grid,
-  TextField,
-  FormControlLabel,
-  Checkbox,
   Box,
-  Button,
-  MenuItem,
-  Autocomplete,
+  FormControl,
+  InputLabel,
+  Typography,
+  Input,
+  InputAdornment,
+  TextField,
+  Card,
+  Divider,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
-import { Formik } from 'formik'
-import { postTodo, updateTodoById } from '@/services/todosFetch'
-import { todoSchema } from '@/sections/todos/todoSchema'
-import { useRouter } from 'next/navigation'
-import { fetchUsers } from '@/services/usersFetch'
-import { User } from '@/type/Users'
-import { Todo } from '@/type/Todo'
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import Person from '@mui/icons-material/Person'
+import { Category, TaskAlt, Assignment } from '@mui/icons-material'
 
-type ValuesFormType = {
-  name: string
-  description: string
-  completed: boolean
-  category: string
-  assignedTo: string
-  dueDate: Date
-  reminder: boolean
-  reminderDate: Date
-  createdAt: Date
-  priority: 'low' | 'medium' | 'high'
-  status: 'todo' | 'in-progress' | 'done'
-  tags: string
-}
-
-interface TodoFormProps {
-  todo?: Todo
-}
-
-const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
+const TodoForm = () => {
   const t = useTranslations('Todos')
-  const router = useRouter()
-  const [users, setUsers] = useState<User[]>([])
-  const userOptions = users.map((user) => ({ username: user.username }))
-
-  useEffect(() => {
-    ;(async () => {
-      const fetchedUsers = await fetchUsers()
-      setUsers(fetchedUsers)
-    })()
-  }, [])
-
-  const mapTodoToValues = (todo: Todo): ValuesFormType => ({
-    name: todo.name || '',
-    description: todo.description || '',
-    completed: todo.completed ?? false,
-    category: todo.category || '',
-    assignedTo: todo.assignedTo || '',
-    dueDate: todo.dueDate ? new Date(todo.dueDate) : new Date(),
-    reminder: todo.reminder ?? false,
-    reminderDate: todo.reminderDate ? new Date(todo.reminderDate) : new Date(),
-    createdAt: todo.createdAt ? new Date(todo.createdAt) : new Date(),
-    priority: ['low', 'medium', 'high'].includes(todo.priority)
-      ? (todo.priority as 'low' | 'medium' | 'high')
-      : 'low',
-    status: ['todo', 'in-progress', 'done'].includes(todo.status)
-      ? (todo.status as 'todo' | 'in-progress' | 'done')
-      : 'todo',
-    tags: Array.isArray(todo.tags) ? todo.tags.join(', ') : todo.tags || '',
-  })
-
-  const initialValues: ValuesFormType = {
-    name: '',
-    description: '',
-    completed: false,
-    category: '',
-    assignedTo: '',
-    dueDate: new Date(),
-    reminder: false,
-    reminderDate: new Date(),
-    createdAt: new Date(),
-    priority: 'low',
-    status: 'todo',
-    tags: '',
-  }
-
-  const formatDateForInput = (date: Date) => date.toISOString().split('T')[0]
-
-  const onSubmit = async (
-    values: ValuesFormType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    const formattedValues = {
-      ...values,
-      dueDate: values.dueDate ? new Date(values.dueDate) : undefined,
-      createdAt: values.createdAt,
-      reminderDate: values.reminderDate
-        ? new Date(values.reminderDate)
-        : undefined,
-      tags: values.tags.split(',').map((tag) => tag.trim()),
-    }
-
-    if (todo) {
-      await updateTodoById(todo._id, formattedValues)
-    } else {
-      await postTodo(formattedValues)
-    }
-    router.push('/todos')
-    setSubmitting(false)
-  }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
-    >
+    <Box display="flex" flexDirection="column" width="40%" mx="auto" my={4}>
+      <Box display="flex" alignItems="center" gap={1} mb={3}>
+        <Assignment />
+        <Typography variant="h5" fontWeight={600}>
+          {t('create.title')}
+        </Typography>
+      </Box>
+
+      <FormControl fullWidth sx={{ mb: 3 }}>
+        <InputLabel htmlFor="input-with-icon-adornment">
+          {t('create.name')}
+        </InputLabel>
+        <Input
+          id="input-with-icon-adornment"
+          startAdornment={
+            <InputAdornment position="start">
+              <Person />
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+
+      {/* Assignee */}
+      <Box display="flex" alignItems="center" gap={2} mb={3}>
+        <Typography variant="subtitle1" sx={{ minWidth: 100 }}>
+          {t('create.assignee')}
+        </Typography>
+        <TextField
+          select
+          fullWidth
+          sx={{
+            '& fieldset': { border: '1px solid #ccc', borderRadius: 1 },
+          }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+      </Box>
+
+      <Box display="flex" alignItems="center" gap={2} mb={3}>
+        <Typography variant="subtitle1" sx={{ minWidth: 100 }}>
+          {t('create.dueDate')}
+        </Typography>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer
+            components={['DatePicker']}
+            sx={{
+              '& fieldset': { border: '1px solid #ccc', borderRadius: 1 },
+              '&:hover fieldset': { border: '1px solid #aaa' },
+              '&.Mui-focused fieldset': { border: '1px solid #1976d2' },
+              width: 200,
+            }}
+          >
+            <DatePicker label={t('create.dueDate')} />
+          </DemoContainer>
+        </LocalizationProvider>
+      </Box>
+
       <Card
         sx={{
-          width: '100%',
-          maxWidth: 700,
-          minHeight: 600,
+          borderRadius: 2,
+          boxShadow: 2,
           p: 2,
-          boxShadow: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
         }}
       >
-        <CardHeader
-          title={todo ? t('edit.title') : t('create.title')}
-          sx={{ textAlign: 'center' }}
-        />
+        {[
+          { icon: <Category />, label: t('create.category') },
+          { icon: <TaskAlt />, label: t('create.status') },
+          { icon: <Assignment />, label: t('create.priority') },
+        ].map((item, index) => (
+          <Box key={index} display="flex" alignItems="center" width="100%">
+            <Box display="flex" alignItems="center" gap={1} flex={0.3}>
+              {item.icon}
+              <Typography variant="subtitle1">{item.label}</Typography>
+            </Box>
 
-        <Formik
-          initialValues={todo ? mapTodoToValues(todo) : initialValues}
-          onSubmit={onSubmit}
-          validationSchema={todoSchema}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            setFieldValue,
-            setFieldTouched,
-            touched,
-            errors,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <CardContent>
-                <Grid container spacing={2}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={todo ? t('edit.name') : t('create.name')}
-                      variant="outlined"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={() => setFieldTouched('name', true)}
-                      error={Boolean(errors.name && touched.name)}
-                      helperText={
-                        errors.name && touched.name ? errors.name : ''
-                      }
-                      required
-                    />
-                  </Grid>
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{ borderColor: '#eee', margin: 1 }}
+            />
 
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.description')}
-                      variant="outlined"
-                      name="description"
-                      value={values.description}
-                      onChange={handleChange}
-                      onBlur={() => setFieldTouched('description', true)}
-                      error={Boolean(errors.description && touched.description)}
-                      helperText={
-                        errors.description && touched.description
-                          ? errors.description
-                          : ''
-                      }
-                      required
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.category')}
-                      variant="outlined"
-                      name="category"
-                      value={values.category}
-                      onChange={handleChange}
-                      onBlur={() => setFieldTouched('category', true)}
-                      error={Boolean(errors.category && touched.category)}
-                      helperText={
-                        errors.category && touched.category
-                          ? errors.category
-                          : ''
-                      }
-                      required
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <Autocomplete
-                      value={
-                        values.assignedTo
-                          ? { username: values.assignedTo }
-                          : null
-                      }
-                      options={userOptions}
-                      getOptionLabel={(option) =>
-                        typeof option === 'string' ? option : option.username
-                      }
-                      onChange={(event, newValue) =>
-                        setFieldValue(
-                          'assignedTo',
-                          newValue ? newValue.username : ''
-                        )
-                      }
-                      onBlur={() => setFieldTouched('assignedTo', true)}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={t('create.assignedTo')}
-                          name="assignedTo"
-                          error={Boolean(
-                            errors.assignedTo && touched.assignedTo
-                          )}
-                          helperText={
-                            touched.assignedTo && errors.assignedTo
-                              ? errors.assignedTo
-                              : ''
-                          }
-                        />
-                      )}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.dueDate')}
-                      type="date"
-                      variant="outlined"
-                      name="dueDate"
-                      value={formatDateForInput(values.dueDate)}
-                      onChange={(e) =>
-                        setFieldValue('dueDate', new Date(e.target.value))
-                      }
-                      onBlur={handleBlur}
-                      helperText={
-                        touched.dueDate && typeof errors.dueDate === 'string'
-                          ? errors.dueDate
-                          : ''
-                      }
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="reminder"
-                          checked={values.reminder}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                      }
-                      label={t('create.reminder')}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.reminderDate')}
-                      type="date"
-                      variant="outlined"
-                      name="reminderDate"
-                      value={formatDateForInput(values.reminderDate)}
-                      onChange={(e) =>
-                        setFieldValue('reminderDate', new Date(e.target.value))
-                      }
-                      onBlur={handleBlur}
-                      helperText={
-                        touched.reminderDate &&
-                        typeof errors.reminderDate === 'string'
-                          ? errors.reminderDate
-                          : ''
-                      }
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.priority')}
-                      select
-                      variant="outlined"
-                      name="priority"
-                      value={values.priority}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      helperText={errors.priority}
-                    >
-                      <MenuItem value="low">
-                        {t('create.priorityOptions.low')}
-                      </MenuItem>
-                      <MenuItem value="medium">
-                        {t('create.priorityOptions.medium')}
-                      </MenuItem>
-                      <MenuItem value="high">
-                        {t('create.priorityOptions.high')}
-                      </MenuItem>
-                    </TextField>
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.status')}
-                      select
-                      variant="outlined"
-                      name="status"
-                      value={values.status}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      helperText={errors.status}
-                    >
-                      <MenuItem value="todo">
-                        {t('create.statusOptions.pending')}
-                      </MenuItem>
-                      <MenuItem value="in-progress">
-                        {t('create.statusOptions.inProgress')}
-                      </MenuItem>
-                      <MenuItem value="done">
-                        {t('create.statusOptions.completed')}
-                      </MenuItem>
-                    </TextField>
-                  </Grid>
-
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <TextField
-                      fullWidth
-                      label={t('create.tags')}
-                      variant="outlined"
-                      name="tags"
-                      value={values.tags}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      helperText={errors.tags}
-                      placeholder="tag1, tag2, tag3"
-                    />
-                  </Grid>
-                </Grid>
-
-                <Box sx={{ mt: 4, textAlign: 'center' }}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    disabled={isSubmitting}
-                  >
-                    {todo ? t('edit.submit') : t('create.submit')}
-                  </Button>
-                </Box>
-              </CardContent>
-            </form>
-          )}
-        </Formik>
+            <Box flex={1}>
+              <TextField
+                select
+                fullWidth
+                sx={{ '& fieldset': { borderRadius: 1 } }}
+              />
+            </Box>
+          </Box>
+        ))}
       </Card>
     </Box>
   )
