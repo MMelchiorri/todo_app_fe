@@ -30,7 +30,7 @@ export default async function TableEmpty() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell style={{ textAlign: 'center' }}>
+            <TableCell sx={{ backgroundColor: '#F8F1F6' }} align={'center'}>
               {t('generic.empty')}
             </TableCell>
           </TableRow>
