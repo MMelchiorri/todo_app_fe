@@ -11,6 +11,7 @@ import {
   TextField,
   Card,
   Divider,
+  Button,
 } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
@@ -125,6 +126,11 @@ const TodoForm = () => {
           </Box>
         ))}
       </Card>
+      <Box display={'flex'} justifyContent="center" mt={3}>
+        <Button variant={'contained'} sx={{ backgroundColor: '#675496' }}>
+          {t('create.submit')}
+        </Button>
+      </Box>
     </Box>
   )
 }

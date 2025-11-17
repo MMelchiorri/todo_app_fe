@@ -92,7 +92,6 @@ export default async function Page({ params }: { params: { _id: string } }) {
         </Typography>
       </Box>
 
-      {/* Actions */}
       <Stack direction="row" spacing={2} justifyContent="flex-end">
         <Button
           variant="contained"
