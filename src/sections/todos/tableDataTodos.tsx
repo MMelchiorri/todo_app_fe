@@ -10,18 +10,22 @@ import {
   TableRow,
   Box,
   Chip,
+  Button,
 } from '@mui/material'
 import dayjs from 'dayjs'
 import { Todo } from '@/type/Todo'
 import { useTranslations } from 'next-intl'
+import { deleteTodo } from '@/services/todosFetch'
 
 import {
   CheckCircle,
   Pending,
   CalendarMonth,
   Schedule,
+  Delete,
+  ArrowForward,
 } from '@mui/icons-material'
-
+import Link from 'next/link'
 interface PropsTodo {
   todos: Todo[]
 }
@@ -43,7 +47,14 @@ export default function TodoTable(props: PropsTodo) {
   const t = useTranslations('Todos')
 
   return (
-    <Box display="flex" justifyContent="center" width="100%">
+    <Box
+      display="flex"
+      justifyContent="center"
+      width="100%"
+      flexDirection="column"
+      alignItems="center"
+      gap={4}
+    >
       <TableContainer component={Paper} sx={{ width: '80%' }}>
         <Table>
           <TableHead>
@@ -52,11 +63,18 @@ export default function TodoTable(props: PropsTodo) {
                 <TableCell
                   sx={{ backgroundColor: '#F8F1F6' }}
                   key={key}
-                  align={'center'}
+                  align="center"
                 >
                   {t(`columns.${key}`)}
                 </TableCell>
               ))}
+
+              <TableCell sx={{ backgroundColor: '#F8F1F6' }} />
+              <TableCell
+                sx={{ backgroundColor: '#F8F1F6' }}
+                key="detail"
+                align="center"
+              />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,24 +113,27 @@ export default function TodoTable(props: PropsTodo) {
                       <Chip
                         icon={<CalendarMonth />}
                         label={dayjs(todo.dueDate).format('DD MMM YYYY')}
-                        color={
-                          dayjs(todo.dueDate).isBefore(dayjs())
-                            ? 'error'
-                            : 'primary'
-                        }
                         size="small"
                       />
                       <Chip
                         icon={<Schedule />}
                         label={dayjs(todo.dueDate).format('HH:mm')}
-                        color={
-                          dayjs(todo.dueDate).isBefore(dayjs())
-                            ? 'error'
-                            : 'primary'
-                        }
                         size="small"
                       />
                     </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Delete
+                      onClick={async () => {
+                        await deleteTodo(todo._id!)
+                        window.location.reload()
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/todos/${todo._id}`}>
+                      <ArrowForward />
+                    </Link>
                   </TableCell>
                 </TableRow>
               )
@@ -120,6 +141,11 @@ export default function TodoTable(props: PropsTodo) {
           </TableBody>
         </Table>
       </TableContainer>
+      <Link href={'/todos/create'} style={{ textDecoration: 'none' }}>
+        <Button variant={'contained'} sx={{ backgroundColor: '#675496' }}>
+          {t('actions.add')}
+        </Button>
+      </Link>
     </Box>
   )
 }

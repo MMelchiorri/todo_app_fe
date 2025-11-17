@@ -20,7 +20,9 @@
       "dueDate": "Due Date",
       "reminder": "Reminder",
       "createdAt": "Created At",
-      "priority": "Priority"
+      "priority": "Priority",
+      "detail": "Details",
+      "delete": "Delete"
     },
     "actions": {
       "add": "Add Todo",
