@@ -22,7 +22,8 @@
       "createdAt": "Created At",
       "priority": "Priority",
       "detail": "Details",
-      "delete": "Delete"
+      "delete": "Delete",
+        "status": "Status"
     },
     "actions": {
       "add": "Add Todo",

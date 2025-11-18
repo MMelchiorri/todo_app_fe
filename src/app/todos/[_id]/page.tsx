@@ -1,23 +1,52 @@
 import { getTodoById } from '@/services/todosFetch'
 import {
   Box,
-  Button,
   Card,
   Divider,
   Typography,
-  Stack,
-  Paper,
+  CardContent,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@mui/material'
 import { getTranslations } from 'next-intl/server'
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import AccessTimeIcon from '@mui/icons-material/AccessTime'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import DeleteIcon from '@mui/icons-material/Delete'
 import BackButton from '@/sections/BackButton'
+import Link from 'next/link'
+import dayjs from 'dayjs'
+import { Todo } from '@/type/Todo'
+
+type ColumnsTodo = Omit<
+  Todo,
+  'id' | '__v' | 'createdAt' | '_id' | 'reminderDate'
+>
 
 export default async function Page({ params }: { params: { _id: string } }) {
   const { _id } = params
   const todo = await getTodoById(_id)
+  const todoData: {
+    description: string
+    completed: boolean
+    dueDate: Date
+    priority: string
+    tags: string[]
+    reminder: boolean
+    name?: string
+    assignedTo?: string
+    category?: string
+    status?: string
+  } = {
+    description: todo.description,
+    completed: todo.completed,
+    dueDate: todo.dueDate,
+    priority: todo.priority,
+    tags: todo.tags,
+    reminder: todo.reminder,
+    name: todo.name,
+    assignedTo: todo.assignedTo,
+    category: todo.category,
+    status: todo.status,
+  }
   const t = await getTranslations('Todos')
 
   if (!todo) {
@@ -25,91 +54,37 @@ export default async function Page({ params }: { params: { _id: string } }) {
   }
 
   return (
-    <Card
-      elevation={6}
-      sx={{
-        p: 4,
-        borderRadius: 4,
-        maxWidth: 600,
-        mx: 'auto',
-        mt: 6,
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(8px)',
-      }}
-    >
-      {/* Header */}
-      <Box display="flex" alignItems="center" mb={3}>
-        <BackButton />
-        <Typography variant="subtitle1" ml={1} flexGrow={1}>
-          {t('details.title')}
-        </Typography>
+    <Card sx={{ maxWidth: 800, margin: 'auto', mt: 4, p: 2 }}>
+      <Box display={'flex'} flexDirection={'column'}>
+        <CardContent>
+          <Box display={'flex'} gap={2}>
+            <Link href="/todos">
+              <BackButton />
+            </Link>
+            <Typography variant={'h5'}>{t('details.title')}</Typography>
+            <Box display={'flex'} flexDirection={'column'}></Box>
+          </Box>
+          <Divider sx={{ my: 2 }} />
+          <Table>
+            <TableBody>
+              {(Object.keys(todoData) as Array<keyof ColumnsTodo>).map(
+                (key) => (
+                  <TableRow key={key}>
+                    <TableCell sx={{ fontWeight: 'bold' }}>
+                      {t(`columns.${key}`)}
+                    </TableCell>
+                    <TableCell>
+                      {key === 'dueDate'
+                        ? dayjs(todoData[key]).format('DD/MM/YYYY')
+                        : todoData[key]?.toString()}
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
       </Box>
-
-      {/* Title */}
-      <Typography variant="h5" fontWeight="bold" color="primary" mb={1}>
-        {todo?.name}
-      </Typography>
-
-      {/* Date & Time */}
-      <Stack direction="row" spacing={2} alignItems="center" mb={2}>
-        <Paper variant="outlined" sx={{ px: 1.5, py: 0.5, borderRadius: 2 }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <CalendarTodayIcon fontSize="small" />
-            <Typography variant="body2">
-              {new Date(todo.dueDate).toLocaleDateString()}
-            </Typography>
-          </Stack>
-        </Paper>
-        <Paper variant="outlined" sx={{ px: 1.5, py: 0.5, borderRadius: 2 }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <AccessTimeIcon fontSize="small" />
-            <Typography variant="body2">
-              {new Date(todo.dueDate).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </Typography>
-          </Stack>
-        </Paper>
-      </Stack>
-
-      <Divider sx={{ my: 2 }} />
-
-      {/* Description */}
-      <Box
-        sx={{
-          borderLeft: 4,
-          borderColor: 'primary.main',
-          pl: 2,
-          py: 1,
-          mb: 3,
-          bgcolor: 'grey.50',
-          borderRadius: 1,
-        }}
-      >
-        <Typography variant="body2" color="text.secondary">
-          {todo?.description}
-        </Typography>
-      </Box>
-
-      <Stack direction="row" spacing={2} justifyContent="flex-end">
-        <Button
-          variant="contained"
-          color="success"
-          startIcon={<CheckCircleIcon />}
-          sx={{ borderRadius: 3, px: 3 }}
-        >
-          Done
-        </Button>
-        <Button
-          variant="contained"
-          color="error"
-          startIcon={<DeleteIcon />}
-          sx={{ borderRadius: 3, px: 3 }}
-        >
-          Delete
-        </Button>
-      </Stack>
     </Card>
   )
 }

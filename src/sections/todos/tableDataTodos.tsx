@@ -85,9 +85,9 @@ export default function TodoTable(props: PropsTodo) {
                   <TableCell>{todo.description}</TableCell>
                   <TableCell align="center">
                     {todo.completed ? (
-                      <CheckCircle color="success" />
+                      <CheckCircle sx={{ color: '#4A454F' }} />
                     ) : (
-                      <Pending />
+                      <Pending sx={{ color: '#4A454F' }} />
                     )}
                   </TableCell>
                   <TableCell>
@@ -128,10 +128,14 @@ export default function TodoTable(props: PropsTodo) {
                         await deleteTodo(todo._id!)
                         window.location.reload()
                       }}
+                      sx={{ color: '#4A454F' }}
                     />
                   </TableCell>
                   <TableCell>
-                    <Link href={`/todos/${todo._id}`}>
+                    <Link
+                      href={`/todos/${todo._id}`}
+                      style={{ color: '#4A454F' }}
+                    >
                       <ArrowForward />
                     </Link>
                   </TableCell>
