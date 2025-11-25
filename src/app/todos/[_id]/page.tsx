@@ -9,6 +9,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Chip,
 } from '@mui/material'
 import { getTranslations } from 'next-intl/server'
 import BackButton from '@/sections/BackButton'
@@ -74,9 +75,17 @@ export default async function Page({ params }: { params: { _id: string } }) {
                       {t(`columns.${key}`)}
                     </TableCell>
                     <TableCell>
-                      {key === 'dueDate'
-                        ? dayjs(todoData[key]).format('DD/MM/YYYY')
-                        : todoData[key]?.toString()}
+                      {key === 'dueDate' ? (
+                        dayjs(todoData[key]).format('DD/MM/YYYY')
+                      ) : key === 'tags' ? (
+                        <Box display="flex" gap={1}>
+                          {todoData[key].map((tag) => (
+                            <Chip key={tag} label={tag} />
+                          ))}
+                        </Box>
+                      ) : (
+                        String(todoData[key])
+                      )}
                     </TableCell>
                   </TableRow>
                 )
