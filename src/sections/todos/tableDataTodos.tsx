@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   Box,
   Chip,
   Button,
@@ -24,6 +25,7 @@ import {
   Schedule,
   Delete,
   ArrowForward,
+  FilterAlt,
 } from '@mui/icons-material'
 import Link from 'next/link'
 interface PropsTodo {
@@ -55,9 +57,21 @@ export default function TodoTable(props: PropsTodo) {
       alignItems="center"
       gap={4}
     >
+      <Box display="flex" justifyContent="flex-end" p={2}></Box>
       <TableContainer component={Paper} sx={{ width: '80%' }}>
         <Table>
           <TableHead>
+            <TableRow>
+              <Button
+                sx={{ m: 3, borderColor: 'black' }}
+                variant="outlined"
+                startIcon={<FilterAlt sx={{ color: 'black' }} />}
+              >
+                <Typography sx={{ color: 'black' }}>
+                  {t('columns.filterByStatus')}
+                </Typography>
+              </Button>
+            </TableRow>
             <TableRow>
               {keys.map((key) => (
                 <TableCell

@@ -1,6 +1,6 @@
 {
   "Todos": {
-    "generic":{
+    "generic": {
       "empty": "No todos found."
     },
     "navbar": {
@@ -23,7 +23,8 @@
       "priority": "Priority",
       "detail": "Details",
       "delete": "Delete",
-        "status": "Status"
+      "status": "Status",
+      "filterByStatus": "Status"
     },
     "actions": {
       "add": "Add Todo",
@@ -45,18 +46,18 @@
       "reminder": "Reminder",
       "priority": "Priority",
       "submit": "Create Todo",
-        "priorityOptions": {
-            "low": "Low",
-            "medium": "Medium",
-            "high": "High"
-        },
+      "priorityOptions": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
       "reminderDate": "Reminder Date",
       "status": "Status",
-        "statusOptions": {
-            "pending": "Pending",
-            "completed": "Completed",
-            "inProgress": "In Progress"
-        }
+      "statusOptions": {
+        "pending": "Pending",
+        "completed": "Completed",
+        "inProgress": "In Progress"
+      }
     },
     "edit": {
       "title": "Edit Todo",
@@ -69,18 +70,18 @@
       "reminder": "Reminder",
       "priority": "Priority",
       "submit": "Update Todo",
-        "priorityOptions": {
-            "low": "Low",
-            "medium": "Medium",
-            "high": "High"
-        },
+      "priorityOptions": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
       "reminderDate": "Reminder Date",
       "status": "Status",
-        "statusOptions": {
-            "pending": "Pending",
-            "completed": "Completed",
-            "inProgress": "In Progress"
-        }
+      "statusOptions": {
+        "pending": "Pending",
+        "completed": "Completed",
+        "inProgress": "In Progress"
+      }
     },
     "details": {
       "title": "Todo Details",
