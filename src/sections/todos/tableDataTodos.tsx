@@ -11,13 +11,15 @@ import {
   Typography,
   Box,
   Chip,
+  Popover,
+  Select,
+  MenuItem,
   Button,
 } from '@mui/material'
 import dayjs from 'dayjs'
 import { Todo } from '@/type/Todo'
 import { useTranslations } from 'next-intl'
 import { deleteTodo } from '@/services/todosFetch'
-
 import {
   CheckCircle,
   Pending,
@@ -30,6 +32,9 @@ import {
 import Link from 'next/link'
 import { useFetchTodos } from '@/hooks/useFetchTodos'
 import TableEmpty from '@/sections/todos/tableDataEmpty'
+import React from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+
 interface PropsTodo {
   url: string
 }
@@ -46,14 +51,35 @@ export default function TodoTable(props: PropsTodo) {
     '__v',
   ]
 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
+  const [selectedStatuses, setSelectedStatuses] = React.useState<{
+    key: string
+    value: string
+  }>({ key: 'status', value: '' })
+
   const todos: Todo[] = useFetchTodos(url)
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const path = usePathname()
+
+  const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleFilterClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
 
   const t = useTranslations('Todos')
+
   if (!todos || todos.length === 0) {
     return <TableEmpty />
   }
 
   const keys = Object.keys(todos[0]).filter((key) => !excludeKeys.includes(key))
+  const statusOptions = new Set(todos.map((todo) => todo.status))
 
   return (
     <Box
@@ -65,20 +91,87 @@ export default function TodoTable(props: PropsTodo) {
       gap={4}
     >
       <Box display="flex" justifyContent="flex-end" p={2}></Box>
+
       <TableContainer component={Paper} sx={{ width: '80%' }}>
         <Table>
           <TableHead>
             <TableRow>
-              <Button
-                sx={{ m: 3, borderColor: 'black' }}
-                variant="outlined"
-                startIcon={<FilterAlt sx={{ color: 'black' }} />}
-              >
-                <Typography sx={{ color: 'black' }}>
-                  {t('columns.filterByStatus')}
-                </Typography>
-              </Button>
+              <TableCell>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  {/* BUTTON PER APRIRE IL POPOVER */}
+                  <Button
+                    sx={{ m: 3, borderColor: 'black' }}
+                    variant="outlined"
+                    onClick={handleFilterClick}
+                    startIcon={<FilterAlt sx={{ color: 'black' }} />}
+                  >
+                    <Typography sx={{ color: 'black' }}>
+                      {t('columns.filterByStatus')}
+                    </Typography>
+                  </Button>
+
+                  {/* POPOVER CON SELECT */}
+                  <Popover
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleFilterClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <Select
+                      fullWidth
+                      value={selectedStatuses.value} // <-- solo stato locale
+                      onChange={(event) => {
+                        setSelectedStatuses({
+                          key: 'status',
+                          value: event.target.value,
+                        })
+                      }}
+                    >
+                      <MenuItem value="">All</MenuItem>
+                      {Array.from(statusOptions).map((status) => (
+                        <MenuItem key={status} value={status}>
+                          {status}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Popover>
+
+                  {/* BUTTON PER APPLICARE I FILTRI */}
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault()
+
+                      const params = new URLSearchParams(
+                        searchParams.toString()
+                      )
+
+                      if (selectedStatuses.value) {
+                        params.set(selectedStatuses.key, selectedStatuses.value)
+                      } else {
+                        params.delete(selectedStatuses.key)
+                      }
+
+                      const query = params.toString()
+                      const newUrl = query ? `${path}?${query}` : path
+
+                      console.log('this is my url', newUrl)
+                      router.push(newUrl) // <-- aggiorna l’URL solo al click
+                      handleFilterClose()
+                    }}
+                  >
+                    Filter
+                  </Button>
+                </Box>
+              </TableCell>
             </TableRow>
+
             <TableRow>
               {keys.map((key) => (
                 <TableCell
@@ -98,6 +191,7 @@ export default function TodoTable(props: PropsTodo) {
               />
             </TableRow>
           </TableHead>
+
           <TableBody>
             {todos.map((todo) => {
               return (
@@ -130,7 +224,7 @@ export default function TodoTable(props: PropsTodo) {
                     />
                   </TableCell>
                   <TableCell>
-                    <Box display={'flex'} flexDirection={'column'} gap={2}>
+                    <Box display="flex" flexDirection="column" gap={2}>
                       <Chip
                         icon={<CalendarMonth />}
                         label={dayjs(todo.dueDate).format('DD MMM YYYY')}
@@ -166,6 +260,7 @@ export default function TodoTable(props: PropsTodo) {
           </TableBody>
         </Table>
       </TableContainer>
+
       <Link href={'/todos/create'} style={{ textDecoration: 'none' }}>
         <Button variant={'contained'} sx={{ backgroundColor: '#675496' }}>
           {t('actions.add')}
