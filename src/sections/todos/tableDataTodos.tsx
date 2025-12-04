@@ -28,7 +28,7 @@ import {
   FilterAlt,
 } from '@mui/icons-material'
 import Link from 'next/link'
-import { useFetch } from '@/hooks/useFetch'
+import { useFetchTodos } from '@/hooks/useFetchTodos'
 import TableEmpty from '@/sections/todos/tableDataEmpty'
 interface PropsTodo {
   url: string
@@ -46,9 +46,7 @@ export default function TodoTable(props: PropsTodo) {
     '__v',
   ]
 
-  console.log('prima di use fetch')
-  const todos: Todo[] = useFetch(url)
-  console.log('dopo use fetch', todos)
+  const todos: Todo[] = useFetchTodos(url)
 
   const t = useTranslations('Todos')
   if (!todos || todos.length === 0) {

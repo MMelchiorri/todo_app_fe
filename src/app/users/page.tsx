@@ -1,13 +1,4 @@
-import { fetchUsers } from "@/services/usersFetch";
-import { User } from "@/type/Users";
-import TableEmpty from "@/sections/users/tableDataEmpty";
-import UsersTable from "@/sections/users/usersTable";
+import UsersTable from '@/sections/users/usersTable'
 export default async function UsersPage() {
-  const users: User[] = await fetchUsers();
-
-  if (!users || users.length === 0) {
-    return <TableEmpty />;
-  }
-
-  return <UsersTable users={users} />;
+  return <UsersTable url={`${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}`} />
 }

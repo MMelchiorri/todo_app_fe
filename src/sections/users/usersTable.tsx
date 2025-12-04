@@ -1,3 +1,5 @@
+'use client'
+
 import { User } from '@/type/Users'
 import {
   Button,
@@ -12,14 +14,16 @@ import {
   Box,
   Stack,
 } from '@mui/material'
-import { getTranslations } from 'next-intl/server'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import DeleteButton from '@/sections/users/DeleteButton'
 import DetailButton from '@/sections/users/DetailButton'
+import { useFetch } from '@/hooks/useFetchUsers'
+import { useTranslations } from 'next-intl'
+import TableEmpty from '@/sections/users/tableDataEmpty'
 
 type UsersTableProps = {
-  users: User[]
+  url: string
 }
 
 const excludedKeys: (keyof User | string)[] = [
@@ -40,9 +44,15 @@ const keysToDisplay = (user: User): (keyof User)[] => {
   ) as (keyof User)[]
 }
 
-export default async function UsersTable(props: UsersTableProps) {
-  const { users } = props
-  const t = await getTranslations('Users')
+export default function UsersTable(props: UsersTableProps) {
+  const { url } = props
+  const t = useTranslations('Users')
+  const users = useFetch(`${url}`)
+
+  if (!users || users.length === 0) {
+    return <TableEmpty />
+  }
+
   const keys = keysToDisplay(users[0])
 
   return (

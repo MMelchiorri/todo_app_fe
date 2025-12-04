@@ -2,7 +2,6 @@ import { Todo } from '@/type/Todo'
 
 export async function fetchTodos(url: string): Promise<Todo[]> {
   try {
-    console.log('sono in fetch todos')
     const res = await fetch(`${url}/todos`, {
       cache: 'no-store',
     })

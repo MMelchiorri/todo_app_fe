@@ -2,14 +2,11 @@ import { User } from '@/type/Users'
 
 type CreateUserPayload = Omit<User, 'id' | '_id' | 'createdAt' | 'updatedAt'>
 
-export async function fetchUsers(): Promise<User[]> {
+export async function fetchUsers(url: string): Promise<User[]> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_TODO_API_BASE_URL}/users`,
-      {
-        cache: 'no-store',
-      }
-    )
+    const res = await fetch(`${url}/users`, {
+      cache: 'no-store',
+    })
     const data: User[] = await res.json()
     return Array.isArray(data) ? data : []
   } catch (error) {

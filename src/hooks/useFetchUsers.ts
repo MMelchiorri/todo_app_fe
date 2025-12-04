@@ -1,15 +1,16 @@
 'use client'
+
 import { useEffect, useState } from 'react'
-import { fetchTodos } from '@/services/todosFetch'
-import { Todo } from '@/type/Todo'
+import { User } from '@/type/Users'
+import { fetchUsers } from '@/services/usersFetch'
 
 export const useFetch = (url: string) => {
-  const [data, setData] = useState<Todo[]>([])
+  const [data, setData] = useState<User[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchTodos(url)
+        const response = await fetchUsers(url)
         setData(response)
       } catch (error) {
         console.error('Error fetching data:', error)
