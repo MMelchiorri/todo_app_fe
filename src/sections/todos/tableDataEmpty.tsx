@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   Paper,
@@ -8,12 +10,12 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { AddTask } from '@mui/icons-material'
+import { useTranslations } from 'next-intl'
 
-export default async function TableEmpty() {
-  const t = await getTranslations('Todos')
+export default function TableEmpty() {
+  const t = useTranslations('Todos')
 
   return (
     <TableContainer

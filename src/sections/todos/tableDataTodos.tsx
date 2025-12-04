@@ -28,12 +28,14 @@ import {
   FilterAlt,
 } from '@mui/icons-material'
 import Link from 'next/link'
+import { useFetch } from '@/hooks/useFetch'
+import TableEmpty from '@/sections/todos/tableDataEmpty'
 interface PropsTodo {
-  todos: Todo[]
+  url: string
 }
 
 export default function TodoTable(props: PropsTodo) {
-  const { todos } = props
+  const { url } = props
   const excludeKeys = [
     'id',
     '_id',
@@ -44,9 +46,16 @@ export default function TodoTable(props: PropsTodo) {
     '__v',
   ]
 
-  const keys = Object.keys(todos[0]).filter((key) => !excludeKeys.includes(key))
+  console.log('prima di use fetch')
+  const todos: Todo[] = useFetch(url)
+  console.log('dopo use fetch', todos)
 
   const t = useTranslations('Todos')
+  if (!todos || todos.length === 0) {
+    return <TableEmpty />
+  }
+
+  const keys = Object.keys(todos[0]).filter((key) => !excludeKeys.includes(key))
 
   return (
     <Box
