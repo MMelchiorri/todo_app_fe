@@ -161,8 +161,7 @@ export default function TodoTable(props: PropsTodo) {
                       const query = params.toString()
                       const newUrl = query ? `${path}?${query}` : path
 
-                      console.log('this is my url', newUrl)
-                      router.push(newUrl) // <-- aggiorna l’URL solo al click
+                      router.push(newUrl)
                       handleFilterClose()
                     }}
                   >

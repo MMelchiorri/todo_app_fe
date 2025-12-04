@@ -23,7 +23,7 @@ type ColumnsTodo = Omit<
 >
 
 export default async function Page({ params }: { params: { _id: string } }) {
-  const { _id } = params
+  const { _id } = await params
   const todo = await getTodoById(_id)
   const todoData: {
     description: string
