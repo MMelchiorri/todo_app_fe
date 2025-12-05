@@ -19,7 +19,7 @@ import {
 import dayjs from 'dayjs'
 import { Todo } from '@/type/Todo'
 import { useTranslations } from 'next-intl'
-import { deleteTodo } from '@/services/todosFetch'
+import { deleteTodo, fetchTodos } from '@/services/todosFetch'
 import {
   CheckCircle,
   Pending,
@@ -30,9 +30,8 @@ import {
   FilterAlt,
 } from '@mui/icons-material'
 import Link from 'next/link'
-import { useFetchTodos } from '@/hooks/useFetchTodos'
 import TableEmpty from '@/sections/todos/tableDataEmpty'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 
 interface PropsTodo {
@@ -51,15 +50,29 @@ export default function TodoTable(props: PropsTodo) {
     '__v',
   ]
 
+  const [todos, setTodos] = React.useState<Todo[]>([])
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
   const [selectedStatuses, setSelectedStatuses] = React.useState<{
     key: string
     value: string
   }>({ key: 'status', value: '' })
-
-  const todos: Todo[] = useFetchTodos(url)
-  const router = useRouter()
   const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const load = async () => {
+      const paramsObj: Record<string, string> = {}
+      searchParams.forEach((value, key) => {
+        paramsObj[key] = value
+      })
+      const queryString = new URLSearchParams(paramsObj).toString()
+      const fullUrl = queryString ? `${url}?${queryString}` : url
+      setTodos(await fetchTodos(fullUrl))
+    }
+
+    load()
+  }, [url, searchParams])
+
+  const router = useRouter()
   const path = usePathname()
 
   const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -102,7 +115,6 @@ export default function TodoTable(props: PropsTodo) {
                   justifyContent="space-between"
                   alignItems="center"
                 >
-                  {/* BUTTON PER APRIRE IL POPOVER */}
                   <Button
                     sx={{ m: 3, borderColor: 'black' }}
                     variant="outlined"
@@ -114,7 +126,6 @@ export default function TodoTable(props: PropsTodo) {
                     </Typography>
                   </Button>
 
-                  {/* POPOVER CON SELECT */}
                   <Popover
                     open={open}
                     anchorEl={anchorEl}
@@ -142,8 +153,6 @@ export default function TodoTable(props: PropsTodo) {
                       ))}
                     </Select>
                   </Popover>
-
-                  {/* BUTTON PER APPLICARE I FILTRI */}
                   <Button
                     onClick={(e) => {
                       e.preventDefault()
@@ -151,17 +160,15 @@ export default function TodoTable(props: PropsTodo) {
                       const params = new URLSearchParams(
                         searchParams.toString()
                       )
-
                       if (selectedStatuses.value) {
                         params.set(selectedStatuses.key, selectedStatuses.value)
                       } else {
                         params.delete(selectedStatuses.key)
                       }
 
-                      const query = params.toString()
-                      const newUrl = query ? `${path}?${query}` : path
-
+                      const newUrl = `${path}?${params.toString()}`
                       router.push(newUrl)
+
                       handleFilterClose()
                     }}
                   >

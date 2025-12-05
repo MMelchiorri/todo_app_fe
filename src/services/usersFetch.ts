@@ -4,7 +4,7 @@ type CreateUserPayload = Omit<User, 'id' | '_id' | 'createdAt' | 'updatedAt'>
 
 export async function fetchUsers(url: string): Promise<User[]> {
   try {
-    const res = await fetch(`${url}/users`, {
+    const res = await fetch(`${url}`, {
       cache: 'no-store',
     })
     const data: User[] = await res.json()
